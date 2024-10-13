@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="自己写了一系列Python脚本工具，但是管理起来比较麻烦，改参数什么的也挺复杂，所以直接写了个桌面程序来管理python脚本。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用electron开发脚本管理器">
+<meta property="og:url" content="https://blog.catcat.work/2021/02/27/%E4%BD%BF%E7%94%A8electron%E5%BC%80%E5%8F%91%E8%84%9A%E6%9C%AC%E7%AE%A1%E7%90%86%E5%99%A8/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="自己写了一系列Python脚本工具，但是管理起来比较麻烦，改参数什么的也挺复杂，所以直接写了个桌面程序来管理python脚本。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-27T15:45:05.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.223Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="electron">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2021/02/27/%E4%BD%BF%E7%94%A8electron%E5%BC%80%E5%8F%91%E8%84%9A%E6%9C%AC%E7%AE%A1%E7%90%86%E5%99%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2021/02/27/%E4%BD%BF%E7%94%A8electron%E5%BC%80%E5%8F%91%E8%84%9A%E6%9C%AC%E7%AE%A1%E7%90%86%E5%99%A8/","path":"2021/02/27/使用electron开发脚本管理器/","title":"使用electron开发脚本管理器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用electron开发脚本管理器 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="nav-number">1.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E7%BB%86%E8%8A%82"><span class="nav-number">2.</span> <span class="nav-text">实现细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E7%A8%8B%E6%90%AD%E5%BB%BA"><span class="nav-number">2.1.</span> <span class="nav-text">工程搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#electron%E5%AE%9E%E7%8E%B0%E5%A4%9A%E7%AA%97%E5%8F%A3"><span class="nav-number">2.2.</span> <span class="nav-text">electron实现多窗口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B%E5%8A%A8%E6%80%81%E5%BC%95%E5%85%A5json"><span class="nav-number">2.3.</span> <span class="nav-text">渲染进程动态引入json</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8child-process%E6%89%A7%E8%A1%8Cpython%E8%84%9A%E6%9C%AC"><span class="nav-number">2.4.</span> <span class="nav-text">使用child_process执行python脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react%E8%8E%B7%E5%8F%96%E5%88%B0%E8%BF%87%E6%97%B6%E7%9A%84state"><span class="nav-number">2.5.</span> <span class="nav-text">react获取到过时的state</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85"><span class="nav-number">2.6.</span> <span class="nav-text">打包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6"><span class="nav-number">2.6.1.</span> <span class="nav-text">版本控制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#package-json"><span class="nav-number">2.6.2.</span> <span class="nav-text">package.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A7%E8%A1%8Cpackage%E5%91%BD%E4%BB%A4"><span class="nav-number">2.6.3.</span> <span class="nav-text">执行package命令</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2021/02/27/%E4%BD%BF%E7%94%A8electron%E5%BC%80%E5%8F%91%E8%84%9A%E6%9C%AC%E7%AE%A1%E7%90%86%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用electron开发脚本管理器 | 猫头猫的博客">
+      <meta itemprop="description" content="自己写了一系列Python脚本工具，但是管理起来比较麻烦，改参数什么的也挺复杂，所以直接写了个桌面程序来管理python脚本。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用electron开发脚本管理器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-27 23:45:05" itemprop="dateCreated datePublished" datetime="2021-02-27T23:45:05+08:00">2021-02-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/electron/" itemprop="url" rel="index"><span itemprop="name">electron</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">自己写了一系列Python脚本工具，但是管理起来比较麻烦，改参数什么的也挺复杂，所以直接写了个桌面程序来管理python脚本。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h1><p>目的其实是设计一个桌面工具，用来方便地执行脚本和设置参数，这样这些脚本就也可以给小白用了。毕竟可视化的设置比控制台或者源代码改参数要方便且直观的多，我想这也是低代码当今大行其道的原因之一吧。</p>
+<p>由于每一个python脚本都是一个工程(在一个单独的文件夹下)，因此，仿照package.json，自定义一个script.json，用来定义脚本的名称、说明以及传入的参数。</p>
+<p>由于主要运行在windows桌面端，为了编写一个windows应用程序，可行的思路有：</p>
+<ul>
+<li>pyQt</li>
+<li>C# winForm程序，调用Python脚本</li>
+<li>electron调用Python脚本</li>
+</ul>
+<p>前边两个已经好几年没动过都忘了，目前对electron相对更熟悉一些，除此之外，nodejs可以通过child_process的spawn来开启一个子进程，传入参数执行对应的命令，并且可以实时的获取到子进程中的数据流。100%确定可行，因此选定了这个方案。</p>
+<h1 id="实现细节"><a href="#实现细节" class="headerlink" title="实现细节"></a>实现细节</h1><p>在这一小节记录一下遇到的几个小坑点</p>
+<h2 id="工程搭建"><a href="#工程搭建" class="headerlink" title="工程搭建"></a>工程搭建</h2><p>方便起见，直接使用了<a target="_blank" rel="noopener" href="https://github.com/electron-react-boilerplate/electron-react-boilerplate">electron-react-boilerplate</a>来进行工程搭建。模板中已经内置了react和react-router-dom等一系列工具，默认语言是ts。（吐槽一句，我还是不太喜欢ts，大概是因为类型编码真的很烦吧，写代码的时候脑子里对应好了每一个变量的类型，写出来就变成了any）</p>
+<h2 id="electron实现多窗口"><a href="#electron实现多窗口" class="headerlink" title="electron实现多窗口"></a>electron实现多窗口</h2><p>在开发过程中，我需要一个主窗口，还需要一个设置窗口。项目的模板是一个spa，只有一个index.html。这时有两种解决思路：</p>
+<ul>
+<li>修改react变成一个多页的应用，在electron主进程中加载不同的页面。</li>
+<li>使用react router，为不同的窗口需要的页面设置不同的路由，electron主进程加载时加载相同的html，但是是不同的路由。</li>
+</ul>
+<p>显然，方案二更加简单，因此采用了方案二去实现。模板中默认的router是BrowserRouter，BrowserRouter的原理是使用html的history API，让页面UI和url同步，它需要后端进行配合支持，因为所有路由都是真实的路由，只是后端通过配置把所有的请求都转到index.html，并由react router拦截并渲染出ui。然而我们在electron中加载的是file协议的本地的html，并没有后端。这种情况下，再采用BrowserRouter，只会定位到一个不存在的路由，导致什么都输出不了。<br>另一种Router是HashRouter，它是使用了url中的hash部分去获取进行路由控制。hash我的理解是相当于页面的锚，不会被后端服务读取，只是由前端获取到了url的hash，并进行解析。因此在这里应当使用HashRouter，并在设置窗口加载html时的路径改写为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">settingWindow.<span class="title function_">loadURL</span>(<span class="string">`file://<span class="subst">$&#123;__dirname&#125;</span>/index.html#/setting`</span>);</span><br></pre></td></tr></table></figure>
+
+<h2 id="渲染进程动态引入json"><a href="#渲染进程动态引入json" class="headerlink" title="渲染进程动态引入json"></a>渲染进程动态引入json</h2><p>在主窗口（渲染进程）中，需要读取每一个python脚本的配置文件，也就是上边提到的script.json。在创建主窗口时，我已经在配置里设置了在渲染进程中集成node环境，因此这里可以直接使用commonjs的语法引入node环境的包和文件，比如fs和path等等，当然也包括json。但是问题就出在这个require。</p>
+<p>在使用fs进行了一系列操作之后，我使用path拼接出了script.json的路径，然而此时再加载的时候，竟然报错了，说没找到这个json文件，但是这个文件又确实存在。于是我另外开启了一个node环境，发现此时可以成功引入。然后我又在渲染进程中引入了remote对象，使用remote.require进行引入，发现此时竟然可以成功引入。因此，得出一个结论：electron渲染进程集成的node中的require和主进程的require是不同的。主进程当然就是一个正常的node环境，但是，渲染进程中集成的require实际上是一个函数，它通过向主进程的ELECTRON_BROWSER_REQUIRE信道发送信号来表示导入包，可能还有一些其他的操作。这就导致在windows环境下的进程间通信的时候，反斜杠\出现了问题，所以找不到包。</p>
+<h2 id="使用child-process执行python脚本"><a href="#使用child-process执行python脚本" class="headerlink" title="使用child_process执行python脚本"></a>使用child_process执行python脚本</h2><p>nodejs可以通过child_process包的exec()和spawn()来创建子进程执行python脚本。这里采用spawn创建子进程，</p>
+<p>创建完成之后，可以监听process.stdout上的data事件从而获取python的stdout，也就是print的输出。<br>这里需要注意： 由于python的编码问题，需要设置std的编码为utf8编码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding=<span class="string">&#x27;utf-8&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>在输出的时候需要刷新缓冲区，不然会导致输出缓冲区满了才会监听到一串数据，即：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;xxx&#x27;</span>, flush=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="react获取到过时的state"><a href="#react获取到过时的state" class="headerlink" title="react获取到过时的state"></a>react获取到过时的state</h2><p>出现问题的代码是这样的一个函数：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">onScriptStart</span> = (<span class="params"><span class="attr">script</span>: <span class="built_in">any</span></span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> process = <span class="title function_">spawn</span>(store.<span class="title function_">get</span>(<span class="string">&#x27;pythonPath&#x27;</span>) <span class="keyword">as</span> <span class="built_in">string</span> || <span class="string">&#x27;python&#x27;</span>, [</span><br><span class="line">        script.<span class="property">entry</span>,</span><br><span class="line">        ...(script.<span class="property">args</span>?.<span class="title function_">map</span>(<span class="function">(<span class="params"><span class="attr">arg</span>: <span class="built_in">any</span></span>) =&gt;</span> arg.<span class="property">value</span>))</span><br><span class="line">      ]);</span><br><span class="line"></span><br><span class="line">      process.<span class="title function_">on</span>(<span class="string">&#x27;exit&#x27;</span>, <span class="function">(<span class="params">code</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span>(code === <span class="number">0</span>)&#123;</span><br><span class="line">              <span class="keyword">new</span> remote.<span class="title class_">Notification</span>(&#123;</span><br><span class="line">                  <span class="attr">title</span>: <span class="string">&#x27;脚本管理器&#x27;</span>,</span><br><span class="line">                  <span class="attr">body</span>: <span class="string">`任务<span class="subst">$&#123;running?.name&#125;</span>已完成`</span> <span class="comment">// 当脚本执行完成时，这里是undefined</span></span><br><span class="line">              &#125;).<span class="title function_">show</span>();</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">  </span><br><span class="line">      <span class="title function_">setRunning</span>(&#123;</span><br><span class="line">        ...script,</span><br><span class="line">        process</span><br><span class="line">      &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个函数是一个点击事件，绑定在按钮上。根据<a target="_blank" rel="noopener" href="https://zh-hans.reactjs.org/docs/hooks-faq.html#why-am-i-seeing-stale-props-or-state-inside-my-function">react官网的描述</a>，我们在这里拿到了过时的state。其中提到，组件内部的任何函数，包括事件处理函数和effect，都是从它被创建的那次渲染中看到的，也就是组件内部拿到的总是定义它的那次渲染中的state和props。</p>
+<p>在这里面，当我们点击按钮时，running这个状态是一个undefined，同时创建了一个process对象，并在它的回调函数中写了读取了这个running。而我们的running全程都是undefined。正确的方法应该是使用setRunning，传入一个函数，如果不想修改状态，就把形参返回即可读取到最新的state。采用参数传递的方式不会读取到闭包中的state，从而可以获取到当前最新的state。</p>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><h3 id="版本控制"><a href="#版本控制" class="headerlink" title="版本控制"></a>版本控制</h3><p>可以看到，整个项目中有两个package.json，外部的是管理整个项目的，内部的其实可以看作是react的package.json。安装包的版本是由里面的package.json中的信息决定的，所以记得改里面的应用名称和版本。</p>
+<h3 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h3><p>在windows环境下，根目录下package.json中的打包脚本package中，由于不存在rm -rf指令，因此可以安装rimraf包，然后把rm -rf改成rimraf，即：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;package&quot;: &quot;rimraf release &amp;&amp; rimraf src/dist &amp;&amp; npm run build &amp;&amp; electron-builder build --publish never&quot;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行package命令"><a href="#执行package命令" class="headerlink" title="执行package命令"></a>执行package命令</h3><p>刚开始执行package会下载一堆东西，下就是了。下到最后会发现，报了一个奇怪的错误，原因是路径中有中文字符。但是用户名就是中文字符呀没办法，所以参考这个链接中的方法，修改了node_modules中一个编码就好了。<a target="_blank" rel="noopener" href="https://blog.csdn.net/kyq0417/article/details/111266776">解决办法</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/electron/" rel="tag"><i class="fa fa-tag"></i> electron</a>
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/31/webpack%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94entry/" rel="prev" title="webpack学习 —— entry">
+                  <i class="fa fa-angle-left"></i> webpack学习 —— entry
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/20/%E6%AF%95%E8%AE%BE%E8%AE%BA%E6%96%87%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E8%84%9A%E6%9C%AC/" rel="next" title="毕设论文定时备份脚本">
+                  毕设论文定时备份脚本 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

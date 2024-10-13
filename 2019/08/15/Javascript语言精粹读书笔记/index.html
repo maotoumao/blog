@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Js语言精粹，一本小薄书的读书笔记，把一些感觉重要的内容记了下来。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript语言精粹读书笔记">
+<meta property="og:url" content="https://blog.catcat.work/2019/08/15/Javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="Js语言精粹，一本小薄书的读书笔记，把一些感觉重要的内容记了下来。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-08-15T08:22:08.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.154Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="语法">
+<meta property="article:tag" content="读书笔记">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2019/08/15/Javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2019/08/15/Javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/","path":"2019/08/15/Javascript语言精粹读书笔记/","title":"Javascript语言精粹读书笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Javascript语言精粹读书笔记 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E9%83%A8%E5%88%86"><span class="nav-number">1.</span> <span class="nav-text">语法部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">1.1.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D"><span class="nav-number">1.2.</span> <span class="nav-text">变量命名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E5%AD%97"><span class="nav-number">1.3.</span> <span class="nav-text">数字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A3%B0%E6%98%8E%E4%B8%8E%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">1.4.</span> <span class="nav-text">声明与作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">1.5.</span> <span class="nav-text">表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.6.</span> <span class="nav-text">for语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#return%E8%AF%AD%E5%8F%A5"><span class="nav-number">1.7.</span> <span class="nav-text">return语句</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#typeof%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">1.8.</span> <span class="nav-text">typeof运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E4%B8%8E%E6%88%96"><span class="nav-number">1.9.</span> <span class="nav-text">逻辑与或</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">关于对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.1.</span> <span class="nav-text">对象是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">2.2.</span> <span class="nav-text">对象字面量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%A3%80%E7%B4%A2"><span class="nav-number">2.3.</span> <span class="nav-text">对象的检索</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%9B%B4%E6%96%B0"><span class="nav-number">2.4.</span> <span class="nav-text">对象的更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%BC%95%E7%94%A8"><span class="nav-number">2.5.</span> <span class="nav-text">对象的引用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%8E%9F%E5%9E%8B"><span class="nav-number">2.6.</span> <span class="nav-text">对象的原型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">2.7.</span> <span class="nav-text">关于全局变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%87%BD%E6%95%B0"><span class="nav-number">3.</span> <span class="nav-text">关于函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E6%98%AF%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.1.</span> <span class="nav-text">函数是对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%BF%E5%90%8D%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">匿名函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.</span> <span class="nav-text">函数调用的四种模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.1.</span> <span class="nav-text">方法调用模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.2.</span> <span class="nav-text">函数调用模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.3.</span> <span class="nav-text">构造器调用模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#apply%E8%B0%83%E7%94%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.3.4.</span> <span class="nav-text">apply调用模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0"><span class="nav-number">3.4.</span> <span class="nav-text">函数的参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">3.5.</span> <span class="nav-text">返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">3.6.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#throw"><span class="nav-number">3.6.1.</span> <span class="nav-text">throw</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#try-catch-finally%EF%BC%9A"><span class="nav-number">3.6.2.</span> <span class="nav-text">try-catch-finally：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AD%E5%8C%85%EF%BC%9A%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AE%E8%A2%AB%E5%88%9B%E5%BB%BA%E6%97%B6%E7%9A%84%E4%B8%8A%E4%B8%8B%E6%96%87%E7%8E%AF%E5%A2%83%EF%BC%8C%E5%B0%B1%E6%98%AF%E9%97%AD%E5%8C%85%E3%80%82"><span class="nav-number">3.7.</span> <span class="nav-text">闭包：函数可以访问被创建时的上下文环境，就是闭包。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97"><span class="nav-number">3.8.</span> <span class="nav-text">模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%B0%E5%BF%86"><span class="nav-number">3.9.</span> <span class="nav-text">记忆</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">4.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%9E%84%E9%80%A0%E5%99%A8%E8%B0%83%E7%94%A8%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">使用构造器调用模式的执行方式：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E7%88%B6%E7%B1%BB"><span class="nav-number">4.2.</span> <span class="nav-text">继承父类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">5.</span> <span class="nav-text">数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%92%E7%98%A4"><span class="nav-number">7.</span> <span class="nav-text">毒瘤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">7.1.</span> <span class="nav-text">全局变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E5%9F%9F"><span class="nav-number">7.2.</span> <span class="nav-text">作用域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8F%92%E5%85%A5%E5%88%86%E5%8F%B7"><span class="nav-number">7.3.</span> <span class="nav-text">自动插入分号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#typeof"><span class="nav-number">7.4.</span> <span class="nav-text">typeof</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#parseInt"><span class="nav-number">7.5.</span> <span class="nav-text">parseInt</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E6%95%B0"><span class="nav-number">7.6.</span> <span class="nav-text">浮点数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NaN"><span class="nav-number">7.7.</span> <span class="nav-text">NaN</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hasOwnProperty-NaN"><span class="nav-number">7.8.</span> <span class="nav-text">hasOwnProperty</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-number">7.9.</span> <span class="nav-text">对象</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%9F%E7%B2%95"><span class="nav-number">8.</span> <span class="nav-text">糟粕</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">8.1.</span> <span class="nav-text">&#x3D;&#x3D;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#with"><span class="nav-number">8.2.</span> <span class="nav-text">with</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eval"><span class="nav-number">8.3.</span> <span class="nav-text">eval</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#continue"><span class="nav-number">8.4.</span> <span class="nav-text">continue</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#switch%E7%A9%BF%E8%B6%8A"><span class="nav-number">8.5.</span> <span class="nav-text">switch穿越</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%9D%97"><span class="nav-number">8.6.</span> <span class="nav-text">代码块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%92%8C"><span class="nav-number">8.7.</span> <span class="nav-text">++和--</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">8.8.</span> <span class="nav-text">位运算符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#function%E8%AF%AD%E5%8F%A5-function%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">8.9.</span> <span class="nav-text">function语句&#x2F;function表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%85%E8%A3%85%E5%AF%B9%E8%B1%A1"><span class="nav-number">8.10.</span> <span class="nav-text">类型的包装对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#void"><span class="nav-number">8.11.</span> <span class="nav-text">void</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2019/08/15/Javascript%E8%AF%AD%E8%A8%80%E7%B2%BE%E7%B2%B9%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Javascript语言精粹读书笔记 | 猫头猫的博客">
+      <meta itemprop="description" content="Js语言精粹，一本小薄书的读书笔记，把一些感觉重要的内容记了下来。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Javascript语言精粹读书笔记
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-15 16:22:08" itemprop="dateCreated datePublished" datetime="2019-08-15T16:22:08+08:00">2019-08-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">Js语言精粹，一本小薄书的读书笔记，把一些感觉重要的内容记了下来。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>前面是按章节列出的一些感觉比较重要的注意事项，每一个注意事项之后都附注有解释或者自己的思考，代码也会和原书不太一样。最后会写一些感想。加粗表示应当注意，斜体表示可能存疑。</p>
+<hr>
+<h3 id="语法部分"><a href="#语法部分" class="headerlink" title="语法部分"></a>语法部分</h3><h4 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h4><p>要精确描述代码，尽量避免采用&#x2F;* *&#x2F;块注释，而使用&#x2F;&#x2F;行注释代替。  </p>
+<blockquote>
+<p>原因：块注释对于被注释的代码块来说不安全，因为如果注释中包含有<strong>正则表达式</strong>则可能会出错。</p>
+</blockquote>
+<h4 id="变量命名"><a href="#变量命名" class="headerlink" title="变量命名"></a>变量命名</h4><p>不允许使用保留字作为变量名，比如for等，但是一些本应当作为保留字的却可以作为变量名，如undefined。</p>
+<blockquote>
+<ul>
+<li>如果声明某一个变量名为undefined，会把原有的undefined覆盖掉。  </li>
+<li>书上提到，保留字<em>不可以作为</em>对象的属性名，但是我在ES6中尝试将一个对象obj的属性命名为for，调用obj.for是可以得到输出的。总之，<strong>避免敏感词</strong>作为变量名或属性名。</li>
+</ul>
+</blockquote>
+<h4 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h4><p>只有一个数字类型Number，在内部被表示为<strong>64位浮点数</strong>。<br>NaN表示一个不能产生正常结果的运算结果，<strong>不等于任何值</strong>，包括它自身，采用isNaN()检测NaN。<br>Infinity表示所有大于1.79769313486231570e+308的值，(这也是js表示数字的最大值)</p>
+<blockquote>
+<ul>
+<li>NaN和Infinity都是<strong>Number类型</strong>的值。NaN表示这是个<strong>无效的数</strong>，而Infinity就是数学上的<strong>无穷</strong>，<strong>有正负</strong>之分。  </li>
+<li>两个值为NaN的变量<strong>不相等</strong>，但是两个值为Infinity的变量<strong>相等</strong>（也就是，所有超过某个数的值都被认定为同一个数），但是判断一个数是不是无穷，还是使用isFinite()函数更为恰当。</li>
+<li>个人认为从数学角度理解这两个值会更好一些。比如1&#x2F;0，得到的值是Infinity，因为如果令1&#x2F;x取x趋向于0，会得到一个无穷大的值。而0&#x2F;0得到的值是没有意义的，因为如果用极限的思路去考虑，这取决于分子和分母哪一个接近0的速度更快。因此，这个值是NaN。</li>
+</ul>
+</blockquote>
+<h4 id="声明与作用域"><a href="#声明与作用域" class="headerlink" title="声明与作用域"></a>声明与作用域</h4><p>var语句被用在函数内部时，它定义的是这个函数的私有变量。（也就是说，ES5之前变量的作用域是函数作用域）</p>
+<blockquote>
+<ul>
+<li>ES6中定义了let关键字，使用let声明的变量作用域为块作用域，也就是一对花括号之间。而var声明的变量作用域依然为函数作用域，也就是在一个函数内部。</li>
+</ul>
+</blockquote>
+<h4 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">false</span>, <span class="literal">null</span>, <span class="literal">undefined</span>, <span class="string">&#x27;&#x27;</span>, <span class="number">0</span>, <span class="title class_">NaN</span></span><br></pre></td></tr></table></figure>
+<p>的值会被当做假值。</p>
+<blockquote>
+<p>ES6定义了七种数据类型：Boolean, null, undefined, String, Number, Symbol, Object，其中前六种为简单类型，Object也就是对象，是引用类型。可以简单的记为，前五种类型的<strong>默认空值</strong>都被视为假，而任意的Symbol(独一无二的变量名)和任意的Object(对象)都是真的。</p>
+</blockquote>
+<h4 id="for语句"><a href="#for语句" class="headerlink" title="for语句"></a>for语句</h4><p>for in语句会枚举一个对象的所有属性名（或者键名），包括来自<strong>原型链</strong>中的属性。</p>
+<blockquote>
+<p>js的for in对数组来说遍历的是下标，对对象来说是遍历每一个属性。ES6中新加了for of语句，可以取出迭代对象的每一个值，和python的for in类似。</p>
+</blockquote>
+<h4 id="return语句"><a href="#return语句" class="headerlink" title="return语句"></a>return语句</h4><p>当没有指定返回表达式时，返回值是undefined</p>
+<h4 id="typeof运算符"><a href="#typeof运算符" class="headerlink" title="typeof运算符"></a>typeof运算符</h4><p>该运算符可以产生的值有</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">boolean, <span class="literal">undefined</span>, string, number, symbol, object, <span class="keyword">function</span></span><br></pre></td></tr></table></figure>
+<p>也就是说，typeof运算符会将null和数组识别成对象object。</p>
+<h4 id="逻辑与或"><a href="#逻辑与或" class="headerlink" title="逻辑与或"></a>逻辑与或</h4><p>逻辑或返回第一个为真的运算数的值，或最后一个值。</p>
+<hr>
+<h3 id="关于对象"><a href="#关于对象" class="headerlink" title="关于对象"></a>关于对象</h3><h4 id="对象是什么"><a href="#对象是什么" class="headerlink" title="对象是什么"></a>对象是什么</h4><p>对象是可变的**键控集合(keyed collections)*<em>，是属性的容器。除了简单数据类型外，其他所有的值都是对象。对象的属性值可以是</em>除了undefined外*的任意值。</p>
+<blockquote>
+<p>在node环境下，给对象的属性取名叫null和undefined都没有问题，不过还是尽量<strong>避免敏感词</strong>。</p>
+</blockquote>
+<h4 id="对象字面量"><a href="#对象字面量" class="headerlink" title="对象字面量"></a>对象字面量</h4><p>就是包裹在一对花括号中的键值对。其中，属性名可以是任意字符串，如果属性名是一个合法的标识符，那么可以不用引号括住属性名。</p>
+<blockquote>
+<p>也就是说，使用引号围起来的属性和不使用引号围起来的属性是<strong>相同</strong>的，都可以用.操作符和[]操作符去访问属性的值。但是.操作符只能访问是合法的标识符的属性。</p>
+</blockquote>
+<h4 id="对象的检索"><a href="#对象的检索" class="headerlink" title="对象的检索"></a>对象的检索</h4><p>检索一个不存在的属性时，将会返回undefined，从undefined中检索属性时，会报错。</p>
+<blockquote>
+<p>从null中检索属性时，也会出现TypeError异常。对于其他简单数据类型，因为js默认给他们进行了包装，所以不会报错，检索不存在的属性时会返回undefined。</p>
+</blockquote>
+<h4 id="对象的更新"><a href="#对象的更新" class="headerlink" title="对象的更新"></a>对象的更新</h4><p>如果对象没有某个属性名，会将属性扩充到对象中。</p>
+<h4 id="对象的引用"><a href="#对象的引用" class="headerlink" title="对象的引用"></a>对象的引用</h4><p>对象之间的赋值是通过引用的方式，也就是传递地址。</p>
+<blockquote>
+<p>对于其他简单数据类型，对象之间的赋值是值传递(ES6新定义的Symbol类型也是值传递)。</p>
+</blockquote>
+<h4 id="对象的原型"><a href="#对象的原型" class="headerlink" title="对象的原型"></a>对象的原型</h4><p>每个对象都连接到一个原型对象，通过字面量直接创建的对象连接到Object.prototype。</p>
+<h4 id="关于全局变量"><a href="#关于全局变量" class="headerlink" title="关于全局变量"></a>关于全局变量</h4><p>为了减少全局变量污染，可以采用两种方法：a) 只创建一个唯一的全局变量 b) 使用闭包进行信息隐藏</p>
+<hr>
+<h3 id="关于函数"><a href="#关于函数" class="headerlink" title="关于函数"></a>关于函数</h3><h4 id="函数是对象"><a href="#函数是对象" class="headerlink" title="函数是对象"></a>函数是对象</h4><p>函数对象在创建时连接到Function.prototype。由于函数也是对象，因此函数内部也可以定义函数。</p>
+<h4 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h4><p>函数可以没有名字，这样的函数称为<strong>匿名函数</strong>。</p>
+<h4 id="函数调用的四种模式"><a href="#函数调用的四种模式" class="headerlink" title="函数调用的四种模式"></a>函数调用的四种模式</h4><h5 id="方法调用模式"><a href="#方法调用模式" class="headerlink" title="方法调用模式"></a>方法调用模式</h5><p>函数作为对象的属性被调用(写在冒号前边)，这种函数也被称为<strong>方法</strong>。<br>这种情况下，this到对象的绑定发生在函数被调用的时候。<br>    &gt; - 如果既说明了属性名，也说明了函数名，那么使用这两种方法引用函数字面量都是可以的，如下面这个例子。<br>    <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以递归的方式完成倒计数</span></span><br><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="attr">func</span>: <span class="keyword">function</span> <span class="title function_">f</span>(<span class="params">value</span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(value)</span><br><span class="line">        <span class="keyword">if</span>(value)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">func</span>(--value);</span><br><span class="line">        <span class="comment">// 下面的方式也是可以的</span></span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">f</span>(--value)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">obj.<span class="title function_">func</span>(<span class="number">3</span>)</span><br></pre></td></tr></table></figure><br>    &gt; - 需要注意的是，从obj对象访问该函数，只能使用obj.func()函数，因为对于obj对象来说，它只能识别func属性的存在。<br>    &gt; - 在递归调用时，如果使用this.func()进行递归，那么之后相当于还是引用obj对象的func属性，因此这个时候递归之后函数内部的this指向的还是obj。<br>    &gt; - 而如果在函数内部使用f()进行递归，那么之后相当于是使用了下面提到的 b) 函数调用模式进行调用，因此这个时候递归之后函数内部的this指向的是全局对象(在node环境中就是global)<br>    &gt; - 总之，将函数作为对象的属性时，如果不想引起this指向错乱，还是将函数写成<strong>匿名函数</strong>，调用时使用<strong>this</strong>更合适，从而避免引起一系列不必要的问题。  </p>
+<h5 id="函数调用模式"><a href="#函数调用模式" class="headerlink" title="函数调用模式"></a>函数调用模式</h5><p>直接声明函数，而不作为对象属性的值<br>    这种情况下，this直接被绑定到全局变量。(也就是上边例子中的f)<br>    &gt; 这会导致，方法中如果定义内部函数，会导致this指针指向全局变量。解决的办法有三种：<br>    &gt; - 在方法中定义变量<strong>that</strong>指向this，并在内部函数中使用that进行操作。<br>    &gt; - 在函数字面量之后使用.bind(this)绑定this指针。<br>    &gt; - ES6中的箭头函数(箭头函数的this指向<strong>函数定义</strong>时的this值，而不是调用时的)。</p>
+<h5 id="构造器调用模式"><a href="#构造器调用模式" class="headerlink" title="构造器调用模式"></a>构造器调用模式</h5><pre><code>&gt; 调用时使用new，然后这个函数相当于一个构造函数。（具体细节在下一章中）
+</code></pre>
+<h5 id="apply调用模式"><a href="#apply调用模式" class="headerlink" title="apply调用模式"></a>apply调用模式</h5><h4 id="函数的参数"><a href="#函数的参数" class="headerlink" title="函数的参数"></a>函数的参数</h4><p>函数有一个默认的arguments参数，用来获得传递过来的所有参数。</p>
+<blockquote>
+<p>arguments参数<strong>不是</strong>一个<strong>真正</strong>的数组。它虽然有length，也可以按下标访问，但是它<strong>没有</strong>任何数组的方法。这是一个设计错误。</p>
+</blockquote>
+<h4 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h4><ul>
+<li>如果函数没有指定返回值，返回undefined</li>
+<li>如果采用构造器调用模式：<ul>
+<li>返回值不是对象时（其他六种简单类型的变量），默认返回this</li>
+<li>返回值是对象时（包括数组，函数等等），返回指定对象</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>在构造器函数中，如果不写返回值，相当于在最后一行加了一句，return undefined，而根据构造器调用模式的规则，最终返回的值是this.</p>
+</blockquote>
+<h4 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h4><h5 id="throw"><a href="#throw" class="headerlink" title="throw"></a>throw</h5><p>抛出一个异常对象，该对象基本结构为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;错误类型&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;错误提示&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也可以添加其他属性。</p>
+<h5 id="try-catch-finally："><a href="#try-catch-finally：" class="headerlink" title="try-catch-finally："></a>try-catch-finally：</h5><p>try用来执行代码块，如果出现异常跳转到catch语句内捕获，然后执行finally。finally块中内容一定会被执行。</p>
+<h4 id="闭包：函数可以访问被创建时的上下文环境，就是闭包。"><a href="#闭包：函数可以访问被创建时的上下文环境，就是闭包。" class="headerlink" title="闭包：函数可以访问被创建时的上下文环境，就是闭包。"></a>闭包：函数可以访问被创建时的上下文环境，就是闭包。</h4><blockquote>
+<p>对于定义在函数内部的函数，它可以访问被创建时的上下文环境，也就是外部函数的参数，定义的变量等。因此它是一个闭包。<br>时刻注意：内部函数可以访问外部函数中的实际变量，而<strong>不需要复制</strong>。<br>举例说明如下：</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">var</span> f = <span class="keyword">function</span>(<span class="params">n</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> result = []</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; n; ++i)&#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = <span class="title function_">f</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> fi <span class="keyword">in</span> result)&#123;</span><br><span class="line">    result[fi](); <span class="comment">// 4 4 4 4</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>f函数：意图是返回一个顺序输出的数组。但是，由于result[i]是定义了一个新的内部函数，而内部函数保持着对外部函数实际变量(也就是i)的引用，因此最终，内部函数引用的i是最后一次循环完毕后i的值，也就是4.<br>而在每一次for循环中，result[i]相当于是将i传入result中，因此是一个类似函数参数传递的操作，而非访问外部变量的操作，因此不会有错误。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="keyword">function</span>(<span class="params">n</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> result = []</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; n; ++i)&#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = <span class="title function_">f</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> fi <span class="keyword">in</span> result)&#123;</span><br><span class="line">    result[fi](); <span class="comment">// 0 1 2 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>(ES6)将var改成let之后，相当于每次循环都重新定义了i，这个i与上一个i是不一样的。因此，函数内部的i引用的是外部的不同的i，因此可以得到正确的结果。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="keyword">function</span>(<span class="params">n</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> result = []</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; n; ++i)&#123;</span><br><span class="line">        (<span class="keyword">function</span>(<span class="params">i</span>)&#123;</span><br><span class="line">            result[i] = <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(i)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = <span class="title function_">f</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> fi <span class="keyword">in</span> result)&#123;</span><br><span class="line">    result[fi](); <span class="comment">// 0 1 2 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>(书上推荐的方式)这种情况下也能得到正确结果。因为内部定义了一个匿名自执行函数，所以内部引用的i是每一次执行得到的形参i，相当于是把外部的i每次都复制给了一个新的值，然后引用，所以这样在console.log(i)使用时可以得到正确的i。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="keyword">function</span>(<span class="params">n</span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> result = []</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; n; ++i)&#123;</span><br><span class="line">        result[i] = <span class="keyword">function</span>(<span class="params">i</span>)&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(i);</span><br><span class="line">        &#125;.<span class="title function_">bind</span>(<span class="variable language_">this</span>, i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> result = <span class="title function_">f</span>(<span class="number">4</span>);</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> fi <span class="keyword">in</span> result)&#123;</span><br><span class="line">    result[fi](); <span class="comment">// 0 1 2 3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>(自己想的方式)这种方式也是正确的。利用bind，首先每个result内还是一个函数，其次由于bind的作用，函数内部引用的i是经过传参得到的，也就是说引用的并不是外部的那同一个i。</p>
+</blockquote>
+<h4 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h4><p>提供<strong>接口</strong>，但是<strong>隐藏状态与实现</strong>的<strong>函数或对象</strong>。  </p>
+<ul>
+<li>模块模式的一般形式：一个定义了私有变量和函数的函数，利用闭包创建可以访问私有变量和函数的特权函数，最后返回这个特权函数，或将它保存到一个可以访问到的地方。</li>
+<li>模块模式通常和单例模式结合使用。</li>
+</ul>
+<h4 id="记忆"><a href="#记忆" class="headerlink" title="记忆"></a>记忆</h4><p>这可以说是代码的一种优化形式，将可能重复计算的值保存起来，从而避免无谓的计算。这个缓存可以写在闭包内，从而不被外部读取。</p>
+<hr>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><h4 id="使用构造器调用模式的执行方式："><a href="#使用构造器调用模式的执行方式：" class="headerlink" title="使用构造器调用模式的执行方式："></a>使用构造器调用模式的执行方式：</h4><p>a) 创建一个新对象，继承构造器函数的prototype。<br>b) 调用构造器函数，将this绑定到新对象上。(执行构造函数。)<br>c) 构造函数的返回值:如果不是对象类型，则返回创建的新对象。</p>
+<h4 id="继承父类"><a href="#继承父类" class="headerlink" title="继承父类"></a>继承父类</h4><p>可以通过实例化一个父类对象，并将子类的prototype该指向父类对象即可。</p>
+<blockquote>
+<p>这样一来，this.prototype就相当于this.parent，可以调用父类的方法。</p>
+</blockquote>
+<hr>
+<h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><ol>
+<li>js中没有其他语言的数组（如C）类似的数据结构，但是提供了一种类数组特性的对象。它将数组的下标转变成字符串。它比真正的数组慢，但是使用起来更加方便。<blockquote>
+<ul>
+<li>也就是说，定义一个数组：var a &#x3D; [1,2,3];，其实a的值相当于{‘0’:1, ‘1’:2, ‘2’:3}，假定要访问第0个元素，那么a[0]和a[‘0’]都是可以的。由于0不是一个合法的标识符名，因此不能用a.0来访问。  </li>
+<li>如果采用对象字面量的方式来定义数组，那么它与使用[]定义的数组有所不同：首先，使用对象字面量构建的对象继承自Object.prototype，而使用[]定义的对象继承自Array.prototype，并且使用对象字面量的方式定义的“数组”没有length属性。</li>
+</ul>
+</blockquote>
+</li>
+<li>length不一定是数组里所有属性的个数，而是最大的整数属性名+1。  </li>
+<li>属性名是小而连续的整数时，使用数组，否则使用对象。</li>
+</ol>
+<hr>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>这一章主要讲的是js中预先定义好的一些方法。</p>
+<ul>
+<li>array.sort(fn)：js中数组的排序默认是将元素全部作为<strong>字符串</strong>，因此如果需要比较数字的时候，需要自己定义比较函数。比较函数有两个参数，如果希望第一个排在前面，则返回负数，否则返回正数。sort函数<strong>不稳定</strong>。<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">11</span>,<span class="number">14</span>,<span class="number">25</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a.<span class="title function_">sort</span>()); <span class="comment">// [ 1, 11, 14, 2, 25, 3 ]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">11</span>,<span class="number">14</span>,<span class="number">25</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a.<span class="title function_">sort</span>(<span class="keyword">function</span>(<span class="params">a, b</span>)&#123;</span><br><span class="line">    <span class="keyword">return</span> (a &gt; b) ? <span class="number">1</span> : -<span class="number">1</span>; <span class="comment">// [ 1, 2, 3, 11, 14, 25 ]</span></span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure></li>
+</ul>
+<hr>
+<h3 id="毒瘤"><a href="#毒瘤" class="headerlink" title="毒瘤"></a>毒瘤</h3><h4 id="全局变量"><a href="#全局变量" class="headerlink" title="全局变量"></a>全局变量</h4><p>定义全局变量的方式有三种：在任何函数之外使用var定义变量；使用window&#x2F;global定义变量；使用未声明的变量（隐式的全局变量）。</p>
+<h4 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h4><p>最好在每个函数定义开始时，将所有变量列出来。</p>
+<h4 id="自动插入分号"><a href="#自动插入分号" class="headerlink" title="自动插入分号"></a>自动插入分号</h4><p>js的自动修复机制：自动插入分号，来修复有缺损的程序，但是这样可能出现问题，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> </span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">status</span>: <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>返回始终是undefined。因为自动插入分号，使得return后边多了个分号。  </p>
+<blockquote>
+<p>所以从代码风格角度考虑，应该把花括号写在return的同一行</p>
+</blockquote>
+<h4 id="typeof"><a href="#typeof" class="headerlink" title="typeof"></a>typeof</h4><p>typeof运算符返回一个用来识别运算数类型的字符串。但是：  </p>
+<ul>
+<li>它无法识别null与对象；</li>
+<li>typeof NaN &#x3D;&#x3D;&#x3D; number，而NaN并不是一个数字，只是属于number类型而已；</li>
+<li>typeof array &#x3D;&#x3D;&#x3D; object；</li>
+<li>对于正则表达式，typeof的结果可能不一致。</li>
+</ul>
+<h4 id="parseInt"><a href="#parseInt" class="headerlink" title="parseInt"></a>parseInt</h4><p>parseInt函数在遇到非数字时会<strong>停止解析</strong>，并且不会提示。<br>如果要解析的字符串第一个字符是0，那么就会<em>当作八进制</em>进行处理。</p>
+<blockquote>
+<p>ES5严格模式中，八进制不允许用前缀0表示，所以在node环境下测试，0开头的字符串可以得到正确结果。ES6进一步明确，使用前缀0o表示；二进制使用0b表示。<br>parseInt在ES6中被定义在了Number类中，但是直接使用全局的也可以。</p>
+</blockquote>
+<h4 id="浮点数"><a href="#浮点数" class="headerlink" title="浮点数"></a>浮点数</h4><p>二进制的浮点数不能正确的处理十进制的小数。但是<strong>整数</strong>不会出现问题。</p>
+<h4 id="NaN"><a href="#NaN" class="headerlink" title="NaN"></a>NaN</h4><p>NaN不等同于它自己，判断是否是NaN使用isNaN函数。判断一个数是否为有效的数字，可以使用isFinite函数。</p>
+<ul>
+<li>isNaN和isFinite如果遇到非数字输入，都会先将其尝试转化为数字，再进行判断。因此，得到的不一定是预期的结果：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">isNaN</span>(<span class="string">&#x27;NaN&#x27;</span>); <span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>ES6提供了Number.isNaN和Number.isFinite两个函数，对于不是数字类型的参数，直接返回false</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="hasOwnProperty-NaN"><a href="#hasOwnProperty-NaN" class="headerlink" title="hasOwnProperty"></a>hasOwnProperty</h4><p>注意它可能会被替换，因为它是一个函数，而非运算符。</p>
+<h4 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h4><p>js中的对象永远不可能是真正的空对象。因为对象可以从原型链中获取属性。所以当使用对象时，需要当心是否与原型链中的属性<strong>重名</strong>。</p>
+<h3 id="糟粕"><a href="#糟粕" class="headerlink" title="糟粕"></a>糟粕</h3><h4 id=""><a href="#" class="headerlink" title="&#x3D;&#x3D;"></a>&#x3D;&#x3D;</h4><p>永远不要使用&#x3D;&#x3D;和!&#x3D;运算符，尽量使用&#x3D;&#x3D;&#x3D;和!&#x3D;&#x3D;代替。<br>&#x3D;&#x3D;会在类型不同时进行强制类型转换，这个规则极其的复杂，并且在某些情况下不满足传递性。</p>
+<h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><p>with语句是设置代码在特定对象中的作用域，也就是限定with(obj){state}的state部分的作用域改为obj，但是<strong>不会改变this指针</strong>。</p>
+<blockquote>
+<p>避免使用：因为效率低，比较混乱，并且可能会导致兼容性问题。</p>
+</blockquote>
+<h4 id="eval"><a href="#eval" class="headerlink" title="eval"></a>eval</h4><p>避免使用eval，它会导致代码更难以阅读。</p>
+<ul>
+<li>避免使用Function构造器，因为它是eval的另一种形式。</li>
+<li>避免使用setInterval和setTimeout的字符串参数。</li>
+</ul>
+<h4 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h4><p>continue语句对性能不利，尽量避免</p>
+<h4 id="switch穿越"><a href="#switch穿越" class="headerlink" title="switch穿越"></a>switch穿越</h4><p>每个case下都应该跟一个break;</p>
+<h4 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h4><p>尽量采用花括号将代码块括起来。</p>
+<h4 id="和"><a href="#和" class="headerlink" title="++和--"></a>++和--</h4><p>尽可能避免使用。</p>
+<h4 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h4><p>尽量避免使用位运算符。因为js没有整数类型，只有双精度浮点数，因此在进行位操作时会先把浮点数转化位整数。</p>
+<h4 id="function语句-function表达式"><a href="#function语句-function表达式" class="headerlink" title="function语句&#x2F;function表达式"></a>function语句&#x2F;function表达式</h4><p>一个function语句相当于一个function表达式。<br>一个语句不能以函数表达式开头，否则会被认定为一个function语句。</p>
+<h4 id="类型的包装对象"><a href="#类型的包装对象" class="headerlink" title="类型的包装对象"></a>类型的包装对象</h4><p>js有一套类型的包装对象，这个对象有一个valueOf方法会返回被包装的对象的值。这没有必要，应当避免使用。  </p>
+<h4 id="void"><a href="#void" class="headerlink" title="void"></a>void</h4><p>void接收一个参数，返回undefined，没什么用，不需要去使用。</p>
+<hr>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>这本书介绍了js的一些语法、用法以及注意事项。除此之外，作者还列出了js的一些精华和糟粕（但是感觉好像糟粕更多啊..，不过话说回来，这些精华确实非常的小巧和具有表现力），之后写代码的过程中需要尽量的避免使用到书中提到的糟粕，保持良好的代码习惯。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+              <a href="/tags/%E8%AF%AD%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 语法</a>
+              <a href="/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="tag"><i class="fa fa-tag"></i> 读书笔记</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/07/30/%E5%85%B3%E4%BA%8E-proto-%E5%92%8Cprototype%E7%9A%84%E6%80%9D%E8%80%83/" rel="prev" title="关于__proto__和prototype的思考">
+                  <i class="fa fa-angle-left"></i> 关于__proto__和prototype的思考
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/27/js%E7%9A%84%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%B0%8F%E7%BB%93/" rel="next" title="js的块作用域小结">
+                  js的块作用域小结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

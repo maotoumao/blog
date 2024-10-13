@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="试着理解了一下js的闭包，做一下记录。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于js闭包的一点小思考">
+<meta property="og:url" content="https://blog.catcat.work/2019/04/22/%E5%85%B3%E4%BA%8Ejs%E9%97%AD%E5%8C%85%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E6%80%9D%E8%80%83/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="试着理解了一下js的闭包，做一下记录。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-04-22T07:27:45.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.232Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="语法">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2019/04/22/%E5%85%B3%E4%BA%8Ejs%E9%97%AD%E5%8C%85%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E6%80%9D%E8%80%83/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2019/04/22/%E5%85%B3%E4%BA%8Ejs%E9%97%AD%E5%8C%85%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E6%80%9D%E8%80%83/","path":"2019/04/22/关于js闭包的一点小思考/","title":"关于js闭包的一点小思考"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>关于js闭包的一点小思考 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2019/04/22/%E5%85%B3%E4%BA%8Ejs%E9%97%AD%E5%8C%85%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E6%80%9D%E8%80%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="关于js闭包的一点小思考 | 猫头猫的博客">
+      <meta itemprop="description" content="试着理解了一下js的闭包，做一下记录。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于js闭包的一点小思考
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-04-22 15:27:45" itemprop="dateCreated datePublished" datetime="2019-04-22T15:27:45+08:00">2019-04-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">试着理解了一下js的闭包，做一下记录。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>今天试了几个例子，尝试理解了一下js闭包的用法，以及垃圾回收机制。尝试的代码放在下边，注释是我对执行结果的理解。</p>
+<hr>
+<p>例1：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">f1</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> n=<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> nAdd=<span class="keyword">function</span>(<span class="params"></span>)&#123;n+=<span class="number">1</span>&#125;;</span><br><span class="line">    <span class="keyword">let</span> log = <span class="keyword">function</span>(<span class="params"></span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(n)&#125;;</span><br><span class="line"></span><br><span class="line">　　<span class="keyword">function</span> <span class="title function_">f2</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(n);</span><br><span class="line">　　&#125;</span><br><span class="line">　　<span class="keyword">return</span> f2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在这个位置写nAdd()是会出错的，因为没有执行f1()，nAdd尚未定义</span></span><br><span class="line"><span class="title function_">f1</span>(); <span class="comment">//n=1</span></span><br><span class="line"><span class="title function_">nAdd</span>(); <span class="comment">// 由于nAdd是一个全局变量，它内部引用了n，所以上边的f1()不会立即销毁 n=2</span></span><br><span class="line"><span class="title function_">log</span>(); <span class="comment">//n=2</span></span><br><span class="line"><span class="title function_">f1</span>()(); <span class="comment">//重新调用f1，调用时，重新执行，nAdd引用了一个新的n，此时上一个f1()对应的n被销毁</span></span><br><span class="line"><span class="title function_">nAdd</span>(); <span class="comment">//add引用的n被重置为1, n=2</span></span><br><span class="line"><span class="title function_">log</span>() <span class="comment">//n=2</span></span><br></pre></td></tr></table></figure>
+
+
+<hr>
+<p>例2：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">f1</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">var</span> n=<span class="number">1</span>;</span><br><span class="line">    nAdd = <span class="keyword">function</span>(<span class="params"></span>)&#123;n+=<span class="number">1</span>&#125;</span><br><span class="line">    log = <span class="keyword">function</span>(<span class="params"></span>)&#123;<span class="variable language_">console</span>.<span class="title function_">log</span>(n)&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">f2</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(n);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> f2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在这个位置写nAdd()是会出错的，因为没有执行f1()，nAdd尚未定义</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="title function_">f1</span>(); <span class="comment">//n=1</span></span><br><span class="line"><span class="title function_">nAdd</span>(); <span class="comment">// 由于a是一个全局变量，它内部引用了n，所以上边的f1()不会立即销毁 n=2</span></span><br><span class="line"><span class="title function_">log</span>(); <span class="comment">//n=2</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="title function_">f1</span>(); <span class="comment">//调用f1，b与a是两个变量，变量n位于它们内部，因此互不干扰。</span></span><br><span class="line"><span class="title function_">log</span>(); <span class="comment">//add在定义b的时候被重新赋值，因此指向的n是b内的n，所以此时输出的应该是1</span></span><br><span class="line"><span class="title function_">a</span>();</span><br><span class="line"><span class="title function_">b</span>(); <span class="comment">//互不干扰，输出原本的值</span></span><br></pre></td></tr></table></figure>
+<hr>
+<p>例3：</p>
+<p>问题描述：<br>实现函数 makeClosures，调用之后满足如下条件：<br>            1、返回一个函数数组 result，长度与 arr 相同<br>            2、运行 result 中第 i 个函数，即result[i]()，结果与 fn(arr[i]) 相同。</p>
+<p>看到这个问题，我写出了如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">result = [];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; arr.<span class="property">length</span>; ++i)&#123;</span><br><span class="line">    result.<span class="title function_">push</span>(<span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">// i在这个for循环内是始终存在的，因此如果直接返回fn(arr[i])会全输出NAN因为循环结束后，i=3</span></span><br><span class="line">        <span class="keyword">return</span> (<span class="keyword">function</span>(<span class="params">n</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_">fn</span>(arr[n])</span><br><span class="line">        &#125;)(i)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result</span><br></pre></td></tr></table></figure>
+<p>显然，这个结果是错的。result内部push的函数中，仍然使用了外部发生变化的量i，因此最后的值是NAN（循环结束后i指向arr.length，因此arr[i]其实不存在。</p>
+<p>正确做法如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">result = [];</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>; i &lt; arr.<span class="property">length</span>; ++i)&#123;</span><br><span class="line">    <span class="comment">// 把动态发生变化的量写在形参里</span></span><br><span class="line">    result.<span class="title function_">push</span>(<span class="keyword">function</span>(<span class="params">n</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">function</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="title function_">fn</span>(arr[n])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;(i))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> result;</span><br></pre></td></tr></table></figure>
+<p>此时result返回的函数内部没有用到任何发生变化的量（i），因此也就可以返回正确的结果。</p>
+<hr>
+<p>返回闭包时，一定要想清楚闭包内的变量指向，不要在闭包内引用任何外部的会发生变化的量。慎用闭包，小心内存泄露。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"><i class="fa fa-tag"></i> js</a>
+              <a href="/tags/%E8%AF%AD%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 语法</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/05/03/%E5%BE%AE%E4%BF%A1%E4%B8%80%E7%AC%94%E7%94%BB%E5%AE%8C%E5%B0%8F%E6%B8%B8%E6%88%8F%E7%9A%84%E8%A7%A3%E9%A2%98%E7%AE%97%E6%B3%95/" rel="next" title="微信一笔画完小游戏的解题算法">
+                  微信一笔画完小游戏的解题算法 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

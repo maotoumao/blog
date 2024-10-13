@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="以前对于webpack的配置一直感觉云里雾里，包括实习的时候对webpack的配置也是摸不清楚，所以学习一下webpack，并记录一下学习过程中遇到的问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack学习 —— entry">
+<meta property="og:url" content="https://blog.catcat.work/2021/01/31/webpack%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94entry/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="以前对于webpack的配置一直感觉云里雾里，包括实习的时候对webpack的配置也是摸不清楚，所以学习一下webpack，并记录一下学习过程中遇到的问题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-31T12:44:28.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.202Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="webpack">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2021/01/31/webpack%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94entry/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2021/01/31/webpack%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94entry/","path":"2021/01/31/webpack学习——entry/","title":"webpack学习 —— entry"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>webpack学习 —— entry | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="nav-number">1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#entry%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">2.</span> <span class="nav-text">entry的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E5%8F%A3%E7%9A%84%E6%96%87%E4%BB%B6%E5%AD%98%E5%9C%A8%E5%BC%95%E7%94%A8%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">入口的文件存在引用怎么处理?</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#array%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.</span> <span class="nav-text">array类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#object%E7%B1%BB%E5%9E%8B%EF%BC%9A"><span class="nav-number">3.2.</span> <span class="nav-text">object类型：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">循环引用怎么处理？</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2021/01/31/webpack%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94entry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="webpack学习 —— entry | 猫头猫的博客">
+      <meta itemprop="description" content="以前对于webpack的配置一直感觉云里雾里，包括实习的时候对webpack的配置也是摸不清楚，所以学习一下webpack，并记录一下学习过程中遇到的问题。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          webpack学习 —— entry
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-31 20:44:28" itemprop="dateCreated datePublished" datetime="2021-01-31T20:44:28+08:00">2021-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/webpack/" itemprop="url" rel="index"><span itemprop="name">webpack</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">以前对于webpack的配置一直感觉云里雾里，包括实习的时候对webpack的配置也是摸不清楚，所以学习一下webpack，并记录一下学习过程中遇到的问题。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h2><p>在开始之前，首先想一下，如果不用各种框架，我们会怎么去开发一个web前端页面。页面的骨架由html组成，html内可能以内嵌或者引入外部文件的方式来加载css和js。为了使得代码不至于太臃肿，我们会倾向于选择引入外部文件。对于想尽快完成任务的人来说，都会优先选择一些别人开发好的外部js库来提升效率，比如说在我们自己的js代码<strong>之前</strong>使用script标签引入jquery库，由于jquery在window对象下挂载了一个名为$的变量，并且它在页面加载时优先于我们自定义的代码被执行，因此我们可以在我们的代码中尽情使用jquery。那么问题来了：当规模比较庞大，需要引入很多很多外部的库的时候，或者我们的代码量很大，需要由不同的人写一些重复功能的代码的时候，代码整体的组织势必会混乱，单人开发可能都会难以管理，何况多人协同。同时，我们也不能保证我们引入的库是否挂载在同名变量下，也就是可能会有命名空间的冲突。</p>
+<p>这个时候，我们想一下我们以前学过的其他语言是怎么做的：比如说我们需要使用python实现某个功能，我们可能会把部分工具代码作为一个模块，写在一个文件中，在其他需要使用到地方进行导入。这种方式有显而易见的好处：最直接的是，命名空间不会被污染（因为并没有挂载到相同的全局变量下），除此之外，模块之间耦合程度低，增加了代码的可维护性。不过，在以前(ES6之前)，这种方式在浏览器中对于js来说是行不通的。</p>
+<p>这个时候，webpack就体现出了它的作用。webpack认为，工程中的每一个文件都可以看作一个模块，我们可以在代码中以commonjs的标准定义js模块，当我们在配置中指定某一个js文件作为根入口(entry)时，webpack可以根据我们导入的其他模块来自动的递归的生成依赖树，把所有涉及到的js文件按顺序打包到一个或多个js文件中，并插入到html文档中。webpack默认是只对js文件进行操作，但是，我们也可以通过使用loader对其他的非js的文件进行加载。</p>
+<p>那么接下来，我们从最开始的入口——entry开始吧。</p>
+<h2 id="entry的定义"><a href="#entry的定义" class="headerlink" title="entry的定义"></a>entry的定义</h2><blockquote>
+<p>entry是配置模块的入口，可抽象成输入，Webpack 执行构建的第一步将从入口开始搜寻及递归解析出所有入口依赖的模块。(参考：<a target="_blank" rel="noopener" href="https://webpack.wuhaolin.cn/2%E9%85%8D%E7%BD%AE/2-1Entry.html">https://webpack.wuhaolin.cn/2%E9%85%8D%E7%BD%AE/2-1Entry.html</a>)</p>
+</blockquote>
+<p>在webpack.config.js中我们可以这样去定义：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;xxx&#x27;</span> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，entry的值有三种：</p>
+<ul>
+<li>字符串：string<br>  这种类型指定了一个入口，于是webpack会以这个文件作为入口，输出一个打包后的bundle.js（不一定叫这个名字）</li>
+<li>字符串数组：string[]<br>  这种类型指定了多个入口，webpack会依次以这些入口递归的分析并打包，输出一个打包后的bundle.js。</li>
+<li>对象：object&lt;string, string|string[]&gt;<br>  这种类型指定了多个入口，webpack会把这些值作为入口依次进行递归的分析并打包，输出<strong>多个</strong>打包后的文件，每个文件默认的名字是对象中的key的名字。</li>
+</ul>
+<p>看上去都是很好理解的概念，但是接下来问题就来了：</p>
+<h2 id="入口的文件存在引用怎么处理"><a href="#入口的文件存在引用怎么处理" class="headerlink" title="入口的文件存在引用怎么处理?"></a>入口的文件存在引用怎么处理?</h2><p>假如有两个文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***** src/a.js *****/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;load a&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/***** src/b.js *****/</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;load b&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="array类型"><a href="#array类型" class="headerlink" title="array类型"></a>array类型</h3><p>假如根目录下的webpack.config.js的入口指定为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: [</span><br><span class="line">        <span class="string">&#x27;./src/a.js&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;./src/b.js&#x27;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到，首先，webpack会以a为入口，a引入了b，所以先加载b，然后加载a，因此输出load b，load a。然后以b为入口，由于这种模式下会打包到同一个文件中，而这个文件已经引入了b，所以此时不会再引入b，因此最终的输出就是：load b和load a。</p>
+<h3 id="object类型："><a href="#object类型：" class="headerlink" title="object类型："></a>object类型：</h3><p>假如根目录下的webpack.config.js的入口指定为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: [</span><br><span class="line">        <span class="attr">e1</span>: <span class="string">&#x27;./src/a.js&#x27;</span>,</span><br><span class="line">        <span class="attr">e2</span>: <span class="string">&#x27;./src/b.js&#x27;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种情况下，我们知道，默认会被打包成2个文件，一个名为e1，一个名为e2。首先以e1为入口，分析发现，引入了b的代码，因此输出load b。然后输出load a。此时e1打包完成。但是与array不一样的是，object类型的每一个键值对都会被打包成一个js文件，在这种情况下，还是会以b为入口，再次去进行递归检索。此时又会输出load b。因此最终的输出是 load b， load a和load b。</p>
+<h2 id="循环引用怎么处理？"><a href="#循环引用怎么处理？" class="headerlink" title="循环引用怎么处理？"></a>循环引用怎么处理？</h2><p>假如有两个文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***** src/a.js *****/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;load a&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/***** src/b.js *****/</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;./a.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;load b&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>假如根目录下的webpack.config.js的入口指定为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">entry</span>: [</span><br><span class="line">        <span class="attr">e1</span>: <span class="string">&#x27;./src/a.js&#x27;</span>,</span><br><span class="line">        <span class="attr">e2</span>: <span class="string">&#x27;./src/b.js&#x27;</span></span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>经过测试，这种情况下webpack会采用一个类似于标记是否访问过的策略。首先以a为入口，a导入了b，那么先输出load b，然后发现b导入了a，这个时候认为a已经导入过了，便输出一个load a，就结束了。object同理。</p>
+<p>当然，这种情况下，如果使用到了另一个模块中未定义的变量，最终打包后的文件就会出现未初始化的错误。并且还存在于类似于懒加载的机制：假如引入了另一个文件，但是并没有使用其中的变量，那么它也不会报错，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/***** src/a.js *****/</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;load a&#x27;</span>, b);</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line"><span class="comment">/***** src/b.js *****/</span></span><br><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">&#x27;./a.js&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;load b&#x27;</span>) ; <span class="comment">// 如果按照上边entry的写法，写console.log(a)就会报错</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="string">&#x27;b&#x27;</span>;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/webpack/" rel="tag"><i class="fa fa-tag"></i> webpack</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/10/18/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B-%E4%BD%A0%E7%9A%84%E5%BC%8F%E7%A5%9E%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E5%89%AA%E5%87%BA%E6%9D%A5%E7%9A%84/" rel="prev" title="【阴阳师妖怪屋】你的式神是怎么被剪出来的？">
+                  <i class="fa fa-angle-left"></i> 【阴阳师妖怪屋】你的式神是怎么被剪出来的？
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/27/%E4%BD%BF%E7%94%A8electron%E5%BC%80%E5%8F%91%E8%84%9A%E6%9C%AC%E7%AE%A1%E7%90%86%E5%99%A8/" rel="next" title="使用electron开发脚本管理器">
+                  使用electron开发脚本管理器 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

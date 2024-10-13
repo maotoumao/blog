@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简单写个爬虫吧。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="你生成的AI绘画，下一秒就是我的了">
+<meta property="og:url" content="https://blog.catcat.work/2023/02/20/%E4%BD%A0%E7%94%9F%E6%88%90%E7%9A%84AI%E7%BB%98%E7%94%BB%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%A7%92%E5%B0%B1%E6%98%AF%E6%88%91%E7%9A%84%E4%BA%86/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="简单写个爬虫吧。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.328888.xyz/2023/02/20/giTHv.md.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/01/6cMlJ.png">
+<meta property="og:image" content="https://pic.diydoutu.com/bq/006mowZngy1ftqn2dnsctj308b09qmxl.jpg">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/01/6mRGP.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/01/6mqkZ.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/01/6plAN.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/01/6pNka.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/02/6XiGC.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/02/6Blg8.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/02/6XAMJ.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/01/6mMdv.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/02/6XRdU.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/02/6Xcqv.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/02/6Xp23.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/02/6XBEy.png">
+<meta property="article:published_time" content="2023-02-20T14:21:46.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.217Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.328888.xyz/2023/02/20/giTHv.md.png">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2023/02/20/%E4%BD%A0%E7%94%9F%E6%88%90%E7%9A%84AI%E7%BB%98%E7%94%BB%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%A7%92%E5%B0%B1%E6%98%AF%E6%88%91%E7%9A%84%E4%BA%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2023/02/20/%E4%BD%A0%E7%94%9F%E6%88%90%E7%9A%84AI%E7%BB%98%E7%94%BB%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%A7%92%E5%B0%B1%E6%98%AF%E6%88%91%E7%9A%84%E4%BA%86/","path":"2023/02/20/你生成的AI绘画，下一秒就是我的了/","title":"你生成的AI绘画，下一秒就是我的了"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>你生成的AI绘画，下一秒就是我的了 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%88%91%E5%85%A8%E9%83%BD%E8%A6%81"><span class="nav-number">2.</span> <span class="nav-text">我全都要</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90dom"><span class="nav-number">3.</span> <span class="nav-text">解析dom</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MutationObserver"><span class="nav-number">4.</span> <span class="nav-text">MutationObserver</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%B3%95"><span class="nav-number">4.1.</span> <span class="nav-text">用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E6%88%98"><span class="nav-number">4.2.</span> <span class="nav-text">实战</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">5.</span> <span class="nav-text">下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE%EF%BC%88%E6%BA%90%E4%BB%A3%E7%A0%81%E5%9C%A8%E8%BF%99%E9%87%8C%EF%BC%81%EF%BC%89"><span class="nav-number">6.</span> <span class="nav-text">结尾（源代码在这里！）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%BC%80%E6%BA%90-%E4%B8%8D%E8%A6%81%E5%B9%B2%E5%9D%8F%E4%BA%8B%E5%93%9F%EF%BC%9A"><span class="nav-number">6.1.</span> <span class="nav-text">代码开源~ 不要干坏事哟：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9C%80%E6%9C%80%E6%9C%80%E5%90%8E%E6%94%BE%E4%BA%9B%E6%94%B6%E9%9B%86%E7%9A%84%E7%BE%8E%E5%9B%BE"><span class="nav-number">7.</span> <span class="nav-text">最最最后放些收集的美图</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2023/02/20/%E4%BD%A0%E7%94%9F%E6%88%90%E7%9A%84AI%E7%BB%98%E7%94%BB%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%A7%92%E5%B0%B1%E6%98%AF%E6%88%91%E7%9A%84%E4%BA%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="你生成的AI绘画，下一秒就是我的了 | 猫头猫的博客">
+      <meta itemprop="description" content="简单写个爬虫吧。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          你生成的AI绘画，下一秒就是我的了
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-02-20 22:21:46" itemprop="dateCreated datePublished" datetime="2023-02-20T22:21:46+08:00">2023-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">简单写个爬虫吧。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>（先说好，本文还是一个技术探索文章！）<br>书接上回。上次开了点小脑洞，在AI绘画和ChatGPT的帮助下做了个小程序。其中，AI绘画使用的是MidJourney程序，它帮我生成了一些精美的图片，稍作修改后就用到了我的小程序里。</p>
+<p><img src="https://i.328888.xyz/2023/02/20/giTHv.md.png"></p>
+<p>MidJourney架设在Discord网站上，通过给Discord机器人发送指令来生成图片。在下图中的聊天框中输入“&#x2F;imagine 关键词”指令，过一会你就可以收到下图中的四宫格图片。你可以对其中任意一张图**添加一些细节(upscale)<strong>或者</strong>做一些变动(variation)**，然后MidJourney就会根据这张图片生成一张高清大图:<br><img src="https://i.328888.xyz/2023/03/01/6cMlJ.png"></p>
+<p>然而，MidJourney程序每个新账号只能<strong>免费使用25次（包括四宫格图）</strong>，再用的话就需要氪金了。作为一只铁公鸡，那自然得想想怎么样在<em>不花钱的情况下多整点AI美图</em>。我们可以注意到，如果不加设置的话，别人生成的AI画作也会展示在聊天室中，并且貌似也很精美。那不如…… 全都下载下来<br><img src="https://pic.diydoutu.com/bq/006mowZngy1ftqn2dnsctj308b09qmxl.jpg"></p>
+<p>当然，也要注意一下版权声明，中文版的协议链接<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc/4.0/legalcode.zh-Hans">戳这里</a>，至少可以在非商用的场景下可以复制和分享：<br><img src="https://i.328888.xyz/2023/03/01/6mRGP.png"></p>
+<h1 id="我全都要"><a href="#我全都要" class="headerlink" title="我全都要"></a>我全都要</h1><p>既然这样，那我就不客气了，想办法给它全都下下来。先来看看这个网页的结构吧。</p>
+<p>从下图可以发现，这个网站的所有的聊天信息都在一个ol结点中，其中<strong>每一条消息都是一个li结点</strong>。<br><img src="https://i.328888.xyz/2023/03/01/6mqkZ.png"></p>
+<p>AI生成图片需要时间，而这段时间内的生成的中间状态的图片为.webp格式，<strong>最终生成的图片是.png格式</strong>：<br><img src="https://i.328888.xyz/2023/03/01/6plAN.png"><br><img src="https://i.328888.xyz/2023/03/01/6pNka.png"></p>
+<p>同时，ol中li结点的数目并不是无限扩大的，<strong>到了一定的数目就会复用</strong>，估计是代码里有限制。同时，更新数据消息是从<strong>websocket</strong>中接收的。</p>
+<p>我们的目的是获取网页中<strong>所有的图片和prompts</strong>。为了达到以上目的，我们有两种思路：</p>
+<ol>
+<li><strong>拦截websocket消息</strong>，把里面关于的图片url的部分找出来并下载。</li>
+<li>既然dom结构那么规整，那就直接从dom入手，<strong>解析下dom结构</strong>找出所有png格式的图片然后下载。</li>
+</ol>
+<p>显然，第二种成本更低一些。方案敲定，那就开始coding吧~</p>
+<h1 id="解析dom"><a href="#解析dom" class="headerlink" title="解析dom"></a>解析dom</h1><p>我们先来写个简单的脚本把网页中AI生成的图片全都扒下来。符合要求的图片满足以下条件：</p>
+<ul>
+<li>在ol标签下的li标签内；</li>
+<li>图片url在a标签的href属性内；</li>
+<li><strong>图片消息的发送方是Midjourney Bot</strong></li>
+</ul>
+<p>第三点尤为重要，因为Midjourney可以图生图，所以你可能会看到有些老哥突然发了自己的自拍…… </p>
+<p>至于Prompts，我们可以发现它是粗体，被&lt; strong &gt;标签包裹。</p>
+<p>依据以上，我们可以写出一段非常简单的脚本：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 找到ol，它的class以scrollerInner-开头</span></span><br><span class="line"><span class="keyword">const</span> contentList = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;ol[class^=&quot;scrollerInner-&quot;]&#x27;</span>);</span><br><span class="line"><span class="comment">// 找到所有的li标签</span></span><br><span class="line"><span class="keyword">const</span> lis = <span class="title class_">Array</span>.<span class="title function_">from</span>(contentList.<span class="property">children</span>).<span class="title function_">filter</span>(</span><br><span class="line">    <span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">tagName</span> === <span class="string">&quot;LI&quot;</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">lis.<span class="title function_">forEach</span>(<span class="function">(<span class="params">li</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">parseLiNode</span>(li);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">parseLiNode</span>(<span class="params">li</span>) &#123;</span><br><span class="line">    <span class="comment">// 截取一个唯一的id</span></span><br><span class="line">    <span class="keyword">const</span> id = li.<span class="property">id</span>.<span class="title function_">substring</span>(<span class="number">14</span>);</span><br><span class="line">    <span class="comment">// 粗体部分</span></span><br><span class="line">    <span class="keyword">const</span> prompts = <span class="title class_">Array</span>.<span class="title function_">from</span>(</span><br><span class="line">      li.<span class="title function_">querySelector</span>(<span class="string">&quot;div[id^=message-content-]&gt;strong&quot;</span>)?.<span class="property">childNodes</span> ?? []</span><br><span class="line">    )</span><br><span class="line">      .<span class="title function_">filter</span>(<span class="function">(<span class="params">node</span>) =&gt;</span> node.<span class="property">nodeType</span> === <span class="title class_">Node</span>.<span class="property">TEXT_NODE</span>)</span><br><span class="line">      .<span class="title function_">map</span>(<span class="function">(<span class="params">node</span>) =&gt;</span> node.<span class="property">textContent</span>)</span><br><span class="line">      .<span class="title function_">join</span>(<span class="string">&quot; &quot;</span>);</span><br><span class="line">    <span class="comment">// 取出a标签的href</span></span><br><span class="line">    <span class="keyword">const</span> url = li.<span class="title function_">querySelector</span>(</span><br><span class="line">      <span class="string">&quot;div[class^=messageAttachment] div[class^=imageWrapper] a[data-role=img]&quot;</span></span><br><span class="line">    )?.<span class="property">href</span>;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(id, prompts, url);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>贴到控制台，就可以看到这段脚本已经把网页中所有的AI画作的url和prompts打印出来了：</p>
+<p><img src="https://i.328888.xyz/2023/03/02/6XiGC.png"></p>
+<p>然而这还只是刚刚开始，这段脚本只能打印<strong>当前出现在页面</strong>中的画作，对于后边新生成的可就无能为力了。为了让它不断的获取到最新生成的画作，我们还得做一些额外的操作。</p>
+<h1 id="MutationObserver"><a href="#MutationObserver" class="headerlink" title="MutationObserver"></a>MutationObserver</h1><p>为了达成上一节结尾的目的，第一反应就是使用setInterval，隔段时间重新扫描下页面中的png图片。不过你可能猜到了我肯定没用它，要不然这一章的标题就该改名了。</p>
+<p>没用setInterval的原因相信大家也猜得到：用户生成AI画作的频率不稳定；如果setInternal频率高了，可能会造成浪费；如果频率低了，可能某个时间段内很多用户疯狂生成图片，我们可能会丢失某些图片的信息。</p>
+<p>因此，我们可以使用更精准的方式获取到dom结构的变动——<strong>MutationObserver</strong>。</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>先看看MDN上的介绍：</p>
+<p><img src="https://i.328888.xyz/2023/03/02/6Blg8.png"></p>
+<p>一个MutationObserver对象只有三个方法，使用示例也相对简单 （下边是从mdn上抄的）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 选择需要观察变动的节点</span></span><br><span class="line"><span class="keyword">const</span> targetNode = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;some-id&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 观察器的配置（需要观察什么变动）</span></span><br><span class="line"><span class="keyword">const</span> config = &#123; <span class="attr">attributes</span>: <span class="literal">true</span>, <span class="attr">childList</span>: <span class="literal">true</span>, <span class="attr">subtree</span>: <span class="literal">true</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当观察到变动时执行的回调函数</span></span><br><span class="line"><span class="keyword">const</span> callback = <span class="keyword">function</span>(<span class="params">mutationsList, observer</span>) &#123;</span><br><span class="line">    <span class="comment">// Use traditional &#x27;for loops&#x27; for IE 11</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> mutation <span class="keyword">of</span> mutationsList) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mutation.<span class="property">type</span> === <span class="string">&#x27;childList&#x27;</span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;A child node has been added or removed.&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (mutation.<span class="property">type</span> === <span class="string">&#x27;attributes&#x27;</span>) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;The &#x27;</span> + mutation.<span class="property">attributeName</span> + <span class="string">&#x27; attribute was modified.&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 创建一个观察器实例并传入回调函数</span></span><br><span class="line"><span class="keyword">const</span> observer = <span class="keyword">new</span> <span class="title class_">MutationObserver</span>(callback);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以上述配置开始观察目标节点</span></span><br><span class="line">observer.<span class="title function_">observe</span>(targetNode, config);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 之后，可停止观察</span></span><br><span class="line">observer.<span class="title function_">disconnect</span>();</span><br></pre></td></tr></table></figure>
+
+<p>上边的示例程序翻译成人话就是：</p>
+<ul>
+<li>新建一个MutationObserver对象</li>
+<li>它监测targetNode节点</li>
+<li>在config定义的监测内容发生变化时执行callback</li>
+</ul>
+<p>其中，config定义的监测内容表示：当target**及其子结点(subtree为true)<strong>发生</strong>属性变化时(attribute为true)<strong>，或</strong>其子结点发生新增&#x2F;删除时(childList为true)**触发回调。</p>
+<p>有了这个东西，获取网页中新生成的图片就容易多了。</p>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><p>前面分析过，discord聊天记录中最大条目是有限制的，因此我们会监测到li结点的新增或者删除。除此之外，因为照片可能会实时更新，因此也可以监测到li内class为imageWrapper的div会有属性变动。这两部分对应的图片可能有交集，因此可以用一个set去重。</p>
+<p>我们只需要获取到新增的li结点，然后找到class变动的div的祖先li结点，取并集之后就可以得到页面中新增的AI画作元素了。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="attr">mutationObserver</span>: <span class="title class_">MutationObserver</span>;</span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">startObserve</span>(<span class="params"></span>) &#123;</span><br><span class="line">  mutationObserver = <span class="keyword">new</span> <span class="title class_">MutationObserver</span>(<span class="function">(<span class="params">records</span>) =&gt;</span> &#123;</span><br><span class="line">    records.<span class="title function_">forEach</span>(<span class="function">(<span class="params">record</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> addNodes = record.<span class="property">addedNodes</span>;</span><br><span class="line">      <span class="keyword">if</span> (</span><br><span class="line">        record.<span class="property">type</span> === <span class="string">&quot;childList&quot;</span> &amp;&amp;</span><br><span class="line">        addNodes?.<span class="property">length</span> &amp;&amp;</span><br><span class="line">        (record.<span class="property">target</span> <span class="keyword">as</span> <span class="title class_">Element</span>).<span class="property">tagName</span> === <span class="string">&quot;OL&quot;</span></span><br><span class="line">      ) &#123;</span><br><span class="line">        <span class="comment">// ol标签的childlist变动，取出其中新增的li结点</span></span><br><span class="line">        addNodes.<span class="title function_">forEach</span>(<span class="function">(<span class="params">node</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">const</span> li = node <span class="keyword">as</span> <span class="title class_">HTMLElement</span>;</span><br><span class="line">          <span class="keyword">if</span> (</span><br><span class="line">            !(li.<span class="property">tagName</span> === <span class="string">&quot;LI&quot;</span> &amp;&amp; li.<span class="property">id</span>.<span class="title function_">startsWith</span>(<span class="string">&quot;chat-messages-&quot;</span>))</span><br><span class="line">          ) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="title function_">parseLiNode</span>(li); <span class="comment">// 解析这个li结点</span></span><br><span class="line">        &#125;);</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (</span><br><span class="line">        record.<span class="property">type</span> === <span class="string">&quot;attributes&quot;</span> &amp;&amp;</span><br><span class="line">        record.<span class="property">attributeName</span> === <span class="string">&quot;class&quot;</span> &amp;&amp;</span><br><span class="line">        (record.<span class="property">target</span> <span class="keyword">as</span> <span class="title class_">Element</span>).<span class="property">tagName</span> === <span class="string">&quot;DIV&quot;</span> &amp;&amp;</span><br><span class="line">        (record.<span class="property">target</span> <span class="keyword">as</span> <span class="title class_">Element</span>).<span class="property">className</span>.<span class="title function_">includes</span>(<span class="string">&quot;imageWrapper&quot;</span>)</span><br><span class="line">      ) &#123;</span><br><span class="line">        <span class="comment">// 属性变动的div</span></span><br><span class="line">        <span class="keyword">let</span> <span class="attr">li</span>: <span class="title class_">Element</span> | <span class="literal">null</span> | <span class="literal">undefined</span> = record.<span class="property">target</span> <span class="keyword">as</span> <span class="title class_">Element</span>;</span><br><span class="line">        <span class="keyword">while</span> (li?.<span class="property">tagName</span> !== <span class="string">&quot;LI&quot;</span> &amp;&amp; li) &#123;</span><br><span class="line">          li = li.<span class="property">parentElement</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (li) &#123;</span><br><span class="line">          <span class="title function_">parseLiNode</span>(li);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">const</span> contentList = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;ol[class^=&quot;scrollerInner-&quot;]&#x27;</span>);</span><br><span class="line">  <span class="keyword">if</span> (!contentList) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  mutationObserver.<span class="title function_">observe</span>(contentList, &#123;</span><br><span class="line">    <span class="attr">attributes</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">childList</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">subtree</span>: <span class="literal">true</span>,</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">startObserve</span>();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>把这段程序拷到控制台（把类型信息删掉就好了，上边代码是ts），便可以持续不断地打印出新的画作信息了：<br><img src="https://i.328888.xyz/2023/03/02/6XAMJ.png"></p>
+<h1 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h1><p>获取AI画作的信息是搞定了，接下来就是如何下载了。一张一张下载肯定是不太行（要不然一小会文件夹内就会下载得满是png文件），直接用jszip打包下载一下，使用方式也很方便：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="title class_">JSZip</span> <span class="keyword">from</span> <span class="string">&quot;jszip&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> zip = <span class="keyword">new</span> <span class="title class_">JSZip</span>();</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> binaryBlob = <span class="title function_">fetch</span>(<span class="string">&quot;image-cdn-url&quot;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">_</span> =&gt;</span> _.<span class="title function_">blob</span>());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在压缩包内放一个名字是fileName.png的图片，图片是二进制blob</span></span><br><span class="line">zip.<span class="title function_">file</span>(<span class="string">`fileName.png`</span>, binaryBlob, &#123;</span><br><span class="line">    <span class="attr">binary</span>: <span class="literal">true</span>,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 下边的zipContent就是生成的zip压缩包</span></span><br><span class="line">zip.<span class="title function_">generateAsync</span>(&#123; <span class="attr">type</span>: <span class="string">&quot;blob&quot;</span> &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">zipContent</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">saveFile</span>(zipContent, <span class="string">`midjourney-<span class="subst">$&#123;<span class="built_in">Date</span>.now()&#125;</span>.zip`</span>) <span class="comment">// saveFile的实现略过了~</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="结尾（源代码在这里！）"><a href="#结尾（源代码在这里！）" class="headerlink" title="结尾（源代码在这里！）"></a>结尾（源代码在这里！）</h1><p>最后就简单润色下，加上一些规则限制（比如说过滤掉四宫格的图片，只保存大图）、下载限制（每攒80张图下载一次，大概100+M）、用户名检查（有时候Discord机器人会批量发消息，这个时候用户名会被略过）等等，再用esbuild打到一个bundle里，就完成啦。</p>
+<p>28号那天挂了一整天，然后下班回来就收获了满满<strong>2G</strong>（<strong>两千多张</strong>）高清图片……</p>
+<p><img src="https://i.328888.xyz/2023/03/01/6mMdv.png"></p>
+<h2 id="代码开源-不要干坏事哟："><a href="#代码开源-不要干坏事哟：" class="headerlink" title="代码开源~ 不要干坏事哟："></a>代码开源~ 不要干坏事哟：</h2><p>使用方式在readme里啦。<br><a target="_blank" rel="noopener" href="https://github.com/maotoumao/midjourney-downloader">https://github.com/maotoumao/midjourney-downloader</a></p>
+<p>如果你觉得好玩，不如点个star；如果你觉得有用，那你可以去公众号【一只猫头猫】留言“猫头猫真棒”，我也会夸夸你~</p>
+<p>下次整活的时候再见~</p>
+<h1 id="最最最后放些收集的美图"><a href="#最最最后放些收集的美图" class="headerlink" title="最最最后放些收集的美图"></a>最最最后放些收集的美图</h1><p><img src="https://i.328888.xyz/2023/03/02/6XRdU.png"><br><img src="https://i.328888.xyz/2023/03/02/6Xcqv.png"><br><img src="https://i.328888.xyz/2023/03/02/6Xp23.png"><br><img src="https://i.328888.xyz/2023/03/02/6XBEy.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/html/" rel="tag"><i class="fa fa-tag"></i> html</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/20/%E7%94%A8ChatGPT%E5%92%8CAI%E7%BB%98%E7%94%BB%E5%81%9A%E4%B8%80%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="prev" title="用ChatGPT和AI绘画做一个微信小程序">
+                  <i class="fa fa-angle-left"></i> 用ChatGPT和AI绘画做一个微信小程序
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/03/27/MusicFree%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/" rel="next" title="MusicFree插件实现原理">
+                  MusicFree插件实现原理 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

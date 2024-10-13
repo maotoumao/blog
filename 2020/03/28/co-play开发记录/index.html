@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="co-play是一个同步看片的工具。你可以选择包含影视资源的网站，然后和好友同步的观看这个网站的资源。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="co-play开发记录">
+<meta property="og:url" content="https://blog.catcat.work/2020/03/28/co-play%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="co-play是一个同步看片的工具。你可以选择包含影视资源的网站，然后和好友同步的观看这个网站的资源。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-03-27T16:17:03.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:43:51.245Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="electron">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="node.js">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2020/03/28/co-play%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2020/03/28/co-play%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/","path":"2020/03/28/co-play开发记录/","title":"co-play开发记录"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>co-play开发记录 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E7%89%88%E8%AE%B0%E5%BD%95-electron-jquery"><span class="nav-number">1.</span> <span class="nav-text">原始版记录(electron+jquery)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E6%9E%84%E8%AE%B0%E5%BD%95-electron-react"><span class="nav-number">2.</span> <span class="nav-text">重构记录(electron+react)</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2020/03/28/co-play%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="co-play开发记录 | 猫头猫的博客">
+      <meta itemprop="description" content="co-play是一个同步看片的工具。你可以选择包含影视资源的网站，然后和好友同步的观看这个网站的资源。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          co-play开发记录
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-28 00:17:03" itemprop="dateCreated datePublished" datetime="2020-03-28T00:17:03+08:00">2020-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:43:51" itemprop="dateModified" datetime="2024-10-13T21:43:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%85%A8%E6%A0%88/" itemprop="url" rel="index"><span itemprop="name">全栈</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">co-play是一个同步看片的工具。你可以选择包含影视资源的网站，然后和好友同步的观看这个网站的资源。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>项目是基于electron8.0开发，2020.3.28进行重构。整个过程中遇到的问题记录如下：</p>
+<h4 id="原始版记录-electron-jquery"><a href="#原始版记录-electron-jquery" class="headerlink" title="原始版记录(electron+jquery)"></a>原始版记录(electron+jquery)</h4><ul>
+<li><p>关于electron<br>  在开发的过程中才突然明白main和renderer的区别。主进程相当于是浏览器，可以控制浏览器的各种行为，renderer进程相当于是每一个页面，换句话说，每一个html中引入的js文件所在环境是renderer进程，而创建这个html窗口的js所在环境是主进程。</p>
+</li>
+<li><p>引入了jquery和bootstrap的样式：<br>  引入样式没什么好说的，页面引入jquery的时候提示$不存在，<br>  参考jquery源码，electron执行环境为node，使用commonJS模块化标准，node环境没有window对象，这种情况下，jquery将导出到module.exports对象上，需要手工绑定到当前的window窗口，即可解决。</p>
+</li>
+<li><p>socketio:<br>  在客户端进行emit，如果需要知道提交之后的结果，可以在第三个参数上写回调函数，在服务器端监听事件之后调用回调函数，使得客户端执行相应的行为。</p>
+</li>
+<li><p>犯蠢： jsx写习惯了忘了html是怎么写的了，javascript引入的格式写错了。。</p>
+</li>
+<li><p>本地存储：<br>  使用了electron-store，因为是多页面需要共用状态，所以我单独写了个js模块，导出一个新的store对象，并对这个对象进行操作。<br>  electron-store是操作本地磁盘的，所有写在上面的数据都和磁盘文件相对应，因此退出时需要进行store.clear()删除缓存。</p>
+</li>
+<li><p>犯蠢：for in 和for of， for in迭代的是key， for of迭代的是value</p>
+</li>
+<li><p>打包：<br>  参考了很多文章，一开始使用electron-packager这个包，结果卡住不动，换源也没用（淘宝源的路径不对）；<br>  然后换成electron-builder，手动下载包到缓存路径，总算生成了未打包但是能运行的文件夹，但是还是报一个Fatal error: Unable to commit changes的错误，导致错误的原因是电脑自带的杀毒软件。。。。。关闭macfee就好了。。。</p>
+</li>
+<li><p>服务器：<br>  nodejs+express+socketio，体验还好。就是自己代码组织的不怎么样。</p>
+</li>
+<li><p>document.querySelector()这个函数，如果找不到返回的是null，我当成了undefined来判断，所以出错了。</p>
+</li>
+<li><p>渲染进程中的sendSync()这个函数，如果等不到返回值，会一直卡着，直到等到返回值，因为是同步的。</p>
+</li>
+</ul>
+<hr>
+<h4 id="重构记录-electron-react"><a href="#重构记录-electron-react" class="headerlink" title="重构记录(electron+react)"></a>重构记录(electron+react)</h4><ul>
+<li><p>安装electron</p>
+</li>
+<li><p>渲染进程require electron出错，TypeError: fs.existsSync is not a function，原因是没有nodejs环境。解决：<br>渲染进程：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; ipcRenderer &#125; = <span class="variable language_">window</span>.<span class="built_in">require</span>(<span class="string">&#x27;electron&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<p>主进程：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> win = <span class="keyword">new</span> <span class="title class_">BrowserWindow</span>(&#123;</span><br><span class="line">    <span class="attr">webPreferences</span>: &#123;</span><br><span class="line">      <span class="attr">nodeIntegration</span>: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br></pre></td></tr></table></figure>
+<p>从而为electron工程提供了node环境，但是如果直接从浏览器打开3000端口，则会报错。因为浏览器没有node环境</p>
+</li>
+<li><p>引入了ant design库，但是好像没有按需加载，之后再说吧，咕咕咕。</p>
+</li>
+<li><p>用hooks实现了一个简单的状态管理，暂时也用不到本地存储，就没装electron-store库。</p>
+</li>
+<li><p>打包，需要同时指定：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">registry=https://registry.npm.taobao.org/</span><br><span class="line">electron_custom_dir=8.2.0</span><br><span class="line">electron_mirror=http://npm.taobao.org/mirrors/electron/ </span><br></pre></td></tr></table></figure>
+<p>才可以。如果不写第三个，会自己去github找，然后就报错了。</p>
+</li>
+<li><p>打包需要打包主进程和渲染进程 main和render,因此打包时两个都要在同一个文件夹内。打包的内容可以最小化，只包含react build之后的dist和主进程main</p>
+</li>
+<li><p>服务端重写了一下逻辑，这次看着舒服多了。</p>
+</li>
+<li><p>可以自动化的点：<br>根据运行环境是生产模式还是开发环境，这决定了程序的入口(奈何webpack还没学会)</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://github.com/maotoumao/coplay-react">客户端源码指路</a>(readme都没写，不愧是我)</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/electron/" rel="tag"><i class="fa fa-tag"></i> electron</a>
+              <a href="/tags/react/" rel="tag"><i class="fa fa-tag"></i> react</a>
+              <a href="/tags/node-js/" rel="tag"><i class="fa fa-tag"></i> node.js</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/27/js%E7%9A%84%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%B0%8F%E7%BB%93/" rel="prev" title="js的块作用域小结">
+                  <i class="fa fa-angle-left"></i> js的块作用域小结
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/06/22/hexo%E5%8D%9A%E5%AE%A2%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E8%AE%B0%E5%BD%95/" rel="next" title="hexo自动部署记录">
+                  hexo自动部署记录 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

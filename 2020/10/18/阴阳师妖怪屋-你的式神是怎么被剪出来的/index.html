@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="阴阳师妖怪屋游戏中，关于抽卡时剪纸路径的算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【阴阳师妖怪屋】你的式神是怎么被剪出来的？">
+<meta property="og:url" content="https://blog.catcat.work/2020/10/18/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B-%E4%BD%A0%E7%9A%84%E5%BC%8F%E7%A5%9E%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E5%89%AA%E5%87%BA%E6%9D%A5%E7%9A%84/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="阴阳师妖怪屋游戏中，关于抽卡时剪纸路径的算法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/jiutun.jpg">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/ygw-chouka-shiyitu.png?v=1">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/ygw-chouka-zhengming.png">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/ygw-chouka-test-path.png">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/ygw-chouka-test1.png">
+<meta property="article:published_time" content="2020-10-18T10:44:16.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.304Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="node.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://imgs.maotoumao.xyz/jiutun.jpg">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2020/10/18/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B-%E4%BD%A0%E7%9A%84%E5%BC%8F%E7%A5%9E%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E5%89%AA%E5%87%BA%E6%9D%A5%E7%9A%84/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2020/10/18/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B-%E4%BD%A0%E7%9A%84%E5%BC%8F%E7%A5%9E%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E5%89%AA%E5%87%BA%E6%9D%A5%E7%9A%84/","path":"2020/10/18/阴阳师妖怪屋-你的式神是怎么被剪出来的/","title":"【阴阳师妖怪屋】你的式神是怎么被剪出来的？"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>【阴阳师妖怪屋】你的式神是怎么被剪出来的？ | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B8%E6%88%8F%E8%A7%84%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">游戏规则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%A7%84%E5%88%99"><span class="nav-number">2.1.</span> <span class="nav-text">基本规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">2.2.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.1.</span> <span class="nav-text">实现步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E7%BA%B8%E8%B7%AF%E5%BE%84demo"><span class="nav-number">4.2.</span> <span class="nav-text">剪纸路径demo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%AA%E7%BA%B8%E6%95%88%E6%9E%9Cdemo"><span class="nav-number">4.3.</span> <span class="nav-text">剪纸效果demo</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%93%E9%AA%8C%E5%9C%B0%E5%9D%80%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%9C%B0%E5%9D%80"><span class="nav-number">5.</span> <span class="nav-text">体验地址及代码地址</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2020/10/18/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B-%E4%BD%A0%E7%9A%84%E5%BC%8F%E7%A5%9E%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E5%89%AA%E5%87%BA%E6%9D%A5%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="【阴阳师妖怪屋】你的式神是怎么被剪出来的？ | 猫头猫的博客">
+      <meta itemprop="description" content="阴阳师妖怪屋游戏中，关于抽卡时剪纸路径的算法。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【阴阳师妖怪屋】你的式神是怎么被剪出来的？
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-18 18:44:16" itemprop="dateCreated datePublished" datetime="2020-10-18T18:44:16+08:00">2020-10-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">阴阳师妖怪屋游戏中，关于抽卡时剪纸路径的算法。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>玩过阴阳师妖怪屋的小伙伴们都知道，妖怪屋的一个核心玩法就是抽卡。和阴阳师不一样，妖怪屋的“抽卡”是通过剪纸的方式进行的。话不多说，我们看一下游戏规则吧。</p>
+<h2 id="游戏规则"><a href="#游戏规则" class="headerlink" title="游戏规则"></a>游戏规则</h2><h3 id="基本规则"><a href="#基本规则" class="headerlink" title="基本规则"></a>基本规则</h3><p>基本规则就是给一个可可爱爱没有脑袋的小纸人剪出它的头。玩家拿着一把剪刀，在有效区域内，从起点开始，一笔画出任意一条路径到达终点。用剪刀沿着起点到终点的这一条路径剪过去，得到的最终路径，就是小纸人的脑袋啦。然后，小纸人的脑袋上会冒出来两朵红色的小啾啾，然后它就变成了你的式神。</p>
+<p>如果还没有明白我的意思的话，那就看一下下面这个视频叭：</p>
+<p><video src="http://imgs.maotoumao.xyz/video-ygw-chouka1.mp4" controls="controls"></video></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>尽管看视频好像很简单的样子，但是仔细思考一下，发现事情好像并没有这么简单——</p>
+<p><img src="http://imgs.maotoumao.xyz/jiutun.jpg" alt="酒吞"></p>
+<p>通过大量的实验（其实就十次，因为没剪刀了），我们可以得到以下结论：</p>
+<ol>
+<li>路径的起点是固定的，在起点周围的一个范围内滑动屏幕的时候会触发开始剪纸；而如果在范围外滑动则不会记录路径;</li>
+<li>路径的终点也是固定的，我们可以看到当我们的画笔在任意一个位置停下来的时候，它会自动的连一条从当前位置到小纸人的脖子和右脸的交叉点的线。</li>
+<li>只能在小纸人的脖子上方开剪，超出这个区域的路径是不会被记录的；而路径的起点和终点，恰好在这个可剪区域的边界上（以实际一张纸为例的话，就是说起点和终点在这张纸的某一条边上，玩家只能在纸上沿任意路径从起点剪到终点）。</li>
+<li>无论怎么乱七八糟的剪，最终剪出来的效果都与你真真正正的拿着一张纸从起点沿着你画的路径剪过去一直到终点的效果是一样的。并且呢，剪刀剪出来的路径一定是你画出来路径的一部分。</li>
+<li>第五点是具体实现时的小细节：当我们在这个画布上画画（剪纸）的时候，其实它并没有把我们所有的路径都完整的存下来，而是隔一段时间获取一下当前触摸点的位置，然后用直线近似的代替曲线路径。换句话说，我们剪纸的路径，其实是坐标系中一个个的坐标点，相邻的坐标点使用直线进行连接。为了体现这一点呢，我们可以以单身18年的手速画一个曲线，可以发现，最终展示到屏幕上的却是一个直线。</li>
+<li>小纸人头顶的小啾啾始终在沿着小纸人裆部竖直向上的最高点位置冒出。</li>
+</ol>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>到此为止，我们知道了游戏规则和一些注意的点。我们需要做的，其实只是需要在玩家绘制的路径中挑选出最<strong>靠内</strong>的，或者说剪出的形状内部不存在其他路径的一条路径。那么我们如何将这条路径挑选出来呢？</p>
+<p>根据注意事项小节中的第五点，玩家绘制的路径实际上可以看作一个拥有两个固定点（起点、终点）的无向图，我们要做的是在这个无向图上挑选部分边构成目标路径。我们做个假设，假如说有一个小蚂蚁要从起点沿着目标路径爬向终点，在当前只有一条路的时候，目标路径的可能选择是唯一的，但是当遇到分叉路口时，我们就需要考虑一下怎么选择了。于是问题又进一步的简化成了：在无向图中，从起点走向终点时，当前结点的下一个结点的选择问题。<br><img src="http://imgs.maotoumao.xyz/ygw-chouka-shiyitu.png?v=1" alt="路径示意图"></p>
+<p>这个时候，我们观察到，以上图为例，我们在挑选目标路径的时候，为了挑出最靠内的一条路径，我们可以与选取与当前前进方向顺时针夹角最大的方向为目标方向，即可解决问题。用图中的例子说就是：对于从$A$点爬到$B$点的小蚂蚁，由于边$\vec{BC}$与$\vec{AB}$之间的的顺时针夹角比边$\vec{BD}$与$\vec{AB}$之间的的顺时针夹角大，因此小蚂蚁的下一个目标点是$D$点。直观的想一下，对于每一个结点来说，它的下一个结点肯定是弯的越狠越好，因为在它外边的肯定就被剪掉了嘛。这种策略其实是一种贪心策略，从初始结点出发，每一次选择都是当前看来最好的选择。</p>
+<p>不过我们知道，贪心策略可能得到的并不是最优解，我们需要想办法证明我们的贪心策略的正确性。证明过程也很容易理解，利用反证法：</p>
+<p><img src="http://imgs.maotoumao.xyz/ygw-chouka-zhengming.png" alt="证明"><br>对于任意结点$B$，假如结点$C$是$B$的所有邻居结点中与$B$的连线和$\vec{AB}$顺时针夹角最大的结点，如果存在一个结点$D$，使得：$\langle\vec{AB}, \vec{BC}\rangle &gt; \langle\vec{AB}, \vec{BD}\rangle$，但是结点$D$是$B$结点的下一个目标结点。此时：</p>
+<p>根据注意事项2，我们知道无论经由$C$结点还是$D$结点，最终都会通往相同的终点。因此对于$B \rightarrow C$和$B \rightarrow D$方向的路径来说，总会在至少一个结点交叉。对于第一个交叉结点$X$，考虑由$BCDX$构成的闭合图形，如果$D$结点在目标路径上，那么$C$结点一定在目标路径内，这就与我们的要求：起点经由目标路径到终点的内部不存在其他路径相矛盾。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><p>简单实现一下这个过程，我们把以上描述梳理成如下步骤：</p>
+<ol>
+<li>对玩家绘制的一系列线段，求两两之间的交点，并根据结点将线段拆分成除了线段的起点或终点外不互相交的线段；</li>
+<li>根据步骤1得到的结果构建一个无向图；</li>
+<li>从起点开始按照贪心策略寻找后继结点，直到终点；</li>
+<li>将得到的一系列路径按次序连接起来，得到最终的路径；</li>
+<li>给小纸人画上小啾啾。</li>
+</ol>
+<p>对于第一步，我们可以通过快速排斥实验快速排除不交叉的两条线段，再将通过快速排斥实验的两条线段进行跨立实验，如果存在交点则计算交点。</p>
+<p>对于第二步，设计一个数据结构进行存储：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">Node</span> &#123;</span><br><span class="line">    <span class="attr">point</span>: <span class="title class_">Point</span>, <span class="comment">// 坐标</span></span><br><span class="line">    <span class="attr">neighbor</span>: <span class="title class_">Node</span>[], <span class="comment">// 相邻结点</span></span><br><span class="line">    status?: <span class="built_in">boolean</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对于第三步，只需要对第二步中neighbor数组内的结点进行判定即可。</p>
+<p>第四步就是一个简单的canvas绘制过程。</p>
+<p>第五步其实就遍历一遍就好啦。</p>
+<p>整个实现过程由于涉及到了向量的计算，因此使用到了mathjs库，除此之外，项目使用了pixijs渲染框架。具体代码中，用到的比较多的是两条线段点积和叉积的计算，以及一些简单的判断和循环，逻辑还是很清楚的。实现的demo效果如下，感觉和游戏中的剪纸还是有几分相似的(但是!!有bug!!!不知道是上边思路的漏洞还是实现有问题。。但是没空检查就这样8)：</p>
+<h3 id="剪纸路径demo"><a href="#剪纸路径demo" class="headerlink" title="剪纸路径demo"></a>剪纸路径demo</h3><p><img src="http://imgs.maotoumao.xyz/ygw-chouka-test-path.png" alt="剪纸路径"></p>
+<h3 id="剪纸效果demo"><a href="#剪纸效果demo" class="headerlink" title="剪纸效果demo"></a>剪纸效果demo</h3><p><img src="http://imgs.maotoumao.xyz/ygw-chouka-test1.png" alt="抽卡demo"></p>
+<h2 id="体验地址及代码地址"><a href="#体验地址及代码地址" class="headerlink" title="体验地址及代码地址"></a>体验地址及代码地址</h2><p>体验地址在这里：<a target="_blank" rel="noopener" href="http://tools.maotoumao.xyz/ygw-chouka/">妖怪屋抽卡</a></p>
+<p>代码地址： <a target="_blank" rel="noopener" href="https://gitee.com/maotoumao/ygw-chouka">gitee地址戳这里</a>, <a target="_blank" rel="noopener" href="https://github.com/maotoumao/ygw-chouka">github地址戳这里</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/node-js/" rel="tag"><i class="fa fa-tag"></i> node.js</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/10/01/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B%E4%B8%AD%E7%9A%84%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/" rel="prev" title="阴阳师妖怪屋中的背包问题">
+                  <i class="fa fa-angle-left"></i> 阴阳师妖怪屋中的背包问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/01/31/webpack%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94entry/" rel="next" title="webpack学习 —— entry">
+                  webpack学习 —— entry <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

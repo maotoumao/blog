@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="如题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写一个全网最全的音乐播放器">
+<meta property="og:url" content="https://blog.catcat.work/2022/10/04/%E5%86%99%E4%B8%80%E4%B8%AA%E5%85%A8%E7%BD%91%E6%9C%80%E5%85%A8%E7%9A%84%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="如题。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/112345c7ffef475685fffd086a2193d2~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e73e6b87f82469ab75a155e89197727~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/274ad02f59b548c8ade875db4128d038~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fd52606524ce48c49c299e2241b20e6c~tplv-k3u1fbpfcp-watermark.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fa291994f5e44f36bd14900ac3bfdc4a~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62999875eeca415c9428adb6a678ad7a~tplv-k3u1fbpfcp-zoom-1.image">
+<meta property="article:published_time" content="2022-10-04T04:42:01.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.238Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="React Native">
+<meta property="article:tag" content="安卓">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/112345c7ffef475685fffd086a2193d2~tplv-k3u1fbpfcp-watermark.image">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2022/10/04/%E5%86%99%E4%B8%80%E4%B8%AA%E5%85%A8%E7%BD%91%E6%9C%80%E5%85%A8%E7%9A%84%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2022/10/04/%E5%86%99%E4%B8%80%E4%B8%AA%E5%85%A8%E7%BD%91%E6%9C%80%E5%85%A8%E7%9A%84%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/","path":"2022/10/04/写一个全网最全的音乐播放器/","title":"写一个全网最全的音乐播放器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>写一个全网最全的音乐播放器 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B%EF%BC%9AReact-Native-Flutter"><span class="nav-number">2.</span> <span class="nav-text">技术选型：React Native? Flutter?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%EF%BC%9A%E8%81%9A%E5%90%88%EF%BC%9F%E8%A7%A3%E8%80%A6"><span class="nav-number">3.</span> <span class="nav-text">框架：聚合？解耦?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%EF%BC%9A%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="nav-number">4.</span> <span class="nav-text">插件：怎么实现？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E9%98%9F%E5%88%97"><span class="nav-number">5.</span> <span class="nav-text">播放队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%8C%E8%AF%8D%E5%85%B3%E8%81%94"><span class="nav-number">6.</span> <span class="nav-text">歌词关联</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%BB%86%E8%8A%82"><span class="nav-number">7.</span> <span class="nav-text">其他细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AF%AD"><span class="nav-number">8.</span> <span class="nav-text">结语</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2022/10/04/%E5%86%99%E4%B8%80%E4%B8%AA%E5%85%A8%E7%BD%91%E6%9C%80%E5%85%A8%E7%9A%84%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="写一个全网最全的音乐播放器 | 猫头猫的博客">
+      <meta itemprop="description" content="如题。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          写一个全网最全的音乐播放器
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-10-04 12:42:01" itemprop="dateCreated datePublished" datetime="2022-10-04T12:42:01+08:00">2022-10-04</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">如题。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p><img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/112345c7ffef475685fffd086a2193d2~tplv-k3u1fbpfcp-watermark.image" alt="web 1920.png"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>说起音乐播放器，其实目前已经有很多相关的轮子了。之前也看到了很多，无论是多源合一的<em>聚合类型播放器</em>，还是精美的<em>模仿播放器</em>，或多或少都有些小问题（众口难调嘛 也不奇怪）：</p>
+<ul>
+<li><strong>源不全</strong>：音源可能不稳定，修改或新增源需要开发者修改代码（说不定还有律师函警告）</li>
+<li><strong>功能不全</strong>：其实多源聚合的播放器还有蛮多优化空间的，比如怎么解决某些源没有歌词的问题等等</li>
+<li><strong>样式有点呆</strong>：这个就……不多说了，虽然我写的也好看不到哪里去。。。</li>
+</ul>
+<p>所以…如标题，不如写一个<strong>全网最全的，专注功能的，不太丑</strong>的音乐播放器。写个播放器既可以巩固学过的知识，多多思考，又能解决的自己问题，还能打发时间，何乐而不为呢，当然，为了解决上述问题，架构还是要好好设计一下的。</p>
+<h2 id="技术选型：React-Native-Flutter"><a href="#技术选型：React-Native-Flutter" class="headerlink" title="技术选型：React Native? Flutter?"></a>技术选型：React Native? Flutter?</h2><p>其实我21年就曾经用<a target="_blank" rel="noopener" href="https://github.com/maotoumao/mixin_music">flutter写过一个音乐播放器</a>。当时是想要一个功能简单，能满足日常需求（不用来回切app）的播放器，恰好那会快毕业闲着没事干，就花了几天学了下flutter现学现卖写了一个集成了B站、咪咕和网易云的播放器。App还是很流畅的，但是弊端也很明显：过了几个月当我想再捡起来继续维护的时候，我发现已经看不懂了。在此向这位同学说声抱歉，我真不是故意鸽的，因为我真tm忘了该怎么写了…： <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3e73e6b87f82469ab75a155e89197727~tplv-k3u1fbpfcp-zoom-1.image" alt="image.png"></p>
+<p>  所以这次我选择了RN。至少在熟悉的技术栈里，我可以更容易地专注于功能和性能。恰好这次想法冒出来的时候RN发布了0.69版本（好像是，懒得看了）；距离我上次使用RN也有了不少啸改动，不妨再试它一次。对于个人开发者来说，似乎也没必要讲究太多，能解决问题的就是好东西。</p>
+<h2 id="框架：聚合？解耦"><a href="#框架：聚合？解耦" class="headerlink" title="框架：聚合？解耦?"></a>框架：聚合？解耦?</h2><p>首先我们先回到需求，对我个人来说，我的核心诉求也很简单：</p>
+<ul>
+<li><strong>多源聚合</strong>：不想来回切app听歌</li>
+<li><strong>扩展性、稳定性</strong>：希望app的音源是可以低成本扩展的，甚至网络上只要可以搜得到的资源都可以播放</li>
+<li><strong>尽可能完备</strong>：希望播放器可以对所有音源提供尽可能完整的，且相似的功能（否则扩展性似乎也就不存在了）</li>
+</ul>
+<p>听起来似乎很矛盾：又要尽可能多的源，又要可扩展，还不想写代码，净想好事了。事实上，破局的方法很简单：如果能把音乐相关的操作抽象出来，和app本身的功能解耦开，问题就迎刃而解了。说得再明白一点：对于一个音乐播放器来说，它所需要的核心功能：搜索（音乐、专辑、歌手）、播放、下载、歌词、导入、查看专辑歌手信息等等，这些功能对于不同的音源来说，输入和输出的<strong>结构</strong>是可以<strong>完全一致</strong>的。</p>
+<p>考虑到可扩展性，自然而然就想到把这些核心功能按照特定的协议以插件的形式外置，这样一来，音乐播放器只需要考虑到如何管理音乐媒体，某些时机触发某些核心行为得到固定格式的输出，而所有的核心行为都由插件去实现；如果需要扩展音源或者遇到音源不稳定的情况，也只需要修改插件就好了。换句话说：<strong>只需要通过安装不同的插件就可以播放你能搜到的任何音源</strong>。</p>
+<p>举个例子：当用户搜索“作者 猫头猫”的时候，对于播放器来说，它只需要知道要去调用这样一个函数: </p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">serach</span>(<span class="params">query, <span class="keyword">type</span>, page</span>): <span class="title class_">Promise</span>&lt;<span class="title class_">Artist</span>[]&gt;</span><br></pre></td></tr></table></figure>
+<p>并把得到的结果渲染到屏幕上；至于这个东西是什么，那就交给插件吧。</p>
+<p>综上所述，我们得到了大概的核心框架图： <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/274ad02f59b548c8ade875db4128d038~tplv-k3u1fbpfcp-zoom-1.image" alt="1.drawio.png"></p>
+<h2 id="插件：怎么实现？"><a href="#插件：怎么实现？" class="headerlink" title="插件：怎么实现？"></a>插件：怎么实现？</h2><p>在上一节中提到了，插件是实现某些特定功能的一个函数。那么接下来又是一个难题：怎么把插件钩入到app中去？回顾下技术选型，这次选择的是RN，那么这个问题其实很容易解决：反正运行时自带一个js引擎，那就直接读取外部文件，然后直接整个Function呗。试了一下，发现方案可行。具体来说，是这样一个<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/pluginManager.ts#L63">自执行函数</a>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const plugin = Function(`</span><br><span class="line">                &#x27;use strict&#x27;;</span><br><span class="line">                try &#123;</span><br><span class="line">                  return $&#123;funcCode&#125;;</span><br><span class="line">                &#125; catch(e) &#123;</span><br><span class="line">                  return null;</span><br><span class="line">                &#125;</span><br><span class="line">    `)()()</span><br></pre></td></tr></table></figure>
+
+<p>其中，funcCode就是从外部读入的插件。方便起见，可以把一些常用的包（网络请求、加密解密、日期转化、html解析等等）通过参数传递给插件，从而减轻插件开发的工作量：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const plugin = Function(`</span><br><span class="line">                &#x27;use strict&#x27;;</span><br><span class="line">                try &#123;</span><br><span class="line">                  return $&#123;funcCode&#125;;</span><br><span class="line">                &#125; catch(e) &#123;</span><br><span class="line">                  return null;</span><br><span class="line">                &#125;</span><br><span class="line">    `)()(&#123;CryptoJs, axios, dayjs, cheerio, bigInt, qs&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>到这里，从app侧解析插件的工作就做完了。接下来的问题是：插件内部（也就是上边的funcCode）应该长什么样子。所以接下来我们就需要制定具体的<strong>插件协议</strong>了。根据上边的解析方式，插件的基本结构如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function pluginName(packages)&#123;</span><br><span class="line">    // 一些辅助函数或者全局变量</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">      // ... 插件要实现的核心功能</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>插件函数的返回值，也就是我们可以具体在app中获取到的插件信息，可以在这一部分定义一层统一的<strong>插件协议</strong>，以定义某些核心操作所触发的行为。至于什么时候调用交给app统一控制。这里就不赘述协议定义的细节了，大概贴一下demo估计就够了，具体的插件可以参考<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFreePlugins">这个仓库</a>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">// packages里面预置了一些常用的包，包括axios，dayjs，cryptojs和cheerio，应该够用了</span><br><span class="line">function pluginName(packages)&#123;</span><br><span class="line">    // 在这里可以编写一些逻辑，存储全局变量之类的;</span><br><span class="line">    return &#123;</span><br><span class="line">        platform: &#x27;插件名称&#x27;, // [必选] 插件名，这个名字没取好，于是将错就错了</span><br><span class="line">        cacheControl: &#x27;no-cache&#x27;, // [可选] 插件的缓存控制方案，用来缓存插件信息</span><br><span class="line">        version: &#x27;0.0.0&#x27;, // [可选] 插件版本号</span><br><span class="line">        primaryKey: [&#x27;id&#x27;], // [可选] 主键名，可在此字段中填写插件函数入参中必备的字段</span><br><span class="line">        appVersion: &#x27;&gt;0.0&#x27;, // [可选] 兼容此插件的app版本号，预防后续协议更新出现不兼容格式时报错的情况。</span><br><span class="line">        defaultSearchType: &#x27;music&#x27;, // [可选] 插件在搜索时，首屏默认请求的搜索类型。</span><br><span class="line">        /** 搜索 */</span><br><span class="line">        search: function(query, page, type) &#123; // 三个参数分别为: 查询的keyword，当前页码，搜索类型</span><br><span class="line">            if(type === &#x27;music&#x27;) &#123;</span><br><span class="line">                // 网络请求</span><br><span class="line">                return &#123;</span><br><span class="line">                    isEnd: true, // 分页请求是否结束</span><br><span class="line">                    data: [], // MusicItem类型的列表</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(type === &#x27;album&#x27;) &#123;</span><br><span class="line">                // 网络请求</span><br><span class="line">                return &#123;</span><br><span class="line">                    isEnd: true, // 分页请求是否结束</span><br><span class="line">                    data: [], // AlbumItem类型的列表</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            if(type === &#x27;artist&#x27;) &#123;</span><br><span class="line">                // 网络请求</span><br><span class="line">                return &#123;</span><br><span class="line">                    isEnd: true, // 分页请求是否结束</span><br><span class="line">                    data: [], // ArtistItem类型的列表</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        /** 获取真实的播放源 */</span><br><span class="line">        getMediaSource: function (musicItem) &#123; // 入参：搜索结果中MusicItem类型的音乐</span><br><span class="line">            return &#123;</span><br><span class="line">                headers: undefined, // [可选] headers</span><br><span class="line">                url: &#x27;https://&#x27;, // 真实url,</span><br><span class="line">                userAgent: undefined, // [可选] 如果不填，会取headers的user-agent字段</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        /** 根据mediaBase信息（包括primaryKey） 获取歌曲的详细信息 [!!此函数暂时用不到 ] */</span><br><span class="line">        getMusicInfo: function (mediaBase) &#123;</span><br><span class="line">            return musicItem;</span><br><span class="line">        &#125;,</span><br><span class="line">        /** 获取歌词 */</span><br><span class="line">        getLyric: function (musicItem)&#123;</span><br><span class="line"></span><br><span class="line">            return &#123;</span><br><span class="line">                lrc: &#x27;http:///&#x27;, //歌词源,</span><br><span class="line">                rawLrc: &#x27;[00:00.000]这是一句歌词&#x27;, //纯文本的歌词</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        /** 获取专辑详细信息 */</span><br><span class="line">        getAlbumInfo: function (albumItem) &#123;</span><br><span class="line"></span><br><span class="line">            return &#123;</span><br><span class="line">                ...albumItem,</span><br><span class="line">                musicList: []</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        /** 查询作者的详细信息 */</span><br><span class="line">        getArtistWorks: function (artistItem, page, type) &#123;</span><br><span class="line">            if(type === &#x27;music&#x27;) &#123;</span><br><span class="line">                // 网络请求</span><br><span class="line">                return &#123;</span><br><span class="line">                    isEnd: false,</span><br><span class="line">                    data: [], // MusicItem类型音乐列表</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; </span><br><span class="line">            if(type === &#x27;album&#x27;) &#123;</span><br><span class="line">                // 网络请求</span><br><span class="line">                return &#123;</span><br><span class="line">                    isEnd: false,</span><br><span class="line">                    data: [], // AlbumItem类型音乐列表</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        /** 导入单曲 */</span><br><span class="line">        importMusicItem: function (urlLike) &#123;</span><br><span class="line">            return musicItem;</span><br><span class="line">        &#125;,</span><br><span class="line">        /** 导入歌单 */</span><br><span class="line">        importMusicSheet: function (urlLike) &#123;</span><br><span class="line">            const musicItems = [];</span><br><span class="line">            return musicItems;</span><br><span class="line">        &#125;</span><br><span class="line">       /** more */</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于涉及到缓存，并且其实我们并没有办法完全信任第三方插件的返回结果，因此在app中基于插件又封装了一层<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/pluginManager.ts#L132">PluginMethods</a>，实际使用的时候调用的是这些方法。当需要开发新的功能（比如获取热门歌单…时），也只需要补充一下插件协议，然后开发对应的页面即可。插件机制在app中的完整实现可以参考<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/pluginManager.ts#L132">这里</a>。</p>
+<p>最终的效果也确实符合预期（能搜到的都能播），甚至可以播放某K歌的音乐： ![IW58ZJ$40F&#96;3<del>2SN7</del>)G43T.png](<a target="_blank" rel="noopener" href="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f462be5be74a4f8abff34f047325c48a~tplv-k3u1fbpfcp-zoom-1.image">https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f462be5be74a4f8abff34f047325c48a~tplv-k3u1fbpfcp-zoom-1.image</a>)</p>
+<h2 id="播放队列"><a href="#播放队列" class="headerlink" title="播放队列"></a>播放队列</h2><p>音乐的播放使用了<a target="_blank" rel="noopener" href="https://github.com/doublesymmetry/react-native-track-player">react-native-track-player</a>(以下简称rntp)。这是一个功能比较完善的播放器，提供了播放音乐、播放队列管理等功能。首先来看下它的<a target="_blank" rel="noopener" href="https://react-native-track-player.js.org/docs/basics/getting-started/#adding-tracks-to-the-playback-queue">使用方式</a>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var track1 = &#123;</span><br><span class="line">    url: &#x27;http://example.com/avaritia.mp3&#x27;, // Load media from the network</span><br><span class="line">    title: &#x27;Avaritia&#x27;,</span><br><span class="line">    artist: &#x27;deadmau5&#x27;,</span><br><span class="line">    album: &#x27;while(1&lt;2)&#x27;,</span><br><span class="line">    genre: &#x27;Progressive House, Electro House&#x27;,</span><br><span class="line">    date: &#x27;2014-05-20T07:00:00+00:00&#x27;, // RFC 3339</span><br><span class="line">    artwork: &#x27;http://example.com/cover.png&#x27;, // Load artwork from the network</span><br><span class="line">    duration: 402 // Duration in seconds</span><br><span class="line">&#125;;</span><br><span class="line">await TrackPlayer.add([track1]);</span><br></pre></td></tr></table></figure>
+
+<p>其中url字段标记着媒体文件的播放源。这里就有了一个隐藏的问题：假如我们需要搜索某首歌（这里搜索一定是通过插件实现的）并点击播放；搜索结果中可能每一首音乐并不包含音频源的url，需要发起额外的网络请求，而这个时候如果我们为搜索结果的每一首歌都发起这样的请求，显然有些过分了。因此，获取某个音频的真实播放源的操作需要放在插件中，并且在播放前（点击播放、继续播放、播放结束切换到下一首）时执行。</p>
+<p>rntp内置的播放队列并不支持在播放前执行一个hook，同时按照文档中的描述，它也不支持在播放时替换正在播放的音频的url。因此在这里，我们需要用一点小小的黑魔法来解决问题——舍弃rntp内置的播放队列，基于它封装一个<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/musicQueue.ts">符合我们需求的播放队列</a>。 </p>
+<p>新的播放队列中维护着当前正在播放的音乐列表。每当播放某个音乐(musicItem)的时候，我们都需要首先根据musicItem获取真实的源(调用对应插件的getMediaSource方法)，然后再把音乐信息和源信息一起送给rntp的队列中播放，至此，点击播放的问题就解决了。 </p>
+<p>然而除了点击播放之外，顺序播放依然存在问题：如果正常一首歌曲播放完成，rntp会自动播放其内部队列中的下一首歌，而不会走到封装的播放逻辑。rntp提供了一些事件，比如当歌曲切换时会触发PlaybackTrackChanged事件，播放队列结束时会触发PlaybackQueueEnded事件等等。我们可以让rntp中只存在一首歌，每当触发PlaybackQueueEnded事件时，我们就知道这首歌播放结束了，这个时候就需要自动的执行下一首歌的逻辑了。 </p>
+<p>事实上，在具体代码实现中，是使用了<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/service/index.ts#L39">PlaybackTrackChanged事件</a>来监听播放结束的。这是因为rntp的安卓部分内部使用了exo player，在它的设计中，如果当前播放队列仅仅有一首歌，并且播放模式是顺序播放的话，那么在通知栏里面不会出现切换下一首歌的图标（向右的小箭头）。为此，具体实现中rntp的内部队列始终维护两首歌（当前正在播放，当前的下一首），track变化时便是播放结束的时机，此时执行我们封装好的skipNext函数即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> TrackPlayer.addEventListener(Event.PlaybackTrackChanged, async evt =&gt; &#123;</span><br><span class="line">        if (</span><br><span class="line">            evt.nextTrack === 1 &amp;&amp;</span><br><span class="line">            !(await TrackPlayer.getTrack(evt.nextTrack))?.url</span><br><span class="line">        ) &#123;</span><br><span class="line">            if (MusicQueue.getRepeatMode() === &#x27;SINGLE&#x27;) &#123;</span><br><span class="line">                await MusicQueue.play(undefined, true);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                const queue = await TrackPlayer.getQueue();</span><br><span class="line">                // 要跳到的下一个就是当前的，并且队列里面有多首歌</span><br><span class="line">                if (</span><br><span class="line">                    isSameMediaItem(</span><br><span class="line">                        queue[1] as unknown as ICommon.IMediaBase,</span><br><span class="line">                        MusicQueue.getCurrentMusicItem(),</span><br><span class="line">                    ) &amp;&amp;</span><br><span class="line">                    MusicQueue.getMusicQueue().length &gt; 1</span><br><span class="line">                ) &#123;</span><br><span class="line">                    return;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                await MusicQueue.skipToNext();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="歌词关联"><a href="#歌词关联" class="headerlink" title="歌词关联"></a>歌词关联</h2><p>上文中还提到，某些平台并不提供歌词（比如某些视频源）。对于这种情况，其实可以把不同源的歌词关联到一起。举个例子：我要播放B站源的歌曲，但是没有歌词。这个时候，我可以将其他源的歌词（尽管其他源可能没有版权，但是很多翻唱还是有歌词的）关联到这首歌：</p>
+<p><img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fd52606524ce48c49c299e2241b20e6c~tplv-k3u1fbpfcp-watermark.image" alt="Screenshot_20221004_173946_fun.upup.musicfree.jpg"></p>
+<p>这一部分的逻辑也是封装在<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/pluginManager.ts#L248">插件方法</a>里的，简单来讲，这些关联的歌词形成了一个链表，关联歌词本质上就是一个链表的递归： <img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fa291994f5e44f36bd14900ac3bfdc4a~tplv-k3u1fbpfcp-zoom-1.image" alt="2.drawio.png"> 每次都从链表末尾调用获取歌词的方法即可。需要注意的是，歌词关联可能会形成环路，当递归遇到环路时，需要识别并自动断开环。</p>
+<h2 id="其他细节"><a href="#其他细节" class="headerlink" title="其他细节"></a>其他细节</h2><p>不得不说，要做一个完备的播放器要考虑到的东西还是挺多的，包括<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/lrcParser.ts">歌词解析</a>、<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/config.ts">状态持久化</a>、<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/download.ts">下载队列</a>、<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/cache.ts">缓存</a>等等，牵扯到不少的知识点（比如递归、LRU、react、native相关甚至js引擎层的知识等等），也踩了不少坑。如果有人想知道的话再写吧，这里就不赘述了（写累了不想写了…）。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>目前这个播放器还是测试版本（但是基本功能已经差不多，日常使用没问题了），插件协议可能还会有变动。代码基于GPL协议开源：<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/">https://github.com/maotoumao/MusicFree/</a> （打不开就github换gitee），下载地址在<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/releases">github发布页</a>，使用方式在readme（实在不知道咋用的话直接问我吧…）。之后打算好好维护，能解决自己和身边朋友的问题就已经达到最初的预期了。</p>
+<p>如果你觉得这个项目还不错，欢迎给个star~ 点个关注鼓励一下也行。也可以关注b站：<a target="_blank" rel="noopener" href="https://space.bilibili.com/12866223">不想睡觉猫头猫</a>或者公众号↓（刚整了个还没怎么发东西）；不发水文，平时会更多分享一些自己做的好玩的小东西，学以致用才更有动力。谢谢你看到这里，下次想起来更新的时候再见~</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62999875eeca415c9428adb6a678ad7a~tplv-k3u1fbpfcp-zoom-1.image" alt="httpweixin.q.png"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/React-Native/" rel="tag"><i class="fa fa-tag"></i> React Native</a>
+              <a href="/tags/%E5%AE%89%E5%8D%93/" rel="tag"><i class="fa fa-tag"></i> 安卓</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/09/15/%E5%BC%80%E5%8F%91MusicFree%E6%8F%92%E4%BB%B6/" rel="prev" title="开发MusicFree插件">
+                  <i class="fa fa-angle-left"></i> 开发MusicFree插件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/01/09/ReactNative%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E2%80%94%E2%80%94%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F/" rel="next" title="【干货】React Native性能优化——长列表拖拽排序">
+                  【干货】React Native性能优化——长列表拖拽排序 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="阴阳师妖怪屋游戏中，关于计算最大羁绊的算法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阴阳师妖怪屋中的背包问题">
+<meta property="og:url" content="https://blog.catcat.work/2020/10/01/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B%E4%B8%AD%E7%9A%84%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="阴阳师妖怪屋游戏中，关于计算最大羁绊的算法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/blog-ygw-biandui.jpg">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/blog-ygw-jiban.jpg">
+<meta property="og:image" content="http://imgs.maotoumao.xyz/blog-ygw-jsq.jpg">
+<meta property="article:published_time" content="2020-10-01T09:07:46.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.309Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="node.js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://imgs.maotoumao.xyz/blog-ygw-biandui.jpg">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2020/10/01/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B%E4%B8%AD%E7%9A%84%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2020/10/01/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B%E4%B8%AD%E7%9A%84%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/","path":"2020/10/01/阴阳师妖怪屋中的背包问题/","title":"阴阳师妖怪屋中的背包问题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>阴阳师妖怪屋中的背包问题 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%84%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%9E%90"><span class="nav-number">3.</span> <span class="nav-text">分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%94%E7%A4%BA"><span class="nav-number">4.</span> <span class="nav-text">演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2020/10/01/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B%E4%B8%AD%E7%9A%84%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="阴阳师妖怪屋中的背包问题 | 猫头猫的博客">
+      <meta itemprop="description" content="阴阳师妖怪屋游戏中，关于计算最大羁绊的算法。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阴阳师妖怪屋中的背包问题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-10-01 17:07:46" itemprop="dateCreated datePublished" datetime="2020-10-01T17:07:46+08:00">2020-10-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">阴阳师妖怪屋游戏中，关于计算最大羁绊的算法。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>阴阳师妖怪屋小游戏作为阴阳师系列的第四部作品在前几天正式发布上线了，作为阴阳师老玩家的我，自然也要凑一个热闹。游戏的整体玩法是抽卡、弹球和养成，我们今天要说的，就是关于获取食材喂养式神的主要途径——探索。</p>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><p>探索玩法的规则是这样子的：我们需要派出我们的小式神组建一个小队，其中部分式神之间具有羁绊，不同的羁绊会有不同的加成比例。探索队伍的坑位和通过的关卡数有关，小队内最多有8个式神。所有式神之间的羁绊规则如下表：</p>
+<table>
+<thead>
+<tr>
+<th>羁绊名</th>
+<th>相关式神</th>
+<th>加成</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>春天在哪里</td>
+<td>樱花妖, 桃花妖</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>干了这杯酒</td>
+<td>酒吞童子, 茨木童子</td>
+<td>4%</td>
+</tr>
+<tr>
+<td>锅蛙赛跑</td>
+<td>山兔, 孟婆</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>黑白无常</td>
+<td>鬼使黑, 鬼使白</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>欢喜叠叠乐</td>
+<td>镰鼬, 铁鼠</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>来自崇天高云</td>
+<td>少羽大天狗, 大天狗</td>
+<td>4%</td>
+</tr>
+<tr>
+<td>老板您说</td>
+<td>鬼使黑, 鬼使白, 阎魔</td>
+<td>3%</td>
+</tr>
+<tr>
+<td>女孩当自强</td>
+<td>白狼, 妖刀姬, 萤草</td>
+<td>4%</td>
+</tr>
+<tr>
+<td>女子修炼组合</td>
+<td>白狼, 妖刀姬</td>
+<td>3%</td>
+</tr>
+<tr>
+<td>三途川一日游</td>
+<td>傀儡师, 阎魔</td>
+<td>3%</td>
+</tr>
+<tr>
+<td>诵经爱好者</td>
+<td>独眼小僧, 蝴蝶精</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>天邪鬼四</td>
+<td>天邪鬼赤, 天邪鬼青, 天邪鬼黄, 天邪鬼绿</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>为了大义</td>
+<td>大天狗, 雪女</td>
+<td>3%</td>
+</tr>
+<tr>
+<td>我的偶像</td>
+<td>萤草, 白狼</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>养狗还是养猫</td>
+<td>九命猫, 犬神</td>
+<td>2%</td>
+</tr>
+<tr>
+<td>捉蝴蝶的妖</td>
+<td>蝴蝶精, 巫蛊师</td>
+<td>2%</td>
+</tr>
+</tbody></table>
+<p>比如说，我在8个坑位中派出下面这个队伍：</p>
+<p><img src="http://imgs.maotoumao.xyz/blog-ygw-biandui.jpg" alt="妖怪屋队伍"></p>
+<p>在这个队伍中，因为我派出的式神凑齐了上边表格中的“女子修炼组合(3%)”、“我的偶像(2%)”，“黑白无常(2%)”，“女孩当自强(4%)”，“老板您说(3%)”以及“三途川一日游(3%)”，加起来也就是凑够了17%的加成：</p>
+<p><img src="http://imgs.maotoumao.xyz/blog-ygw-jiban.jpg" alt="妖怪屋羁绊"></p>
+<p>当然，羁绊的加成越高，那也就意味着我们的收益越高。手算怎么获取最大加成，对我这种没抽齐卡池的，算起来还是比较花时间的。那么，我们可不可以自动的去根据我们已有的式神，计算探索队伍的最优项呢？</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>到此为止，游戏规则我们已经清楚了。试着把表述的再简洁一些的话，那就是：对于式神集合$ \Omega &#x3D; { \omega_0, \omega_1, … }$来说，在羁绊规则函数：$ f(\omega^i),   (\omega \in \Omega , 2 \le i \le 4)$的约束下，选取$k, (k \le 8)$个式神，尽可能的让所选式神构成的$ f(\omega^i) $之和最大。  </p>
+<p>观察刚才的问题描述，我们需要在8个坑位挑选不超过8个式神，使得总加成最大。很直接的，我们可以想到0-1背包问题。在这里我们回顾一下0-1背包问题：  </p>
+<blockquote>
+<p>假如我们有$n$种物品，每种物品只有1个，其中物品$j$的重量为$w_j$，价值为$v_j$，背包最多能承受的重量为$W$，我们希望在背包内尽可能装下总价值更高的物品。</p>
+</blockquote>
+<p>看看，是不是差不多对应上了：$n$个物品对应$n$个式神，每一个式神$j$的“重量”$w_j$都是1，“价值”，也就是羁绊加成，由羁绊规则来确定；在探索队伍这个容量为$W$背包下，希望让价值最大化。这其中，唯一没有对应上的就是“物品”的“价值”，根据羁绊规则，当两个或者多个式神凑在一起的时候，“物品”才有了价值，单独的一个式神是没有任何加成的。因此，我们需要对羁绊规则进行进一步分析。</p>
+<p>根据羁绊规则表，我们最终的选择显然是满足以下条件的：</p>
+<ul>
+<li>当前没有的式神，一定不是最终队伍中选择的式神；</li>
+<li>最终队伍中选择的式神，一定是羁绊列表中列出的式神。</li>
+</ul>
+<p>两句话看似废话，其实可以告诉我们很多信息：首先，由于我们的式神并没有覆盖全卡池，因此假如说我没有茨木童子，那么对于“干了这杯酒”这个羁绊来说，我肯定是凑不齐的了。因此，我们根据已有卡池，在羁绊规则中过滤掉与我们没有抽到的式神相关的羁绊，从而删除了无效羁绊。</p>
+<p>第二：我们在选择候选式神的时候，只需要从羁绊列表中选取部分羁绊规则，使得这些羁绊的加成最大，并且羁绊中涉及到的式神数不超过最大坑位数。</p>
+<p>那么，如果从羁绊规则的角度考虑的话，我们可以把每一个羁绊规则看作一个“物品”，它的“重量”指的是规则中涉及的式神数量，“价值”指的是这个羁绊对应的加成。这样一来，就完美的对上了0-1背包问题。</p>
+<p>但是，这其中还有一个小问题：把每一个羁绊规则看作一个“物品”时，不同的“物品”之间可能有重叠。举个例子：“女孩当自强”这个羁绊中涉及到了白狼、妖刀姬和萤草，但是对于“我的偶像”这个羁绊，它也涉及到了白狼和萤草。而这两个羁绊中涉及到的白狼和萤草其实是同样的式神。换言之，物品的重量可能会相互影响。</p>
+<p>为了解决这个问题，其实我们只需要在每次选择一个规则的时候，重置一下其他规则的“重量”： 比如说当我们选中“女孩当自强”这个羁绊规则的时候，也就意味着我们选中了白狼、妖刀姬和萤草。那么，选中它之后，我们临时将白狼、萤草、妖刀姬的“重量”都置为0，于是，在探索队伍中选中“女孩当自强”这个羁绊的情况下，“我的偶像”这个羁绊的“重量”就变成了0。对于背包问题来说，我们优化的目标是尽可能的在包里塞下贵的东西，一个重量为0但是又有价值的东西来说，为什么不把它装在包里呢？</p>
+<p>综合以上，我们得出了我们的递归公式：<br>$g(k, rules) &#x3D; max(g(k-rule.weight, handler(rules, rule)))$，<br>其中：$rule$表示羁绊规则中的任意一条羁绊，$handler()$表示一个函数，它将根据选中的羁绊，重置全部羁绊规则。</p>
+<h2 id="演示"><a href="#演示" class="headerlink" title="演示"></a>演示</h2><p>根据上边的分析，下一步当然就是实现啦。主要就是根据上述分析，实现了个递归，然后写了个网页。效果图大概是这样的：<br><img src="http://imgs.maotoumao.xyz/blog-ygw-jsq.jpg" alt="羁绊计算器"></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>页面的体验地址<a target="_blank" rel="noopener" href="http://tools.maotoumao.xyz/ygw-jiban/">点击这里</a>(<a target="_blank" rel="noopener" href="http://tools.maotoumao.xyz/ygw-jiban/)%EF%BC%9B">http://tools.maotoumao.xyz/ygw-jiban/)；</a><br>代码就不贴了，github地址<a target="_blank" rel="noopener" href="https://github.com/maotoumao/ygw-jiban">点击这里</a>；gitee地址<a target="_blank" rel="noopener" href="https://gitee.com/maotoumao/ygw-jiban">点击这里</a>，有兴趣的自己看叭。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/node-js/" rel="tag"><i class="fa fa-tag"></i> node.js</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/09/13/%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8FPC%E7%AB%AF%E8%A7%A3%E5%AF%86/" rel="prev" title="微信小程序PC端解密">
+                  <i class="fa fa-angle-left"></i> 微信小程序PC端解密
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/10/18/%E9%98%B4%E9%98%B3%E5%B8%88%E5%A6%96%E6%80%AA%E5%B1%8B-%E4%BD%A0%E7%9A%84%E5%BC%8F%E7%A5%9E%E6%98%AF%E6%80%8E%E4%B9%88%E8%A2%AB%E5%89%AA%E5%87%BA%E6%9D%A5%E7%9A%84/" rel="next" title="【阴阳师妖怪屋】你的式神是怎么被剪出来的？">
+                  【阴阳师妖怪屋】你的式神是怎么被剪出来的？ <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

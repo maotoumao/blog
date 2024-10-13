@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="MusicFree插件的实现原理。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MusicFree插件实现原理">
+<meta property="og:url" content="https://blog.catcat.work/2023/03/27/MusicFree%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="MusicFree插件的实现原理。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/27/ingN93.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/27/ine1ov.png">
+<meta property="og:image" content="https://i.328888.xyz/2023/03/27/inFRLk.png">
+<meta property="article:published_time" content="2023-03-27T13:59:32.000Z">
+<meta property="article:modified_time" content="2024-10-13T13:42:51.159Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.328888.xyz/2023/03/27/ingN93.png">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2023/03/27/MusicFree%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2023/03/27/MusicFree%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/","path":"2023/03/27/MusicFree插件实现原理/","title":"MusicFree插件实现原理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MusicFree插件实现原理 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">插件原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B"><span class="nav-number">2.1.</span> <span class="nav-text">从零开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8B%BE%E5%85%A5%E8%BF%90%E8%A1%8C%E6%97%B6%E7%8E%AF%E5%A2%83"><span class="nav-number">2.2.</span> <span class="nav-text">勾入运行时环境</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E4%B8%8E%E6%A8%A1%E5%9D%97"><span class="nav-number">3.</span> <span class="nav-text">插件与模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%8A%E7%AB%AF"><span class="nav-number">3.1.</span> <span class="nav-text">弊端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%BE%E8%B0%83%E8%AF%95"><span class="nav-number">3.1.1.</span> <span class="nav-text">难调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%BE%E5%BC%80%E5%8F%91"><span class="nav-number">3.1.2.</span> <span class="nav-text">难开发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97"><span class="nav-number">3.2.</span> <span class="nav-text">模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CommonJS"><span class="nav-number">3.3.</span> <span class="nav-text">CommonJS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#module-exports"><span class="nav-number">3.3.1.</span> <span class="nav-text">module &amp; exports</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#require"><span class="nav-number">3.3.2.</span> <span class="nav-text">require</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8C%96%E7%9A%84%E6%8F%92%E4%BB%B6"><span class="nav-number">3.4.</span> <span class="nav-text">模块化的插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-number">3.5.</span> <span class="nav-text">定义全局变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%98%AF%E7%94%A8%E6%9D%A5%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98%E7%9A%84"><span class="nav-number">4.</span> <span class="nav-text">代码是用来解决问题的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE"><span class="nav-number">5.</span> <span class="nav-text">结尾</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2023/03/27/MusicFree%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MusicFree插件实现原理 | 猫头猫的博客">
+      <meta itemprop="description" content="MusicFree插件的实现原理。">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MusicFree插件实现原理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-03-27 21:59:32" itemprop="dateCreated datePublished" datetime="2023-03-27T21:59:32+08:00">2023-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">前端</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+            <div class="post-description">MusicFree插件的实现原理。</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>上周整理了MusicFree插件的<a target="_blank" rel="noopener" href="http://musicfree.upup.fun/docs/tutorial-plugin/intro/">开发文档</a>，整理完想着还是把插件的原理写的再明白些比较好，所以还是记录下吧。</p>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>MusicFree播放器是一个基于<strong>React Native</strong>的<strong>插件化</strong>的音乐播放器。所谓插件化，就是APP内部会调用插件内定义的函数，去完成播放音乐、搜索音乐等行为，简单的架构如下图所示。早期的设计思路<a target="_blank" rel="noopener" href="https://juejin.cn/post/7150589489881022478">可以点击这里</a>；前阵子改了一版，虽然插件协议有所改动，但原理大同小异。</p>
+<p><img src="https://i.328888.xyz/2023/03/27/ingN93.png" alt="ingN93.png"></p>
+<h1 id="插件原理"><a href="#插件原理" class="headerlink" title="插件原理"></a>插件原理</h1><h2 id="从零开始"><a href="#从零开始" class="headerlink" title="从零开始"></a>从零开始</h2><p>既然是插件，显然它会以外部文件(.js)的形式独立于APP存在。为了实现插件，第一件要做的事情就是<strong>读入外部文件</strong>（也就是所谓插件）的代码，然后将具备这个特定功能的插件代码在APP运行时hook入程序中。   </p>
+<p>为了获取到插件内的信息，我们需要插件整体是一个<strong>函数</strong>，通过执行这个函数得到的返回值获取插件提供的信息。 </p>
+<p>由于React Native自带一个js引擎，因此这部分只需要采用javascript原生的Function语法实现即可：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// plugin.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">rawPlugin</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">platform</span>: <span class="string">&quot;插件名&quot;</span>,</span><br><span class="line">        <span class="title function_">getLyric</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;我是歌词&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// pluginManager.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;readFile&#125; <span class="keyword">from</span> <span class="string">&#x27;react-native-fs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从某个路径加载插件</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">loadPlugin</span>(<span class="params"><span class="attr">pluginPath</span>: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> rawCode = <span class="keyword">await</span> <span class="title function_">readFile</span>(pluginPath, <span class="string">&#x27;utf8&#x27;</span>); <span class="comment">// 得到文本格式的代码</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个自执行函数</span></span><br><span class="line">    <span class="keyword">const</span> pluginInstance = <span class="title class_">Function</span>(<span class="string">`</span></span><br><span class="line"><span class="string">        &#x27;use strict&#x27;;</span></span><br><span class="line"><span class="string">        try &#123;</span></span><br><span class="line"><span class="string">            return <span class="subst">$&#123;rawCode&#125;</span>;</span></span><br><span class="line"><span class="string">        &#125; catch (e) &#123;</span></span><br><span class="line"><span class="string">            return () =&gt; &#123;&#125;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    `</span>)()();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pluginInstance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">loadPlugin</span>(<span class="string">&#x27;plugin.js&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>以上代码也比较直白：  </p>
+<ol>
+<li>第一步：读入外部文件；</li>
+<li>第二步：创建一个Function，函数体为一个字符串（执行完成后得到这个函数）；</li>
+<li>第三步：执行这个Function，得到函数rawCode（别忘了，插件是一个函数），也就是第一个括号；</li>
+<li>第四步：执行插件函数(其实就是rawPlugin())，得到插件提供的信息（也就是rawCode内部的返回值）。</li>
+</ol>
+<h2 id="勾入运行时环境"><a href="#勾入运行时环境" class="headerlink" title="勾入运行时环境"></a>勾入运行时环境</h2><p>由于插件运行在客户端APP上，也就是运行时环境中；在APP调用插件的时候也可以通过<strong>插件的入参</strong>来为插件提供一些<strong>运行时的上下文</strong>，比如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// plugin.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">rawPlugin</span>(<span class="params">runtimeContext</span>)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// app内调用插件的时候，这里会打印出一些运行时的信息</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(runtimeContext);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">platform</span>: <span class="string">&quot;插件名&quot;</span>,</span><br><span class="line">        <span class="title function_">getLyric</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;我是歌词&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// pluginManager.ts</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;readFile&#125; <span class="keyword">from</span> <span class="string">&#x27;react-native-fs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从某个路径加载插件</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">loadPlugin</span>(<span class="params"><span class="attr">pluginPath</span>: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> rawCode = <span class="keyword">await</span> <span class="title function_">readFile</span>(pluginPath, <span class="string">&#x27;utf8&#x27;</span>); <span class="comment">// 得到文本格式的代码</span></span><br><span class="line">    <span class="keyword">const</span> runtimeContext = &#123;</span><br><span class="line">        <span class="attr">foo</span>: <span class="string">&#x27;bar&#x27;</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 创建一个自执行函数</span></span><br><span class="line">    <span class="keyword">const</span> pluginInstance = <span class="title class_">Function</span>(<span class="string">`</span></span><br><span class="line"><span class="string">        &#x27;use strict&#x27;;</span></span><br><span class="line"><span class="string">        try &#123;</span></span><br><span class="line"><span class="string">            return <span class="subst">$&#123;rawCode&#125;</span>;</span></span><br><span class="line"><span class="string">        &#125; catch (e) &#123;</span></span><br><span class="line"><span class="string">            return () =&gt; &#123;&#125;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    `</span>)()(runtimeContext);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> pluginInstance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">loadPlugin</span>(<span class="string">&#x27;plugin.js&#x27;</span>)  <span class="comment">// 控制台输出：&#123;&quot;foo&quot;: &quot;bar&quot;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>仔细回顾一下上一小节的流程，实质上就是在运行插件函数的时候传递了runtimeContext的入参，使得插件内部可以获取到运行时的信息。</p>
+<p>在实际的实现中，runtime主要包括一些<strong>内置的npm包</strong>，从而使得插件可以与APP共享某些npm包以简化开发流程，如axios、he、cheerio等。</p>
+<p>这样，基本的插件原理实现了，实际上这也就是最早版本插件的实现方式。但是这样写起来并不怎么舒服。</p>
+<h1 id="插件与模块"><a href="#插件与模块" class="headerlink" title="插件与模块"></a>插件与模块</h1><h2 id="弊端"><a href="#弊端" class="headerlink" title="弊端"></a>弊端</h2><p>上述写法固然实现了目的，但看起来不是最好的解决方案。原因有二：<strong>1. 难调试 2. 难开发</strong>。  </p>
+<h3 id="难调试"><a href="#难调试" class="headerlink" title="难调试"></a>难调试</h3><p>先说第一点，难调试。由于之前的插件都是形如：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// plugin.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">pluginName</span>(<span class="params"><span class="attr">npmPackages</span>: <span class="title class_">INpmPackages</span></span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">platform</span>: <span class="string">&quot;插件名&quot;</span>,</span><br><span class="line">        <span class="keyword">async</span> <span class="title function_">someMethod</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125; <span class="keyword">as</span> <span class="title class_">PluginInstance</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>的函数，因此调试便成了很大的问题。<br>如果要调试，由于插件不支持模块导入（无论是ES6还是CommonJS），为了不影响插件内容，需要复制到一个新的文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// test.ts</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&quot;axios&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> cheerio <span class="keyword">from</span> <span class="string">&quot;cheerio&quot;</span>;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/** 以下是复制的插件代码 */</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">pluginName</span>(<span class="params">npmPackages: INpmPackages</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">        <span class="attr">platform</span>: <span class="string">&quot;插件名&quot;</span>,</span><br><span class="line">        <span class="keyword">async</span> <span class="title function_">someMethod</span>(<span class="params"></span>)&#123;</span><br><span class="line"></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125; <span class="keyword">as</span> <span class="title class_">PluginInstance</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> pluginInstance = <span class="title function_">pluginName</span>(&#123;</span><br><span class="line">    axios,</span><br><span class="line">    cheerio</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">/** 以上是复制的插件代码 */</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(pluginInstance.<span class="property">platform</span>); <span class="comment">// 输出: 插件名</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>需要写一大堆辅助代码之后，才可以开始调试验证。这也导致之前有反馈说：不知道怎么调试，APP环境也比较难启动；<br>并且就算用APP环境下加载插件调试，也需要不停地把插件从电脑上拷贝到手机上，然后再在APP内加载，然后再看错误日志，非常麻烦。</p>
+<h3 id="难开发"><a href="#难开发" class="headerlink" title="难开发"></a>难开发</h3><p>再看第二点：难开发。由于插件本质上是一个嵌入Function内的单文件js函数，因此模块导入&#x2F;导出语法用不了，进而webpack、esbuild等工程化工具用起来也会很麻烦：<br>需要把target设置成IIFE，打包出来的bundle导入APP的时候还不一定会出什么问题。</p>
+<p>基于以上弊端，对插件做了一次改版。</p>
+<h2 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h2><p>其实，如果<strong>把插件看作一个模块</strong>，问题似乎就迎刃而解了：</p>
+<ol>
+<li>插件是一段<strong>职责单一</strong>的js代码，不同的插件之间功能<strong>无任何交集</strong>。</li>
+<li>插件的入参是<strong>运行时环境</strong>，返回值是<strong>插件实例</strong>。</li>
+<li>目前已经有<strong>标准的模块规范</strong>(ES6模块&#x2F;CommonJS)，其中通过import&#x2F;require来加载npm包或其他模块；通过export或者module.exports导出当前模块。</li>
+</ol>
+<p>基于以上，似乎也可以把插件看作一个CommonJS模块：  </p>
+<ul>
+<li>通过<strong>require或者类似“全局变量”</strong>的方式获取运行时环境；</li>
+<li>通过<strong>module.exports</strong>导出插件实例。</li>
+</ul>
+<p>完美扣上CommonJS模块的概念。同时，由于nodejs的模块化方案就是<strong>CommonJS</strong>，因此采用模块方案定义的插件可以在node.js环境下直接调用，不需要任何的复制粘贴以及辅助脚本。</p>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h2><p>先来看下CommonJS模块规范吧。由于这块太过基础，因此就简单带下。CommonJS认为，每个文件都是一个模块。每个模块内都可以获取一些全局变量，用来导入或者导出模块，分别是：module、require、exports。   </p>
+<h3 id="module-exports"><a href="#module-exports" class="headerlink" title="module &amp; exports"></a>module &amp; exports</h3><p>module代表着当前模块，是一个对象。其中，有一个特殊的字段“exports”，指代着当前模块的导出对象；你可以通过给这个字段赋值来控制当前模块的导出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// module1.js</span></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">foo</span>: <span class="string">&#x27;bar&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同时，exports全局变量也指向着module.exports，因此也可以通过如下方式改变导出的对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// module2.js</span></span><br><span class="line"><span class="built_in">exports</span>.<span class="property">foo</span> = <span class="string">&#x27;bar&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="require"><a href="#require" class="headerlink" title="require"></a>require</h3><p>require是一个函数，用来导入模块，其实也就是获取其他模块的module.exports导出的字段：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// module3.js</span></span><br><span class="line"><span class="keyword">const</span> module1 = <span class="built_in">require</span>(<span class="string">&#x27;module1.js&#x27;</span>); <span class="comment">/// &#123;foo: &#x27;bar&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来需要思考的是：如何让MusicFree支持形如:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/// pluginNew.js</span></span><br><span class="line"><span class="keyword">const</span> axios = <span class="built_in">require</span>(<span class="string">&#x27;axios&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">    <span class="attr">platform</span>: <span class="string">&quot;插件名&quot;</span>,</span><br><span class="line">    <span class="keyword">async</span> <span class="title function_">getLyric</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>的插件。</p>
+<h2 id="模块化的插件"><a href="#模块化的插件" class="headerlink" title="模块化的插件"></a>模块化的插件</h2><p>我们可以试下把上述代码贴到浏览器控制台会发生什么：<br><img src="https://i.328888.xyz/2023/03/27/ine1ov.png" alt="ine1ov.png">  </p>
+<p>显然，缺少上文提到的三个全局变量：require、module和exports。接下来我们要做的是给加载“插件模块”的过程做一些改造(假定rawCode是上边pluginNew.js内的文本)：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">const</span> pluginInstance = <span class="title class_">Function</span>(<span class="string">`</span></span><br><span class="line"><span class="string">    &#x27;use strict&#x27;;</span></span><br><span class="line"><span class="string">    try &#123;</span></span><br><span class="line"><span class="string">        return <span class="subst">$&#123;rawCode&#125;</span>; // 这里会出问题</span></span><br><span class="line"><span class="string">    &#125; catch (e) &#123;</span></span><br><span class="line"><span class="string">        return () =&gt; &#123;&#125;;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span>)()(_require, _module, _exports);</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>由于<strong>rawCode现在不是函数</strong>了，为了让插件内部可以获取到三个特定的全局变量，我们需要手动地包一层函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"><span class="keyword">const</span> pluginInstance = <span class="title class_">Function</span>(<span class="string">`</span></span><br><span class="line"><span class="string">    &#x27;use strict&#x27;;</span></span><br><span class="line"><span class="string">    try &#123;</span></span><br><span class="line"><span class="string">        return function(require, module, exports) &#123;</span></span><br><span class="line"><span class="string">            <span class="subst">$&#123;rawCode&#125;</span></span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125; catch (e) &#123;</span></span><br><span class="line"><span class="string">        return () =&gt; &#123;&#125;;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">`</span>)()(_require, _module, _exports);</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>现在再分析一下过程：  </p>
+<ol>
+<li>创建一个Function</li>
+<li>执行Function，得到函数内部的返回值</li>
+<li>执行：<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"><span class="built_in">require</span>, <span class="variable language_">module</span>, <span class="built_in">exports</span></span>) &#123;</span><br><span class="line">    $&#123;rawCode&#125;</span><br><span class="line">&#125;)(_require, _module, _exports)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>思考一下，此时rawCode内获取到的require、module和exports是APP内<strong>运行时环境下提供给插件</strong>的，当这个函数执行完毕后，我们可以从module.exports中获取到我们需要的插件返回值；同时也可以用require加载APP内部的npm包。</p>
+<p>最后一步要做的，便是重新定义一下require，module和exports了。</p>
+<h2 id="定义全局变量"><a href="#定义全局变量" class="headerlink" title="定义全局变量"></a>定义全局变量</h2><p>根据上文，module和exports其实很好办：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意：此段代码是在APP内部ReactNative环境下实现</span></span><br><span class="line"><span class="keyword">const</span> _module = &#123;</span><br><span class="line">    <span class="attr">exports</span>: &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _exports = _module.<span class="property">exports</span>;</span><br></pre></td></tr></table></figure>
+
+<p>require相对来说复杂点，我们整理一下我们目前的信息：</p>
+<ol>
+<li>require是个函数</li>
+<li>require入参是npm包名（在加载npm包的情况下）</li>
+<li>require的返回值会直接被模块使用</li>
+</ol>
+<p>因此，我们可以做一个简单的模拟require:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意：此段代码是在APP内部ReactNative环境下实现</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> cheerio <span class="keyword">from</span> <span class="string">&#x27;cheerio&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">CryptoJS</span> <span class="keyword">from</span> <span class="string">&#x27;crypto-js&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在app内安装的npm包</span></span><br><span class="line"><span class="keyword">const</span> packages = &#123;</span><br><span class="line">    axios,</span><br><span class="line">    cheerio</span><br><span class="line">    <span class="string">&#x27;crypto-js&#x27;</span>: <span class="title class_">CryptoJS</span>,</span><br><span class="line">    <span class="comment">// ... </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">_require</span> = (<span class="params">packageName: string</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> pkg = packages[packageName];</span><br><span class="line">    <span class="keyword">return</span> pkg;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>现在回过头看，新的“模块化插件”已经诞生了，最终的插件信息会挂载到module.exports上：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> cheerio <span class="keyword">from</span> <span class="string">&#x27;cheerio&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="title class_">CryptoJS</span> <span class="keyword">from</span> <span class="string">&#x27;crypto-js&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123;readFile&#125; <span class="keyword">from</span> <span class="string">&#x27;react-native-fs&#x27;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 在app内安装的npm包</span></span><br><span class="line"><span class="keyword">const</span> packages = &#123;</span><br><span class="line">    axios,</span><br><span class="line">    cheerio</span><br><span class="line">    <span class="string">&#x27;crypto-js&#x27;</span>: <span class="title class_">CryptoJS</span>,</span><br><span class="line">    <span class="comment">// 其他内置的包... </span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">_require</span> = (<span class="params"><span class="attr">packageName</span>: <span class="built_in">string</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">let</span> pkg = packages[packageName];</span><br><span class="line">    <span class="keyword">return</span> pkg;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 从某个路径加载插件</span></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">loadPlugin</span>(<span class="params"><span class="attr">pluginPath</span>: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> rawCode = <span class="keyword">await</span> <span class="title function_">readFile</span>(pluginPath, <span class="string">&#x27;utf8&#x27;</span>); <span class="comment">// 得到文本格式的代码</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 初始化模块信息</span></span><br><span class="line">    <span class="keyword">const</span> _module = &#123;</span><br><span class="line">        <span class="attr">exports</span>: &#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">const</span> _exports = _module.<span class="property">exports</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> pluginInstance = <span class="title class_">Function</span>(<span class="string">`</span></span><br><span class="line"><span class="string">        &#x27;use strict&#x27;;</span></span><br><span class="line"><span class="string">        try &#123;</span></span><br><span class="line"><span class="string">            return function(require, module, exports) &#123;</span></span><br><span class="line"><span class="string">                <span class="subst">$&#123;rawCode&#125;</span></span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        &#125; catch (e) &#123;</span></span><br><span class="line"><span class="string">            return () =&gt; &#123;&#125;;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    `</span>)()(_require, _module, _exports);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> _module.<span class="property">exports</span>; <span class="comment">// 模块的导出</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">loadPlugin</span>(<span class="string">&#x27;pluginNew.js&#x27;</span>)  </span><br></pre></td></tr></table></figure>
+
+<p>仔细看看这段代码，是不是和经常被问到的所谓“commonjs模块原理是什么”差不多呢？</p>
+<h1 id="代码是用来解决问题的"><a href="#代码是用来解决问题的" class="headerlink" title="代码是用来解决问题的"></a>代码是用来解决问题的</h1><p>这章标题是随便取的，其实也是我的一个小观念。在写了一堆代码之后，自然要看一下这样子一通折腾有没有解决最初的两个问题。</p>
+<p>从开发上来说，由于使用了commonjs模块，我可以使用更多的技术去降低开发成本：使用typescript、使用webpack等工程化工具，并且只需要把最终打包时的target设置为CommonJS即可。开发时也不再仅限于“只能写一个单文件”；甚至可以引入一些没有内置的npm包，只需要最终打包时把源码打进插件就可以了。</p>
+<p>从调试上来说，nodejs环境下运行插件与APP环境下运行插件几乎无区别，因此可以直接一边开发一边调试以验证插件是否符合预期，大大降低了成本：</p>
+<p><img src="https://i.328888.xyz/2023/03/27/inFRLk.png" alt="inFRLk.png"></p>
+<p>以及，除了对上述require、module和exports的实现外，也可以用类似的方式屏蔽掉插件内所有的console.log，只需要用类似的方式重新定义一下console对象即可。</p>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>本文中的主要代码可以在<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree/blob/master/src/core/pluginManager.ts">这里</a>看到。</p>
+<p>MusicFree是一个基于GPL3开源的免费音乐播放器，源代码地址：<a target="_blank" rel="noopener" href="https://github.com/maotoumao/MusicFree%EF%BC%8C%E6%AC%A2%E8%BF%8E%E7%82%B9%E4%B8%AAstar">https://github.com/maotoumao/MusicFree，欢迎点个star</a>~</p>
+<p>感兴趣的话也可以<a target="_blank" rel="noopener" href="https://wwzb.lanzoue.com/b041xm5fg">戳这里</a>下载。个人业余作品，只是用于满足个人需求和技术探索。仅供学习参考，不要用于商业目的~</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"><i class="fa fa-tag"></i> 前端</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/02/20/%E4%BD%A0%E7%94%9F%E6%88%90%E7%9A%84AI%E7%BB%98%E7%94%BB%EF%BC%8C%E4%B8%8B%E4%B8%80%E7%A7%92%E5%B0%B1%E6%98%AF%E6%88%91%E7%9A%84%E4%BA%86/" rel="prev" title="你生成的AI绘画，下一秒就是我的了">
+                  <i class="fa fa-angle-left"></i> 你生成的AI绘画，下一秒就是我的了
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/07/04/%E7%A6%BB%E8%81%8C%E6%97%A5%E8%AE%B0/" rel="next" title="离职日记">
+                  离职日记 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
