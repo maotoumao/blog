@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "create post": "hexo new 新文章",
     "build": "hexo generate",
     "clean": "hexo clean",
     "deploy": "hexo deploy",
