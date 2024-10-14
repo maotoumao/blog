@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/avatar.jpg">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/avatar.jpg">
+  <link rel="mask-icon" href="/images/avatar.jpg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前言前阵子不知道为啥，一直用的域名突然被阿里云封了，申诉也不给解封，只好换个域名。正好整理一下博客，太久没更新都吃灰了，新的博客地址是 https:&#x2F;&#x2F;blog.catcat.work 需求B 站 6 级之后可以通过在手机端答题升级为 “硬核会员”。题库分为几个分区，用户可以选择其中的一个或几个分区去答题，总共 100 道题，2 小时内答对 60 道就算通过。题目都是选择题。对我来说，直接答题太困">
+<meta property="og:type" content="article">
+<meta property="og:title" content="两分钱速通B站硬核会员">
+<meta property="og:url" content="https://blog.catcat.work/2024/10/13/%E9%80%9F%E9%80%9AB%E7%AB%99%E7%A1%AC%E6%A0%B8%E4%BC%9A%E5%91%98/index.html">
+<meta property="og:site_name" content="猫头猫的博客">
+<meta property="og:description" content="前言前阵子不知道为啥，一直用的域名突然被阿里云封了，申诉也不给解封，只好换个域名。正好整理一下博客，太久没更新都吃灰了，新的博客地址是 https:&#x2F;&#x2F;blog.catcat.work 需求B 站 6 级之后可以通过在手机端答题升级为 “硬核会员”。题库分为几个分区，用户可以选择其中的一个或几个分区去答题，总共 100 道题，2 小时内答对 60 道就算通过。题目都是选择题。对我来说，直接答题太困">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.catcat.work/images/bilibili-%E7%A1%AC%E6%A0%B8%E4%BC%9A%E5%91%98.png">
+<meta property="og:image" content="https://blog.catcat.work/images/bilibili-%E7%AD%94%E9%A2%98%E6%88%AA%E5%9B%BE.jpg">
+<meta property="og:image" content="https://blog.catcat.work/images/bilibili-%E7%AD%94%E9%A2%98ocr%E6%88%AA%E5%9B%BE.jpg">
+<meta property="og:image" content="https://blog.catcat.work/images/bilibili-%E7%AD%94%E6%A1%88.jpg">
+<meta property="og:image" content="https://blog.catcat.work/images/bilibili-%E9%80%9A%E5%85%B3%E6%88%AA%E5%9B%BE.png">
+<meta property="og:image" content="https://blog.catcat.work/images/bilibili-%E8%8A%B1%E8%B4%B9%E6%88%AA%E5%9B%BE.png">
+<meta property="article:published_time" content="2024-10-13T14:44:42.000Z">
+<meta property="article:modified_time" content="2024-10-14T15:53:32.735Z">
+<meta property="article:author" content="猫头猫">
+<meta property="article:tag" content="前端">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.catcat.work/images/bilibili-%E7%A1%AC%E6%A0%B8%E4%BC%9A%E5%91%98.png">
+
+
+<link rel="canonical" href="https://blog.catcat.work/2024/10/13/%E9%80%9F%E9%80%9AB%E7%AB%99%E7%A1%AC%E6%A0%B8%E4%BC%9A%E5%91%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2024/10/13/%E9%80%9F%E9%80%9AB%E7%AB%99%E7%A1%AC%E6%A0%B8%E4%BC%9A%E5%91%98/","path":"2024/10/13/速通B站硬核会员/","title":"两分钱速通B站硬核会员"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>两分钱速通B站硬核会员 | 猫头猫的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">猫头猫的博客</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-作品"><a href="/works/" rel="section"><i class="fa fa-lightbulb fa-fw"></i>作品</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82"><span class="nav-number">2.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%AA%97%E5%8F%A3%E6%88%AA%E5%9B%BE"><span class="nav-number">4.1.</span> <span class="nav-text">获取窗口截图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%86%E5%88%AB%E9%A2%98%E7%9B%AE"><span class="nav-number">4.2.</span> <span class="nav-text">识别题目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E7%AD%94%E9%A2%98"><span class="nav-number">4.3.</span> <span class="nav-text">自动答题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%88%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">效果</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="猫头猫"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">猫头猫</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/maotoumao" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;maotoumao" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/upupfun" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;upupfun" rel="noopener me" target="_blank"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2024/10/13/%E9%80%9F%E9%80%9AB%E7%AB%99%E7%A1%AC%E6%A0%B8%E4%BC%9A%E5%91%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="猫头猫">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="两分钱速通B站硬核会员 | 猫头猫的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          两分钱速通B站硬核会员
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-10-13 22:44:42" itemprop="dateCreated datePublished" datetime="2024-10-13T22:44:42+08:00">2024-10-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-10-14 23:53:32" itemprop="dateModified" datetime="2024-10-14T23:53:32+08:00">2024-10-14</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前阵子不知道为啥，一直用的域名突然被阿里云封了，申诉也不给解封，只好换个域名。正好整理一下博客，太久没更新都吃灰了，新的博客地址是 <a href="https://blog.catcat.work/">https://blog.catcat.work</a></p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>B 站 6 级之后可以通过在<strong>手机端</strong>答题升级为 “硬核会员”。题库分为几个分区，用户可以选择其中的一个或几个分区去答题，总共 100 道题，2 小时内答对 60 道就算通过。题目都是选择题。对我来说，直接答题太困难了，百度搜 100 道题又太费时间，不如直接写个脚本，自动 “搜索” 参考答案。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>期望的效果是：界面出现题目后，脚本可以自动获取参考答案。细化一些考虑，问题首先可以被拆分成两步：</p>
+<ul>
+<li>第一步：获取界面中展示的题目和选项的<strong>文字</strong>内容</li>
+<li>第二步：根据题目和选项获取参考答案</li>
+</ul>
+<p>第一步可以使用无障碍、OCR等工具实现获取屏幕中的文字内容，简单起见使用OCR就够了。</p>
+<p>第二步的话，很久以前写过一个微信读书自动答题的脚本，是用的百度搜索，但效果太差了。大模型做这种问答类的题目其实效果还是蛮不错的，毕竟经过大量的数据训练，学习过大量的知识。ChatGPT 还是有些贵的，为了降低成本，直接用便宜的国产大模型</p>
+<p>我们的最终目标是答对 60 题，对于题目类别的话，尽可能选取一些答案比较确定或者参考资料比较多的。如果是鬼畜区什么的，出现了什么新的梗 GPT 可能不知道，正确率也就保证不了了。(下图是网上搜的)</p>
+<p><img src="/images/bilibili-%E7%A1%AC%E6%A0%B8%E4%BC%9A%E5%91%98.png" alt="硬核会员"></p>
+<p>相对来说，文史类的答案可能会更容易搜到一些（至少参考资料会多一些），就它了！</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>先说下开发环境，脚本是在 Python 3.12 环境下开发的。进入正题~</p>
+<h3 id="获取窗口截图"><a href="#获取窗口截图" class="headerlink" title="获取窗口截图"></a>获取窗口截图</h3><p>识别题目的第一步是获取截图。我们可以连接真机，在手机上打开 adb 调试，然后使用 <code>adb shell screencap</code> 命令获取截图。也可以直接在电脑装个模拟器（这里装的是 Mumu 模拟器），直接给模拟器窗口截图。后者简单很多，我们直接用后者实现。</p>
+<p>为了截取屏幕上某个窗口的画面，我们首先需要知道窗口的位置和大小，这可以使用 <code>pygetwindow</code> 库，导入这个库后就可以直接根据黄口标题搜索窗口：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pygetwindow <span class="keyword">as</span> gw</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取所有名字为 “MuMu模拟器” 的窗口</span></span><br><span class="line">window_list = gw.getWindowWithTitle(<span class="string">&quot;MuMu模拟器&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 简单一些，只取第一个</span></span><br><span class="line">window = window_list[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出窗口的坐标</span></span><br><span class="line"><span class="built_in">print</span>(window.x, window.y, window.width, window.height)</span><br></pre></td></tr></table></figure>
+
+<p>上面几行代码就可以直接输出模拟器窗口的位置和大小。知道了窗口的位置和大小之后，我们就可以使用 <code>Pillow</code> 截图啦：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> ImageGrab</span><br><span class="line"></span><br><span class="line">screenshot = ImageGrab.grab(bbox=(window.x, window.y, window.width, window.height))</span><br></pre></td></tr></table></figure>
+
+<p>到这里，截图的代码就写完了。也可以调整截取区域的 <code>y</code> 坐标和高度，截取的区域小一些，后面调用 OCR 识别文字也会快一些，效果：</p>
+<p><img src="/images/bilibili-%E7%AD%94%E9%A2%98%E6%88%AA%E5%9B%BE.jpg" alt="会员截图"></p>
+<h3 id="识别题目"><a href="#识别题目" class="headerlink" title="识别题目"></a>识别题目</h3><p>图截完了，下一步是获取题目和内容。这里使用 <code>Paddlepaddle</code> 提供的 OCR 模型进行识别。<code>PaddleOCR v4</code> 提供了文本检测、文本识别、文本方向识别三类模型。其中文本检测是用来识别图片里哪里存在文字， 文本识别是来识别图片中文字的具体内容是什么，文本方向识别用来识别图片中文字的方向。为了识别截图中文字的内容和位置，我们三个模型都要用到。</p>
+<p>每类模型还分成轻量型、高精度型等等，官网上也分别提供了几个模型文件的下载。以中文文本检测模型为例，轻量版推理模型的大小为 4.7M，而高精度版推理模型的大小是 110M。在使用体验上，高精度版的效果可能会更好，但速度会更慢。我直接在 CPU 上跑的，实测轻量版效果完全够用，并且速度还能接受（识别一张图片的文字大概不到 3 秒）。</p>
+<p>接下来进行代码实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> paddleocr <span class="keyword">import</span> PaddleOCR</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载 OCR 模型</span></span><br><span class="line">ocr = PaddleOCR(use_angle_cls=<span class="literal">True</span>, lang=<span class="string">&quot;ch&quot;</span>, det_model_dir=<span class="string">&#x27;文本检测模型的目录&#x27;</span>, rec_model_dir=<span class="string">&#x27;文本识别模型的目录&#x27;</span>, cls_model_dir=<span class="string">&#x27;文本方向识别模型的目录&#x27;</span>)</span><br><span class="line"></span><br><span class="line">img_array = np.array(screenshot) <span class="comment"># 还记得上面截图得到的 screenshot 嘛，在这里被转化成了 numpy 数组</span></span><br><span class="line">result = ocr.ocr(img_array, cls=<span class="literal">True</span>) <span class="comment"># OCR 识别</span></span><br></pre></td></tr></table></figure>
+
+<p>这样图片中的文字就识别好了。我们也可以使用 <code>paddleocr</code> 提供的 <code>draw_ocr</code> 把识别到的文字画出来：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> paddleocr <span class="keyword">import</span> draw_ocr</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> idx <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(result)):</span><br><span class="line">    res = result[idx]</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> res:</span><br><span class="line">        boxes = line[<span class="number">0</span>]</span><br><span class="line">        text = line[<span class="number">1</span>][<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 显示结果</span></span><br><span class="line">    result = result[<span class="number">0</span>]</span><br><span class="line">    image = img.convert(<span class="string">&#x27;RGB&#x27;</span>)</span><br><span class="line">    boxes = [line[<span class="number">0</span>] <span class="keyword">for</span> line <span class="keyword">in</span> result]</span><br><span class="line">    txts = [line[<span class="number">1</span>][<span class="number">0</span>] <span class="keyword">for</span> line <span class="keyword">in</span> result]</span><br><span class="line">    scores = [line[<span class="number">1</span>][<span class="number">1</span>] <span class="keyword">for</span> line <span class="keyword">in</span> result]</span><br><span class="line">    im_show = draw_ocr(image, boxes, txts, scores)</span><br><span class="line">    im_show = Image.fromarray(im_show)</span><br><span class="line">    im_show.save(<span class="string">&#x27;result.jpg&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/bilibili-%E7%AD%94%E9%A2%98ocr%E6%88%AA%E5%9B%BE.jpg" alt="会员截图"></p>
+<p>至于如何分辨文字是题目还是选项，直接根据位置特征来就好啦。题目部分文字的左边界始终在距离左侧屏幕大约 100 像素以内的位置；选项部分的位置特征也很明显，每行文字距离顶部一定超过 64 个像素，并且距离左侧边界的位置比较远。</p>
+<p>以图中为例，我们通过上面这种策略就可以组合出问题和答案 –   </p>
+<p>问题是: 为你千千万万遍” 出自以下哪一部文学作品？<br>选项分别是：《Flipped》、《追风筝的人》、《简爱》和《我的天才女友》</p>
+<h3 id="自动答题"><a href="#自动答题" class="headerlink" title="自动答题"></a>自动答题</h3><p>自动答题这一步，我们使用大模型来做。首先给大模型定义一个角色，告诉它它是一个答题专家（定义 system role）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- 你是一个通晓古今的百科全书，拥有丰富的学识和答题经验。现在需要你根据用户输入的问题 &lt;Question&gt; 以及选项 &lt;Option&gt; 选出一个最合适的选项 &lt;Answer&gt;，然后输出选项的内容。</span><br><span class="line">- 需要注意，你的答案仅能是从选项中选择，不能自由发挥。</span><br><span class="line">- 题目类型都是选择题，一部分是问题选项，另一部分需要你从选项中选出一个最合适的填补题目的空缺。题目的空缺会用连续的下划线__表示。</span><br><span class="line">- 你只需要回答你认为正确的选项，不需要做出任何解释。你的答案需要有理论依据，不可以回答虚构的答案。</span><br></pre></td></tr></table></figure>
+
+<p>接下来，可以给它一些样例输入，让它有些参考依据：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- 用户输入：</span><br><span class="line">&lt;Question&gt;最古老的文学体裁是什么？</span><br><span class="line">&lt;Option&gt;诗歌</span><br><span class="line">&lt;Option&gt;小说</span><br><span class="line">&lt;Option&gt;散文</span><br><span class="line"></span><br><span class="line">- 输出：</span><br><span class="line">&lt;Answer&gt;诗歌</span><br></pre></td></tr></table></figure>
+
+<p>剩下要做的就是调接口啦：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">key = <span class="string">&quot;sk-xxxxxxx&quot;</span></span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://api.xxxxxx.com/chat/completions&quot;</span> <span class="comment"># 避免打广告，不写具体的模型厂商了~ 换任何一家的大模型按文档来都可以</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">llm</span>(<span class="params">questionBody</span>):</span><br><span class="line">    payload = json.dumps(&#123;</span><br><span class="line">        <span class="string">&quot;messages&quot;</span>: [</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;content&quot;</span>: <span class="string">&quot;- 你是一个通晓古今的百科全书，拥有丰富的学识和答题经验。现在需要你根据用户输入的问题 &lt;Question&gt; 以及选项 &lt;Option&gt; 选出一个最合适的选项 &lt;Answer&gt;，然后输出选项的内容。\n- 需要注意，你的答案仅能是从选项中选择，不能自由发挥。\n- 题目类型都是选择题，一部分是问题选项，另一部分需要你从选项中选出一个最合适的填补题目的空缺。题目的空缺会用连续的下划线__表示。\n- 你只需要回答你认为正确的选项，不需要做出任何解释。你的答案需要有理论依据，不可以回答虚构的答案。\n&quot;</span>,</span><br><span class="line">                <span class="string">&quot;role&quot;</span>: <span class="string">&quot;system&quot;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;content&quot;</span>: <span class="string">&quot;&lt;Question&gt;最古老的文学体裁是什么？\n&lt;Option&gt;诗歌\n&lt;Option&gt;小说\n&lt;Option&gt;散文\n&quot;</span>,</span><br><span class="line">                <span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;content&quot;</span>: <span class="string">&quot;&lt;Answer&gt;诗歌&quot;</span>,</span><br><span class="line">                <span class="string">&quot;role&quot;</span>: <span class="string">&quot;assistant&quot;</span></span><br><span class="line">            &#125;,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="string">&quot;content&quot;</span>: <span class="string">f&#x27;&lt;Question&gt;<span class="subst">&#123;questionBody&#125;</span>&#x27;</span>,</span><br><span class="line">                <span class="string">&quot;role&quot;</span>: <span class="string">&quot;user&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">&quot;model&quot;</span>: <span class="string">&quot;xxxxxx&quot;</span>, <span class="comment"># 避免打广告，不写具体的模型了~</span></span><br><span class="line">        <span class="string">&quot;frequency_penalty&quot;</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;max_tokens&quot;</span>: <span class="number">2048</span>,</span><br><span class="line">        <span class="string">&quot;presence_penalty&quot;</span>: <span class="number">0</span>,</span><br><span class="line">        <span class="string">&quot;response_format&quot;</span>: &#123;</span><br><span class="line">            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;text&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">&quot;stop&quot;</span>: <span class="literal">None</span>,</span><br><span class="line">        <span class="string">&quot;stream&quot;</span>: <span class="literal">False</span>,</span><br><span class="line">        <span class="string">&quot;stream_options&quot;</span>: <span class="literal">None</span>,</span><br><span class="line">        <span class="string">&quot;temperature&quot;</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">&quot;top_p&quot;</span>: <span class="number">1</span>,</span><br><span class="line">        <span class="string">&quot;tools&quot;</span>: <span class="literal">None</span>,</span><br><span class="line">        <span class="string">&quot;tool_choice&quot;</span>: <span class="string">&quot;none&quot;</span>,</span><br><span class="line">        <span class="string">&quot;logprobs&quot;</span>: <span class="literal">False</span>,</span><br><span class="line">        <span class="string">&quot;top_logprobs&quot;</span>: <span class="literal">None</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">f&#x27;Bearer <span class="subst">&#123;key&#125;</span>&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    response = requests.request(<span class="string">&quot;POST&quot;</span>, url, headers=headers, data=payload)</span><br><span class="line">    <span class="keyword">return</span> response.json()[<span class="string">&quot;choices&quot;</span>][<span class="number">0</span>][<span class="string">&quot;message&quot;</span>][<span class="string">&quot;content&quot;</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>调一下接口尝试一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ans = llm(<span class="string">&#x27;为你千千万万遍&quot; 出自以下哪一部文学作品？\n&lt;Option&gt;《Flipped》\n&lt;Option&gt;《追风筝的人》\n&lt;Option&gt;《简爱》\n&lt;Option&gt;《我的天才女友》&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(ans)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/bilibili-%E7%AD%94%E6%A1%88.jpg" alt="会员截图"></p>
+<p>好了，这道题选B~</p>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p>最后只需要把上面的过程串起来就好啦，把 OCR 识别出的题目和答案送给大模型，让大模型帮忙选个答案。有了这个助手，分分钟通关硬核会员~</p>
+<p><img src="/images/bilibili-%E9%80%9A%E5%85%B3%E6%88%AA%E5%9B%BE.png" alt="会员截图"></p>
+<p>而成本只有不到两分钱：</p>
+<p><img src="/images/bilibili-%E8%8A%B1%E8%B4%B9%E6%88%AA%E5%9B%BE.png" alt="花费截图"></p>
+<p>完结撒花</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <span class="social-link">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </span>
+
+          <img class="social-item-img" src="/images/wechat_channel.jpg">
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"><i class="fa fa-tag"></i> 前端</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/07/23/MusicFree%E6%A1%8C%E9%9D%A2%E7%89%88/" rel="prev" title="MusicFree 桌面版来啦">
+                  <i class="fa fa-angle-left"></i> MusicFree 桌面版来啦
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">猫头猫</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
