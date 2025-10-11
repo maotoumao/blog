@@ -20,29 +20,28 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"blog.catcat.work","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.21.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="在docker环境中部署WebIDE">
+    <meta name="description" content="小小记录一下首屏优化~">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在docker环境下部署webIDE">
-<meta property="og:url" content="https://blog.catcat.work/2021/07/23/%E5%9C%A8docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%83%A8%E7%BD%B2webIDE/index.html">
+<meta property="og:title" content="MusicFree首屏优化记录">
+<meta property="og:url" content="https://blog.catcat.work/2025/10/11/MusicFree%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="猫头猫的博客">
-<meta property="og:description" content="在docker环境中部署WebIDE">
+<meta property="og:description" content="小小记录一下首屏优化~">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-07-23T15:33:05.000Z">
-<meta property="article:modified_time" content="2024-10-13T13:42:51.247Z">
+<meta property="article:published_time" content="2025-10-11T04:47:12.000Z">
+<meta property="article:modified_time" content="2025-10-11T04:47:30.705Z">
 <meta property="article:author" content="猫头猫">
-<meta property="article:tag" content="docker">
-<meta property="article:tag" content="ide">
+<meta property="article:tag" content="MusicFree">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://blog.catcat.work/2021/07/23/%E5%9C%A8docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%83%A8%E7%BD%B2webIDE/">
+<link rel="canonical" href="https://blog.catcat.work/2025/10/11/MusicFree%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2021/07/23/%E5%9C%A8docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%83%A8%E7%BD%B2webIDE/","path":"2021/07/23/在docker环境下部署webIDE/","title":"在docker环境下部署webIDE"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://blog.catcat.work/2025/10/11/MusicFree%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/","path":"2025/10/11/MusicFree首屏优化记录/","title":"MusicFree首屏优化记录"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>在docker环境下部署webIDE | 猫头猫的博客</title>
+<title>MusicFree首屏优化记录 | 猫头猫的博客</title>
   
 
 
@@ -114,7 +113,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker"><span class="nav-number">2.</span> <span class="nav-text">docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E8%AE%B0"><span class="nav-number">4.</span> <span class="nav-text">后记</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.</span> <span class="nav-text">问题原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%BD%8D"><span class="nav-number">2.</span> <span class="nav-text">问题定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -175,7 +174,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2021/07/23/%E5%9C%A8docker%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%83%A8%E7%BD%B2webIDE/">
+    <link itemprop="mainEntityOfPage" href="https://blog.catcat.work/2025/10/11/MusicFree%E9%A6%96%E5%B1%8F%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpg">
@@ -188,12 +187,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="在docker环境下部署webIDE | 猫头猫的博客">
-      <meta itemprop="description" content="在docker环境中部署WebIDE">
+      <meta itemprop="name" content="MusicFree首屏优化记录 | 猫头猫的博客">
+      <meta itemprop="description" content="小小记录一下首屏优化~">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          在docker环境下部署webIDE
+          MusicFree首屏优化记录
         </h1>
 
         <div class="post-meta-container">
@@ -203,47 +202,47 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2021-07-23 23:33:05" itemprop="dateCreated datePublished" datetime="2021-07-23T23:33:05+08:00">2021-07-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-10-13 21:42:51" itemprop="dateModified" datetime="2024-10-13T21:42:51+08:00">2024-10-13</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/docker/" itemprop="url" rel="index"><span itemprop="name">docker</span></a>
-        </span>
+      <time title="创建时间：2025-10-11 12:47:12 / 修改时间：12:47:30" itemprop="dateCreated datePublished" datetime="2025-10-11T12:47:12+08:00">2025-10-11</time>
     </span>
 
   
 </div>
 
-            <div class="post-description">在docker环境中部署WebIDE</div>
+            <div class="post-description">小小记录一下首屏优化~</div>
         </div>
       </header>
 
     
     
     
-    <div class="post-body" itemprop="articleBody"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>买了个matepad11，顺带买了个键盘和鼠标。然后就想在平板上写代码。但是用平板肯定写不了啊，但是我有公网的服务器，所以想要不要用服务器运行一个webIDE，可以编写代码，同时服务器上也有nodejs环境，写个react什么的妥妥的吧。</p>
-<p>在服务器上跑通了code-server之后，发现一个致命的问题：code-server可以访问服务器上任意一个文件，这就导致我的服务器上的数据一览无余。。同时，服务器的性能也不能保证。</p>
-<p>因此，采用了docker部署在笔记本上，再通过frp进行内网穿透的方案。</p>
-<h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><p>docker是一个linux平台的沙箱系统，可以将linux平台的代码打包进docker，做成一个image，这些镜像在任意系统中的表现便都是一致的，同时它也会限制访问者只能在沙箱范围内访问，保证了安全性。</p>
-<h2 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h2><ol>
-<li>安装docker windows(官网)</li>
-<li>在docker hub上，使用docker pull安装code-server镜像</li>
-<li>设置端口映射，启动docker，默认用户是coder，超级用户无密码。</li>
+    <div class="post-body" itemprop="articleBody"><p>在安卓版发布0.6.0之后，有好多小伙伴反馈说首屏太慢了，甚至打开软件要在开屏界面卡10秒，具体时间会随着安装插件的增加而变长。</p>
+<p>趁着国庆假期优化了一下，这里记录下问题原因和修复的方案。</p>
+<h1 id="问题原因"><a href="#问题原因" class="headerlink" title="问题原因"></a>问题原因</h1><p>在软件启动时，会经历一个初始化的阶段。在这个阶段，软件会初始化所有的歌单、播放器内核、<strong>插件</strong>、主题等等。</p>
+<p>在此期间，软件会一直展示一个固定的开屏界面，直到初始化完成。那为啥在 0.6.0 之前，没有感觉到这个问题呢？</p>
+<p>因为 0.6.0 之前的版本有 bug，在初始化完成之前就展示了主界面，所以造成了启动很快的错觉，但其实展示主界面之后，软件还在默默地初始化…<br>而在 0.6.0 版本尝试修复了这个bug，反而看起来像是一个负优化。</p>
+<p>所以，0.6.0 版本之前的现象是：软件启动可能要花费 6 秒，但在 2 秒后就展示了主界面，所以大家感觉启动很快；并且大家一般不会在刚打开软件的瞬间就去执行搜索之类的行为，所以大概率也感受不到初始化未完成带来的问题。</p>
+<p>而 0.6.0 版本之后的现象是：软件启动可能要花费 6 秒，并且在 6 秒后才展示主界面，实打实等了 6 秒，那感觉就慢下来了。</p>
+<h1 id="问题定位"><a href="#问题定位" class="headerlink" title="问题定位"></a>问题定位</h1><p>解决首屏问题的思路，无论是前端应用还是跨端应用，个人感觉是类似的 —— </p>
+<p>首先找到影响首屏的关键因素，对于首屏必须的数据，能缓存的缓存，能提前获取的提前获取；<br>对于首屏没那么必要的数据或逻辑，能异步的异步，能延迟的延迟。</p>
+<p>在代码里打日志测试了一下初始化每个子步骤所消耗的时间，果然发现插件初始化占了将近一半的时间：</p>
+<p>插件初始化的逻辑是：从本地特定的文件夹读取所有已安装的插件，然后解析。这里就有了两个瓶颈：加载 和 解析。</p>
+<p>加载指的是读取文件夹和读取文件内容；解析指的是通过 JavaScript 的 <code>new Function</code> 来把插件代码转化成可执行的函数。</p>
+<p>如果插件体积比较大、或者经过混淆，就会花费更多的加载和解析时间。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>按照上面的优化思路，关键因素找到了，是插件初始化。</p>
+<p>首屏加载时其实只需要知道插件的接口，或者说，有哪些插件、每个插件的基本信息；<br>至于每个插件的具体逻辑 （比如获取音源、获取歌词），完全可以等到真正使用到的时候再懒加载。</p>
+<p>所以，解决问题的思路就有了：</p>
+<ol>
+<li>缓存已加载插件的所有基础信息（包括插件内定义的属性，方法列表，安装路径）；当插件发生变动（添加、删除、更新）时，顺便更新缓存。</li>
+<li>首屏加载时，先读取已安装的所有插件列表（大概20ms），然后根据插件路径读取缓存。</li>
+<li>对于命中缓存的插件，拿到缓存的插件的基础信息，然后跳过加载和解析，直接创建一个未初始化的插件实例，并标记为需要懒加载。</li>
+<li>对于没有命中缓存的插件，还是走原来的初始化流程，读取文件内容并解析，这样就保证了即使手动添加了插件文件，也能正常解析。</li>
+<li>当插件被真正使用（比如调用插件的函数获取音源等）时，或软件空闲时，会初始化需要懒加载的插件，并在初始化完成后更新插件缓存。这样能保证插件的缓存是最新的，并且不会影响功能。</li>
 </ol>
+<p>为了防止改出来啥问题，加了一个【启用插件懒加载】的设置项，默认是关闭的。把这个开关打开，就能体验到优化后的效果啦。</p>
 <hr>
-<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>草，费了半天劲，还不如直接在电脑上装一个华为电脑管家，直接连电脑，还能把平板当扩展屏，比webIDE可香多了，浪费我时间，气得我截图都不想放了。</p>
+<p>莫名想到了之前在淘宝做某互动游戏的时候，首屏加载时间很长，但有个定时更新的假进度条，这样就不会让用户感觉像卡死了，加载久一点也就没那么难熬。这也算是一种优化吧😂</p>
 
     </div>
 
@@ -272,22 +271,18 @@
 </div>
 
           <div class="post-tags">
-              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
-              <a href="/tags/ide/" rel="tag"><i class="fa fa-tag"></i> ide</a>
+              <a href="/tags/MusicFree/" rel="tag"><i class="fa fa-tag"></i> MusicFree</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/03/20/%E6%AF%95%E8%AE%BE%E8%AE%BA%E6%96%87%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E8%84%9A%E6%9C%AC/" rel="prev" title="毕设论文定时备份脚本">
-                  <i class="fa fa-angle-left"></i> 毕设论文定时备份脚本
+                <a href="/2025/04/05/AI%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="prev" title="AI开发小程序">
+                  <i class="fa fa-angle-left"></i> AI开发小程序
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2021/09/25/%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%8A%A0%E8%BD%BDCNN%E8%BF%9B%E8%A1%8C%E6%89%8B%E5%86%99%E6%95%B0%E5%AD%97%E8%AF%86%E5%88%AB/" rel="next" title="浏览器环境下加载CNN进行手写数字识别，并部署到gitee page">
-                  浏览器环境下加载CNN进行手写数字识别，并部署到gitee page <i class="fa fa-angle-right"></i>
-                </a>
             </div>
           </div>
     </footer>
