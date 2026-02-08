@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import ArticleCard from '../components/ArticleCard.astro';
+import { getCollection } from 'astro:content';
+
+const homeLogPrefix = '[home]';
+const homeStart = Date.now();
+
+console.time(`${homeLogPrefix} getCollection(posts)`);
+const allPosts = (await getCollection('posts')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+console.timeEnd(`${homeLogPrefix} getCollection(posts)`);
+const pageSize = 5;
+const posts = allPosts.slice(0, pageSize);
+console.log(`${homeLogPrefix} total SSR prep`, `${Date.now() - homeStart}ms`);
+---
+<BaseLayout>
+  <div class="w-full">
+    <Hero />
+
+    <section>
+      <div class="flex items-center justify-between mb-12 border-b border-warm-text/10 dark:border-night-text/10 pb-4">
+        <h3 class="font-serif text-2xl text-warm-text dark:text-night-text">最新文章</h3>
+      </div>
+
+      <div class="flex flex-col min-h-[600px]">
+        {posts.map((post, index) => (
+          <ArticleCard post={post} index={index} />
+        ))}
+      </div>
+
+      <div class="mt-8 flex justify-center">
+        <a
+          href="/article"
+          class="inline-flex items-center gap-2 rounded-full border border-warm-text/10 dark:border-night-text/10 px-5 py-2 text-sm font-sans uppercase tracking-widest text-warm-text/70 dark:text-night-text/70 transition-all hover:border-warm-accent/40 hover:text-warm-accent"
+        >
+          阅读更多
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

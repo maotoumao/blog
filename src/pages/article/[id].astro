@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleToc from '../../components/ArticleToc.astro';
+import ShareFooter from '../../components/ShareFooter.astro';
+import ArrowLeft from 'lucide-astro/ArrowLeft';
+import ArrowUp from 'lucide-astro/ArrowUp';
+import Calendar from 'lucide-astro/Calendar';
+import Tag from 'lucide-astro/Tag';
+import Clock from 'lucide-astro/Clock';
+import { getCollection, render } from 'astro:content';
+import { estimateReadTime, getDisplayDate, normalizeCategories } from '../../utils/content';
+import '../../styles/article.css';
+import { SITE_TITLE } from '../../utils/site';
+
+export async function getStaticPaths() {
+  console.time('[article] getStaticPaths getCollection(posts)');
+  const posts = await getCollection('posts');
+  console.timeEnd('[article] getStaticPaths getCollection(posts)');
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+console.time('[article] render(post)');
+const { Content, headings } = await render(post);
+console.timeEnd('[article] render(post)');
+const categories = normalizeCategories(post.data.category);
+const displayDate = getDisplayDate(
+  post.data.pubDate,
+  post.data.displayDate,
+  { year: 'numeric', month: '2-digit', day: '2-digit' }
+);
+
+const computedReadTime = post.data.readTime ?? estimateReadTime(post.body ?? '');
+const readLabel = computedReadTime.includes('read') ? computedReadTime : `${computedReadTime}`;
+---
+<BaseLayout title={`${post.data.title} · ${SITE_TITLE}`}>
+  <article id="article-top" class="py-12 md:py-20 max-w-5xl mx-auto">
+    <ArticleToc headings={headings} />
+    <div class="animate-slide-up">
+      <a
+        href="/"
+        class="inline-flex items-center text-warm-text/50 hover:text-warm-text transition-colors mb-8 text-sm uppercase tracking-widest font-sans group"
+      >
+        <ArrowLeft size={16} strokeWidth={1.6} class="mr-2 transform group-hover:-translate-x-1 transition-transform" />
+        Back to Home
+      </a>
+
+      <header class="mb-12 text-center">
+        <div class="flex items-center justify-center gap-4 text-xs text-warm-text/50 dark:text-night-text/50 uppercase tracking-widest mb-6 font-sans">
+          <span class="flex items-center gap-1">
+            <Calendar size={12} strokeWidth={1.6} />
+            {displayDate}
+          </span>
+          <span>•</span>
+          <span class="flex items-center gap-1 text-warm-accent">
+            <Tag size={12} strokeWidth={1.6} />
+            {categories.join(' / ')}
+          </span>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-serif text-warm-text dark:text-night-text leading-tight mb-6">
+          {post.data.title}
+        </h1>
+        <div class="flex items-center justify-center gap-2 text-warm-text/40 text-sm font-sans italic">
+          <Clock size={14} strokeWidth={1.6} />
+          {readLabel}
+        </div>
+      </header>
+
+      <div class="article-layout">
+        <div class="article-content prose prose-lg md:prose-xl prose-stone dark:prose-invert font-serif prose-headings:font-serif">
+          <Content />
+        </div>
+      </div>
+
+      <ShareFooter />
+    </div>
+    <a class="article-backtop" href="#article-top" aria-label="返回顶部">
+      <ArrowUp size={16} strokeWidth={1.6} />
+    </a>
+  </article>
+</BaseLayout>

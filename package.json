@@ -1,0 +1,22 @@
+{
+  "name": "@design/implement",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^5.1.5",
+    "astro": "^5.17.1",
+    "lucide-astro": "^0.556.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.10",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1"
+  }
+}

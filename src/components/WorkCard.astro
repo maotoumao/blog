@@ -1,0 +1,46 @@
+---
+const {
+  title,
+  subtitle,
+  description,
+  links = [],
+  featured = false,
+} = Astro.props as {
+  title: string;
+  subtitle?: string;
+  description?: string;
+  links?: Array<{ label: string; href: string }>;
+  featured?: boolean;
+};
+---
+<article class="group relative overflow-hidden rounded-3xl border border-warm-text/10 dark:border-night-text/10 bg-white/80 dark:bg-night-surface/70 p-8 shadow-[0_20px_60px_-50px_rgba(15,23,42,0.5)]">
+  {featured && (
+    <div class="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-warm-accent/10 blur-2xl"></div>
+  )}
+  {subtitle && (
+    <div class="flex items-center gap-3 text-warm-text/50 dark:text-night-text/50 text-sm">
+      <span class="inline-flex h-2 w-2 rounded-full bg-warm-sage"></span>
+      {subtitle}
+    </div>
+  )}
+  <h2 class="mt-4 font-serif text-3xl text-warm-text dark:text-night-text">{title}</h2>
+  {description && (
+    <p class="mt-4 text-warm-text/70 dark:text-night-text/70 leading-relaxed">
+      {description}
+    </p>
+  )}
+  {links.length > 0 && (
+    <div class="mt-6 flex flex-wrap gap-3">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="inline-flex items-center gap-2 rounded-full border border-warm-text/10 dark:border-night-text/10 px-4 py-2 text-sm text-warm-text/70 dark:text-night-text/70 transition-all hover:border-warm-accent/40 hover:text-warm-accent"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {link.label}
+        </a>
+      ))}
+    </div>
+  )}
+</article>

@@ -1,0 +1,49 @@
+---
+import Clock from 'lucide-astro/Clock';
+import ArrowUpRight from 'lucide-astro/ArrowUpRight';
+import { estimateReadTime, getDisplayDate, normalizeCategories } from '../utils/content';
+
+const { post, index = 0 } = Astro.props;
+const dateText = getDisplayDate(
+  post.data.pubDate,
+  post.data.displayDate,
+  { year: 'numeric', month: '2-digit', day: '2-digit' }
+);
+const categories = normalizeCategories(post.data.category);
+
+const readTimeLabel = post.data.readTime ?? estimateReadTime(post.body ?? '');
+---
+<a href={`/article/${post.id}`} class="group block mb-12">
+  <article
+    class="p-8 rounded-sm bg-white dark:bg-night-surface border border-warm-text/5 dark:border-night-text/5 hover:border-warm-accent/30 dark:hover:border-warm-accent/30 transition-all duration-500 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:hover:shadow-none relative overflow-hidden animate-slide-up"
+    style={`animation-delay: ${index * 0.1}s`}
+  >
+    <div class="absolute inset-0 bg-warm-bg/50 dark:bg-night-bg/50 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+
+    <div class="relative z-10">
+      <div class="flex items-center gap-3 text-xs tracking-widest uppercase mb-4 text-warm-text/50 dark:text-night-text/50">
+        <span class="text-warm-accent font-semibold">{categories.join(' / ')}</span>
+        <span>•</span>
+        <span>{dateText}</span>
+        <span>•</span>
+        <span class="flex items-center gap-1">
+          <Clock size={12} strokeWidth={1.6} />
+          {readTimeLabel}
+        </span>
+      </div>
+
+      <h2 class="text-2xl md:text-3xl font-serif text-warm-text dark:text-night-text mb-4 group-hover:text-warm-sage transition-colors duration-300">
+        {post.data.title}
+      </h2>
+
+      <p class="font-sans text-warm-text/70 dark:text-night-text/70 leading-relaxed text-base md:text-lg">
+        {post.data.excerpt}
+      </p>
+
+      <div class="mt-6 flex items-center gap-2 text-sm text-warm-text/40 dark:text-night-text/40 group-hover:text-warm-text/80 dark:group-hover:text-night-text/80 transition-colors">
+        Read more
+        <ArrowUpRight size={16} strokeWidth={1.6} class="transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+      </div>
+    </div>
+  </article>
+</a>

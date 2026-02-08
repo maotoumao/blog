@@ -1,0 +1,89 @@
+---
+import Sun from 'lucide-astro/Sun';
+import Moon from 'lucide-astro/Moon';
+import Menu from 'lucide-astro/Menu';
+import X from 'lucide-astro/X';
+
+const navLinks = [
+  { name: '首页', path: '/' },
+  { name: '文章', path: '/article' },
+  { name: '作品', path: '/works' },
+  { name: '关于我', path: '/about' },
+];
+const currentPath = Astro.url.pathname;
+const isActive = (path: string) => (path === '/' ? currentPath === '/' : currentPath.startsWith(path));
+---
+<nav class="fixed top-0 left-0 w-full z-40 bg-warm-bg/80 dark:bg-night-bg/80 backdrop-blur-md transition-colors duration-500 border-b border-warm-text/5 dark:border-night-text/5">
+  <div class="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between">
+    <a href="/" class="font-serif text-2xl tracking-wide text-warm-text dark:text-night-text hover:text-warm-accent dark:hover:text-warm-accent transition-colors">
+      猫头猫的博客
+    </a>
+
+    <div class="hidden md:flex items-center space-x-8">
+      {navLinks.map((link) => (
+        <a
+          href={link.path}
+          class={`text-sm tracking-widest uppercase hover:text-warm-sage transition-colors ${isActive(link.path) ? 'text-warm-accent underline underline-offset-4' : 'text-warm-text dark:text-night-text'}`}
+        >
+          {link.name}
+        </a>
+      ))}
+
+      <button
+        type="button"
+        data-theme-toggle
+        class="ml-4 p-2 rounded-full hover:bg-warm-text/5 dark:hover:bg-night-text/10 transition-colors"
+        aria-label="Toggle Dark Mode"
+      >
+        <span data-theme-icon="sun" class="inline-flex">
+          <Sun size={20} strokeWidth={1.5} class="text-warm-text" />
+        </span>
+        <span data-theme-icon="moon" class="inline-flex hidden">
+          <Moon size={20} strokeWidth={1.5} class="text-warm-text dark:text-night-text" />
+        </span>
+      </button>
+    </div>
+
+    <div class="md:hidden flex items-center gap-4">
+      <button type="button" data-theme-toggle class="p-2" aria-label="Toggle Dark Mode">
+        <span data-theme-icon="sun" class="inline-flex">
+          <Sun size={20} strokeWidth={1.5} class="text-warm-text" />
+        </span>
+        <span data-theme-icon="moon" class="inline-flex hidden">
+          <Moon size={20} strokeWidth={1.5} class="text-night-text" />
+        </span>
+      </button>
+
+      <button
+        type="button"
+        data-menu-toggle
+        data-menu-target="mobile-menu"
+        aria-label="Menu"
+      >
+        <span data-menu-icon="open" class="inline-flex">
+          <Menu size={24} strokeWidth={1.6} class="text-warm-text dark:text-night-text" />
+        </span>
+        <span data-menu-icon="close" class="inline-flex hidden">
+          <X size={24} strokeWidth={1.6} class="text-warm-text dark:text-night-text" />
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    data-open="false"
+    class="md:hidden bg-warm-bg dark:bg-night-bg overflow-hidden border-b border-warm-text/5 max-h-0 opacity-0 transition-all duration-500"
+  >
+    <div class="flex flex-col items-center py-6 space-y-4">
+      {navLinks.map((link) => (
+        <a
+          href={link.path}
+          class={`text-lg font-serif ${isActive(link.path) ? 'text-warm-accent' : 'text-warm-text dark:text-night-text'}`}
+        >
+          {link.name}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>

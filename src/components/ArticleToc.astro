@@ -1,0 +1,46 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+type TocItem = MarkdownHeading & { children: MarkdownHeading[] };
+
+const { headings = [] } = Astro.props as { headings?: MarkdownHeading[] };
+
+const toc: TocItem[] = [];
+for (const heading of headings) {
+  if (heading.depth === 2) {
+    toc.push({ ...heading, children: [] });
+  }
+  if (heading.depth === 3 && toc.length > 0) {
+    toc[toc.length - 1].children.push(heading);
+  }
+}
+---
+{toc.length > 0 && (
+  <aside class="article-toc" aria-label="文章导航">
+    <div class="article-toc-card">
+      <div class="article-toc-title">目录</div>
+      <nav>
+        <ol class="article-toc-list">
+          {toc.map((item, index) => (
+            <li>
+              <a href={`#${item.slug}`}>
+                <span class="article-toc-index">{String(index + 1).padStart(2, '0')}</span>
+                <span class="article-toc-text">{item.text}</span>
+              </a>
+              {item.children.length > 0 && (
+                <ol class="article-toc-sublist">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={`#${child.slug}`}>{child.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <a class="article-toc-back" href="#article-top">返回顶部</a>
+    </div>
+  </aside>
+)}

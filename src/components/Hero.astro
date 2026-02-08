@@ -1,0 +1,41 @@
+<section class="py-20 md:py-32 mb-8">
+  <div class="animate-slide-up">
+    <span class="block text-warm-accent font-serif italic text-xl mb-4">Hello, friend.</span>
+    <h1 class="text-4xl md:text-6xl font-serif text-warm-text dark:text-night-text leading-tight mb-8">
+      我是<span class="relative inline-block">
+        <span class="relative z-10">猫头猫</span>
+        <span class="absolute bottom-2 left-0 w-full h-3 bg-warm-sage/30 -z-0"></span>
+      </span>。
+      <br />
+    </h1>
+    <p
+      class="text-xl md:text-2xl text-warm-text/60 dark:text-night-text/60 font-light max-w-2xl leading-relaxed"
+      data-hero-copy
+    >
+      
+    </p>
+  </div>
+</section>
+
+<script is:inline>
+  const heroCopies = [
+    'undefined',
+    '猜猜猫头猫在干什么',
+    '写点没用但快乐的代码。',
+    '今天也在认真发呆。',
+    '把灵感存到云端。',
+    '猫头猫正在偷懒。',
+    '偶尔躺平，偶尔输出。',
+    '灵感飘过就记一笔。',
+    '认真摆烂，随缘高产。',
+    '随手一写，刚刚好。',
+    '猫头猫正在加载中…',
+    '保持好奇，保持温柔。',
+  ];
+
+  const heroCopyEl = document.querySelector('[data-hero-copy]');
+  if (heroCopyEl) {
+    const nextCopy = heroCopies[Math.floor(Math.random() * heroCopies.length)];
+    heroCopyEl.textContent = nextCopy;
+  }
+</script>

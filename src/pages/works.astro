@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { SITE_TITLE } from '../utils/site';
+---
+<BaseLayout title={`作品 · ${SITE_TITLE}`}>
+  <div class="py-16 md:py-24">
+    <div class="relative max-w-4xl mx-auto px-6">
+      <div class="pointer-events-none absolute -top-14 right-6 h-28 w-28 rounded-full bg-warm-sage/20 blur-2xl dark:bg-warm-sage/10"></div>
+      <div class="pointer-events-none absolute -bottom-10 left-6 h-24 w-24 rounded-full bg-warm-accent/20 blur-2xl dark:bg-warm-accent/10"></div>
+
+      <header class="animate-slide-up text-center">
+        <h1 class="mt-4 font-serif text-4xl md:text-5xl text-warm-text dark:text-night-text">
+          作品
+        </h1>
+        <p class="mt-6 text-base md:text-lg text-warm-text/60 dark:text-night-text/60 max-w-2xl mx-auto leading-relaxed">
+          以前也写过一些其他好玩的东西，但随着服务器迁移之类的各种各样的事情都丢了。
+          这里只保留幸存者与新的尝试。
+        </p>
+      </header>
+
+      <div class="mt-12 grid gap-8 md:grid-cols-[1.1fr_0.9fr]">
+        <WorkCard
+          title="MusicFree"
+          subtitle="React Native"
+          description="一个插件化的音乐播放器。"
+          featured
+          links={[
+            { label: '访问官网', href: 'https://musicfree.catcat.work' },
+            { label: '查看开源', href: 'https://github.com/maotoumao/musicfree' },
+          ]}
+        />
+
+        <WorkCard
+          title="MusicFreeDesktop"
+          subtitle="Electron"
+          description="一个插件化的音乐播放器 - 桌面版。"
+          featured
+          links={[
+            { label: '访问官网', href: 'https://musicfree.catcat.work' },
+            { label: '查看开源', href: 'https://github.com/maotoumao/musicfreedesktop' },
+          ]}
+        />
+
+        <aside class="rounded-3xl border border-dashed border-warm-text/20 dark:border-night-text/20 bg-white/60 dark:bg-night-surface/40 p-8">
+          <h3 class="font-serif text-2xl text-warm-text dark:text-night-text">更多作品</h3>
+          <p class="mt-4 text-warm-text/60 dark:text-night-text/60 leading-relaxed">
+            未来会在这里补全清单。也许会是一些小工具、实验性作品，或者没来得及写完的想法。
+          </p>
+          <div class="mt-6 inline-flex items-center gap-2 rounded-full bg-warm-text/5 dark:bg-night-text/10 px-4 py-2 text-sm text-warm-text/50 dark:text-night-text/50">
+            更多作品待补充
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
