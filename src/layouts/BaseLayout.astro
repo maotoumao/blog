@@ -38,9 +38,8 @@ const ogImage = new URL(image, SITE_URL).toString();
     <meta name="twitter:image" content={ogImage} />
     <link rel="alternate" type="application/rss+xml" title={`${SITE_TITLE} RSS`} href="/rss.xml" />
     <link rel="icon" href="/images/avatar.jpg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://chinese-fonts-cdn.deno.dev" crossorigin />
+    <link rel="stylesheet" href="https://chinese-fonts-cdn.deno.dev/packages/sypxzs/dist/%E6%80%9D%E6%BA%90%E5%B1%8F%E6%98%BE%E8%87%BB%E5%AE%8B/result.css" />
     <title>{title}</title>
     <slot name="head" />
   </head>

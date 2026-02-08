@@ -18,8 +18,8 @@ export default {
         'night-surface': '#252830',
       },
       fontFamily: {
-        serif: ['"Playfair Display"', 'Georgia', 'serif'],
-        sans: ['"Lato"', 'sans-serif'],
+        serif: ['"Source Han Serif CN for Display"', '"Songti SC"', '"STSong"', '"Noto Serif CJK SC"', 'serif'],
+        sans: ['"PingFang SC"', '"Microsoft YaHei"', '"Noto Sans CJK SC"', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.8s ease-out forwards',
