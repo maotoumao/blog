@@ -35,6 +35,9 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Create CNAME
+        run: echo "blog.catcat.work" > dist/CNAME
+
       - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
         with:

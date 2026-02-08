@@ -17,6 +17,9 @@ const timingPlugin = () => ({
 
 export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://blog.catcat.work',
+  build: {
+    assets: "assets",
+  },
   integrations: [tailwind()],
   vite: {
     plugins: [timingPlugin()],
