@@ -10,7 +10,7 @@ import Clock from 'lucide-astro/Clock';
 import { getCollection, render } from 'astro:content';
 import { estimateReadTime, getDisplayDate, normalizeCategories } from '../../utils/content';
 import '../../styles/article.css';
-import { SITE_TITLE } from '../../utils/site';
+import { SITE_AUTHOR, SITE_TITLE, SITE_URL, SITE_IMAGE } from '../../utils/site';
 
 export async function getStaticPaths() {
   console.time('[article] getStaticPaths getCollection(posts)');
@@ -35,8 +35,38 @@ const displayDate = getDisplayDate(
 
 const computedReadTime = post.data.readTime ?? estimateReadTime(post.body ?? '');
 const readLabel = computedReadTime.includes('read') ? computedReadTime : `${computedReadTime}`;
+const description = post.data.excerpt ?? SITE_TITLE;
+const canonical = `/article/${post.id}`;
+const publishedTime = post.data.pubDate?.toISOString();
 ---
-<BaseLayout title={`${post.data.title} · ${SITE_TITLE}`}>
+<BaseLayout
+  title={`${post.data.title} · ${SITE_TITLE}`}
+  description={description}
+  canonical={canonical}
+  type="article"
+>
+  <Fragment slot="head">
+    <meta property="article:author" content={SITE_AUTHOR} />
+    {publishedTime ? <meta property="article:published_time" content={publishedTime} /> : null}
+    <script type="application/ld+json" is:inline>
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        description,
+        datePublished: publishedTime,
+        author: {
+          '@type': 'Person',
+          name: SITE_AUTHOR,
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': new URL(`/article/${post.id}`, SITE_URL).toString(),
+        },
+        image: new URL(SITE_IMAGE, SITE_URL).toString(),
+      })}
+    </script>
+  </Fragment>
   <article id="article-top" class="py-12 md:py-20 max-w-5xl mx-auto">
     <ArticleToc headings={headings} />
     <div class="animate-slide-up">

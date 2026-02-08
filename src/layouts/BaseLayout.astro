@@ -2,9 +2,21 @@
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../utils/site';
+import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL, SITE_IMAGE } from '../utils/site';
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+const {
+  title = SITE_TITLE,
+  description = SITE_DESCRIPTION,
+  image = SITE_IMAGE,
+  canonical,
+  type = 'website',
+  noindex = false,
+} = Astro.props;
+
+const canonicalUrl = canonical
+  ? new URL(canonical, SITE_URL).toString()
+  : new URL(Astro.url.pathname, SITE_URL).toString();
+const ogImage = new URL(image, SITE_URL).toString();
 ---
 <!doctype html>
 <html lang="zh-CN">
@@ -12,11 +24,25 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:site_name" content={SITE_TITLE} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_TITLE} RSS`} href="/rss.xml" />
     <link rel="icon" href="/images/avatar.jpg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
     <div class="noise-overlay"></div>
