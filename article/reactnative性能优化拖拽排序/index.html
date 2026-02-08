@@ -1,0 +1,421 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="拖拽排序的简单优化方案，顺便记录下一些RN通用的优化思路。"><link rel="canonical" href="https://blog.catcat.work/article/reactnative%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F"><meta property="og:site_name" content="猫头猫的博客"><meta property="og:title" content="【干货】React Native性能优化——长列表拖拽排序 · 猫头猫的博客"><meta property="og:description" content="拖拽排序的简单优化方案，顺便记录下一些RN通用的优化思路。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.catcat.work/article/reactnative%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E6%8B%96%E6%8B%BD%E6%8E%92%E5%BA%8F"><meta property="og:image" content="https://blog.catcat.work/images/avatar.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="【干货】React Native性能优化——长列表拖拽排序 · 猫头猫的博客"><meta name="twitter:description" content="拖拽排序的简单优化方案，顺便记录下一些RN通用的优化思路。"><meta name="twitter:image" content="https://blog.catcat.work/images/avatar.jpg"><link rel="alternate" type="application/rss+xml" title="猫头猫的博客 RSS" href="/rss.xml"><link rel="icon" href="/images/avatar.jpg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"><title>【干货】React Native性能优化——长列表拖拽排序 · 猫头猫的博客</title> <meta property="article:author" content="猫头猫"> <meta property="article:published_time" content="2023-01-09T20:24:18.000Z"><script type="application/ld+json">
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        description,
+        datePublished: publishedTime,
+        author: {
+          '@type': 'Person',
+          name: SITE_AUTHOR,
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': new URL(`/article/${post.id}`, SITE_URL).toString(),
+        },
+        image: new URL(SITE_IMAGE, SITE_URL).toString(),
+      })}
+    </script> <link rel="stylesheet" href="/_astro/about.DQxYEom-.css">
+<link rel="stylesheet" href="/_astro/_id_.CSYmCdln.css"></head> <body class="min-h-screen flex flex-col"> <div class="noise-overlay"></div> <nav class="fixed top-0 left-0 w-full z-40 bg-warm-bg/80 dark:bg-night-bg/80 backdrop-blur-md transition-colors duration-500 border-b border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between"> <a href="/" class="font-serif text-2xl tracking-wide text-warm-text dark:text-night-text hover:text-warm-accent dark:hover:text-warm-accent transition-colors">
+猫头猫的博客
+</a> <div class="hidden md:flex items-center space-x-8"> <a href="/" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-accent underline underline-offset-4"> 文章 </a><a href="/works" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 关于我 </a> <button type="button" data-theme-toggle class="ml-4 p-2 rounded-full hover:bg-warm-text/5 dark:hover:bg-night-text/10 transition-colors" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-warm-text dark:text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> </div> <div class="md:hidden flex items-center gap-4"> <button type="button" data-theme-toggle class="p-2" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> <button type="button" data-menu-toggle data-menu-target="mobile-menu" aria-label="Menu"> <span data-menu-icon="open" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-menu text-warm-text dark:text-night-text">  <path d="M4 5h16"></path> <path d="M4 12h16"></path> <path d="M4 19h16"></path>  </svg> </span> <span data-menu-icon="close" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-x text-warm-text dark:text-night-text">  <path d="M18 6 6 18"></path> <path d="m6 6 12 12"></path>  </svg> </span> </button> </div> </div> <div id="mobile-menu" data-open="false" class="md:hidden bg-warm-bg dark:bg-night-bg overflow-hidden border-b border-warm-text/5 max-h-0 opacity-0 transition-all duration-500"> <div class="flex flex-col items-center py-6 space-y-4"> <a href="/" class="text-lg font-serif text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-lg font-serif text-warm-accent"> 文章 </a><a href="/works" class="text-lg font-serif text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-lg font-serif text-warm-text dark:text-night-text"> 关于我 </a> </div> </div> </nav> <main class="flex-grow pt-28 px-6 w-full max-w-4xl mx-auto">   <article id="article-top" class="py-12 md:py-20 max-w-5xl mx-auto"> <aside class="article-toc" aria-label="文章导航"><div class="article-toc-card"><div class="article-toc-title">目录</div><nav><ol class="article-toc-list"><li><a href="#方案1做一个调包侠"><span class="article-toc-index">01</span><span class="article-toc-text">方案1：做一个调包侠</span></a></li><li><a href="#方案2自己实现"><span class="article-toc-index">02</span><span class="article-toc-text">方案2：自己实现</span></a><ol class="article-toc-sublist"><li><a href="#通用定制">通用？定制？</a></li><li><a href="#怎么才能不卡">怎么才能不卡？</a></li><li><a href="#拖拽排序怎么实现">拖拽排序怎么实现？</a></li></ol></li><li><a href="#滚动行为"><span class="article-toc-index">03</span><span class="article-toc-text">滚动行为</span></a><ol class="article-toc-sublist"><li><a href="#整体结构">整体结构</a></li><li><a href="#autoscroll">autoscroll</a></li></ol></li><li><a href="#高亮元素"><span class="article-toc-index">04</span><span class="article-toc-text">高亮元素</span></a></li><li><a href="#执行回调"><span class="article-toc-index">05</span><span class="article-toc-text">执行回调</span></a></li><li><a href="#状态合并"><span class="article-toc-index">06</span><span class="article-toc-text">状态合并</span></a></li><li><a href="#把renderitem返回的组件用memo进行缓存"><span class="article-toc-index">07</span><span class="article-toc-text">把renderItem返回的组件用memo进行缓存</span></a></li><li><a href="#useref"><span class="article-toc-index">08</span><span class="article-toc-text">useRef</span></a></li></ol></nav><a class="article-toc-back" href="#article-top">返回顶部</a></div></aside> <div class="animate-slide-up"> <a href="/" class="inline-flex items-center text-warm-text/50 hover:text-warm-text transition-colors mb-8 text-sm uppercase tracking-widest font-sans group"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-left mr-2 transform group-hover:-translate-x-1 transition-transform">  <path d="m12 19-7-7 7-7"></path> <path d="M19 12H5"></path>  </svg>
+Back to Home
+</a> <header class="mb-12 text-center"> <div class="flex items-center justify-center gap-4 text-xs text-warm-text/50 dark:text-night-text/50 uppercase tracking-widest mb-6 font-sans"> <span class="flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-calendar">  <path d="M8 2v4"></path> <path d="M16 2v4"></path> <rect width="18" height="18" x="3" y="4" rx="2"></rect> <path d="M3 10h18"></path>  </svg> 2023/01/09 </span> <span>•</span> <span class="flex items-center gap-1 text-warm-accent"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-tag">  <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path> <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>  </svg> 前端 </span> </div> <h1 class="text-4xl md:text-5xl font-serif text-warm-text dark:text-night-text leading-tight mb-6"> 【干货】React Native性能优化——长列表拖拽排序 </h1> <div class="flex items-center justify-center gap-2 text-warm-text/40 text-sm font-sans italic"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="14" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-clock">  <path d="M12 6v6l4 2"></path> <circle cx="12" cy="12" r="10"></circle>  </svg> 18 分钟 </div> </header> <div class="article-layout"> <div class="article-content prose prose-lg md:prose-xl prose-stone dark:prose-invert font-serif prose-headings:font-serif"> <h1 id="前言">前言</h1>
+<p>这是在做业余项目<a href="https://github.com/maotoumao/MusicFree">MusicFree</a>时的一些技术探索，简单记录一下优化过程和思考方式。前情可以戳<a href="http://blog.upup.fun/2022/10/04/%E5%86%99%E4%B8%80%E4%B8%AA%E5%85%A8%E7%BD%91%E6%9C%80%E5%85%A8%E7%9A%84%E9%9F%B3%E4%B9%90%E6%92%AD%E6%94%BE%E5%99%A8/">这篇文章</a>。</p>
+<p>先来看最终的效果，再来说需求和实现：</p>
+<p><video src="http://storage.upup.fun/musicfree/313DA58C945D3DD5A4F005C0A6CDD29F.mp4" controls></video></p>
+<p>在上述视频中可以看到，这是一个由628首歌曲构成的歌单<strong>长列表</strong>，主要功能是对歌单里面的歌曲进行<strong>拖拽排序</strong>和<strong>批量选择操作</strong>，看起来还是比较流畅的。</p>
+<h1 id="需求分析实现思路">需求分析&#x26;实现思路</h1>
+<p>首先来明确一下需求，或者说最终要达到的目标吧。其实在前言部分已经够明确了，关键词就是<strong>长列表</strong>、<strong>拖拽排序</strong>和<strong>批量选择</strong>；作为一个业余项目，最终要达到的目标也掺杂着强烈的个人偏好：<strong>不卡、实用</strong>。</p>
+<h2 id="方案1做一个调包侠">方案1：做一个调包侠</h2>
+<p>为了实现以上效果，第一反应就是寻找社区开源项目，看有没有类似的库。网上搜了一圈，还在维护的貌似就只有这个<a href="https://github.com/computerjazz/react-native-draggable-flatlist">react-native-draggable-flatlist</a>库了。</p>
+<p>抱着试试看的心态，我们把<a href="https://github.com/maotoumao/MusicFree/blob/draggable-flatlist/src/pages/musicListEditor/components/musicList.tsx">代码写好</a>：</p>
+<blockquote>
+<p>其实最早期简单试用了一下，就把这个方案否决掉了。原因也很简单，一方面是有点卡，另一方面是它不知道为啥会导致模拟器debug时崩溃。下面的对比实验视频是在最后确定方案之后做的，忽略交互方式和一些底色之类的，相关的优化都是相同的。</p>
+</blockquote>
+<p><video src="http://storage.upup.fun/musicfree/SVID_20230109_230717_1.mp4" controls></video></p>
+<p>可以发现其中有几点体验较差的地方：</p>
+<ol>
+<li>拖拽到顶自动滑动的时候，选中的元素好像一直在抖</li>
+<li>单选时选中状态反应较快（和最终版速度差不多，因为这里的优化一样）；但<strong>全选、全不选有明显延迟</strong>(~1s)</li>
+<li>拖拽结束后，<strong>花费大量时间执行回调函数</strong>（可以观察一下颜色，停止拖拽后选中的元素还会保持很长一段时间的选中态）</li>
+</ol>
+<p>回顾下目标：</p>
+<ul>
+<li>卡吗？卡。</li>
+<li>实用吗？凑合能用。</li>
+<li>满意吗？凑合能用可以，卡的这么明显忍不了。</li>
+<li>那怎么办？自己写个吧。</li>
+</ul>
+<h2 id="方案2自己实现">方案2：自己实现</h2>
+<h3 id="通用定制">通用？定制？</h3>
+<p>既然要自己实现，那么还是得好好设计一下。第一个要思考的问题便是：要做一个通用方案还是做一个定制的方案。因为这可能会涉及到方案设计，如果要做一个通用方案，那可能会更少的trick，更多的配置来满足通用性和灵活性。如果是一个仅仅在当前项目中使用的方案，那就可以加很多<strong>前提条件</strong>和<strong>折中技巧</strong>了。<br>
+仔细想了想，首先我在短期内不太会用React Native开一个新的有长列表的坑，其次我也不见得做的会比react-native-draggable-flatlist更好，也不必顾此失彼，先用个项目中的定制方案满足自己的需求就足够了。</p>
+<h3 id="怎么才能不卡">怎么才能不卡？</h3>
+<p>第二个要思考的问题理所当然是如何实现目标了。那么自然有个问题：为啥会卡？<br>
+想一想我们用的库是什么：react-native-draggable-<strong>flatlist</strong>。对，flatlist。简单来说，Flatlist在每次滚动时会<strong>批量预渲染</strong>一定区域内的元素，并把区域外的元素<strong>销毁</strong>。我们来看一下这张图就明白了：</p>
+<p><img src="http://storage.upup.fun/musicfree/K4BF_4TJA%7D1%7DISIGJ%5B%7DWEAT.png" alt="flatlist"></p>
+<p>可以看出，始终会保持<strong>120个元素</strong>在内存中，每次滑动时会<strong>销毁</strong>不在区域中的元素。Shopify团队针对这一点进行优化开发了<a href="https://shopify.github.io/flash-list/">Flashlist</a>，它的原理大概是首先渲染一定量的初始元素；但在滑动时滑出视窗的元素不会销毁，而是重复利用：</p>
+<p><img src="http://storage.upup.fun/musicfree/%29OM6%604OYJ%7BVK%7DP%29%28W%24IFZLC.png" alt="flashlist"></p>
+<p>同时，由于其一次渲染到屏幕上的元素较少（20个之于120个），当<strong>全选</strong>时需要重新渲染的元素数目也会大大减少（简单算一下，少渲染5/6的内容）。它们官网上说相对于原生的Flatlist性能有5~10倍的提升，既然这样，那就用Flashlist好了。</p>
+<p><img src="http://storage.upup.fun/musicfree/G%7D%24VCM1F0I2W%28NGH%60_D%7B%28%40N.png" alt="官网"></p>
+<h3 id="拖拽排序怎么实现">拖拽排序怎么实现？</h3>
+<h4 id="再来一个问题">再来一个问题</h4>
+<p>以上两个问题思考完了：为了达成目标，我们可以随意在实现时加一些前提/trick，并且我们要把flatlist切换成flashlist以提升长列表性能。接下来就是比较麻烦的地方了：<strong>如何实现拖拽排序</strong>。都思考了这么多问题了，不妨再多加一个问题：最终要实现的效果是<strong>侧重UI交互</strong>还是<strong>侧重功能</strong>？</p>
+<p>如果侧重交互的话，可以大概设计一下理想的效果：</p>
+<ol>
+<li>在按住某一个元素上下拖动时，它需要出现在它正确的位置;</li>
+<li>并且它的兄弟元素都会被顺滑的挤到一边；</li>
+<li>滑动的位置越靠两端，滑动速度越快；</li>
+<li>在放手的一瞬间，它会立刻出现在它被移动到位置上。</li>
+</ol>
+<p>从实现角度来说：</p>
+<ol>
+<li>在选中一个元素的一瞬间，它的zIndex会被重新设置;</li>
+<li>随着手指的拖动，它和它的兄弟元素的y轴位置都会通过setNativeProps调整；</li>
+<li>同时需要记录下手指位置距离列表两端的距离来决定是否需要继续scroll，以及下一个scroll的位置；</li>
+<li>在放手的一瞬间，这些元素的位置和y轴位置（因为通过setNativeProps改过了）会被重新计算。</li>
+</ol>
+<p>确实，想的挺好，但Flatlist（Flashlist的参数和原生flatlist类似）连scroll的速度都难控制，更别说这些特殊的效果了。再想想目标，交互可以砍一些，果断<strong>侧重功能</strong>。</p>
+<h4 id="前提条件">前提条件</h4>
+<p>啰嗦了这么多，其实都是为了给最终实现减少难度。现在我们可以比较放肆的给拖拽排序列表加前提条件了：</p>
+<ul>
+<li>列表距离顶部和底部的距离已知</li>
+</ul>
+<blockquote>
+<p>反正是个个人项目，那我有理由要求整个APP中所有的拖拽列表样式保持一致。这也就意味着列表高度可以直接简单算出来。</p>
+</blockquote>
+<ul>
+<li>列表里面的元素高度、布局稳定，不会随着状态的变化有较大变化</li>
+</ul>
+<blockquote>
+<p>这样即便有需要传进来的样式，可以用ref存下样式；参数变化导致重新渲染时不需要重新创建样式对象；同时很多布局信息，如当前位置等也可以简单的算出来。</p>
+</blockquote>
+<ul>
+<li>交互方式固定，每个元素的右边有个小按钮，只能靠这个按钮进行拖拽</li>
+</ul>
+<blockquote>
+<p>统一交互的话，这样控制拖拽的逻辑可以直接做在列表组件内部了。具体一点说，通过列表传入的renderItem参数渲染的组件仅仅是下图中的红色部分；蓝色区域用来控制拖拽；拖拽的逻辑和样式仅仅由列表组件内部控制：</p>
+</blockquote>
+<blockquote>
+<p><img src="http://storage.upup.fun/musicfree/iPhone%2014_13%20Pro.png" alt=""></p>
+</blockquote>
+<ul>
+<li>目标元素拖动时，它的兄弟元素位置不会出现变化；目标元素拖到哪个元素的上方，就代表它最终会被移动到哪个位置</li>
+</ul>
+<blockquote>
+<p>这样只需要通过setNativeProps改变一个元素的属性，甚至可以通过一些trick完全不改动列表元素。</p>
+</blockquote>
+<p>前提条件加完了，是时候开始设计技术方案了。</p>
+<h1 id="技术方案">技术方案</h1>
+<p>把拖拽排序这个问题分解一下，又可以拆成几个子问题：</p>
+<ul>
+<li>滚动行为</li>
+<li>高亮元素</li>
+<li>结束回调<br>
+接下来就尝试从这几个角度去设计一下。</li>
+</ul>
+<h2 id="滚动行为">滚动行为</h2>
+<h3 id="整体结构">整体结构</h3>
+<p>滚动行为还是比较明了的。首先，列表是一个FlashList（删掉了很多无关代码，代码多了不好看），相关的事件以及需要在这些事件内关注的行为如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"></span>
+<span class="line"><span style="color:#6A737D">/** */</span></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> SortableFlatList</span><span style="color:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#6A737D">    // 不要干扰原始数据</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">_data</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">_setData</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#B392F0"> useState</span><span style="color:#E1E4E8">([</span><span style="color:#F97583">...</span><span style="color:#E1E4E8">(data </span><span style="color:#F97583">??</span><span style="color:#E1E4E8"> [])]);</span></span>
+<span class="line"><span style="color:#6A737D">    // 是否禁止滚动</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">scrollEnabled</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">setScrollEnabled</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#B392F0"> useState</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D">    // 是否处在激活状态, -1表示无，其他表示当前激活的下标</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> activeRef</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> useRef</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D">    // content偏移值 用来记录滚动距离</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> contentOffsetYRef</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> useRef</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#79B8FF">number</span><span style="color:#E1E4E8">>(</span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D">    // 目标在屏幕内移动距离</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> targetOffsetYRef</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> useRef</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#79B8FF">number</span><span style="color:#E1E4E8">>(</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D">    // 当前移动的方向，0表示不移动，1表示向下，-1表示向上</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> direction</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> useSharedValue</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> &#x3C;</span><span style="color:#B392F0">FlashList</span></span>
+<span class="line"><span style="color:#B392F0">                scrollEnabled</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">scrollEnabled</span><span style="color:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#B392F0">                ref</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">_</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">                    // list的引用，需要用它控制滚动</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#B392F0">                onLayout</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">evt</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">                    // 布局信息，需要用它拿到尺寸</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#B392F0">                data</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">_data</span><span style="color:#E1E4E8">}</span></span>
+<span class="line"><span style="color:#B392F0">                estimatedItemSize</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">itemHeight</span><span style="color:#E1E4E8">} </span><span style="color:#6A737D">// 这里其实是每一个元素的高度，直接固定了，也是一个优化项</span></span>
+<span class="line"><span style="color:#B392F0">                scrollEventThrottle</span><span style="color:#E1E4E8">={</span><span style="color:#79B8FF">16</span><span style="color:#E1E4E8">} </span><span style="color:#6A737D">// 滚动事件的节流回调</span></span>
+<span class="line"><span style="color:#B392F0">                onTouchStart</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">                    if</span><span style="color:#E1E4E8">(activeRef.current !== -1) {</span></span>
+<span class="line"><span style="color:#6A737D">                        // 触摸开始时，如果是在拖动状态，那就需要记录下初始位置</span></span>
+<span class="line"><span style="color:#6A737D">                        // 高亮元素</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#B392F0">                onTouchMove</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">                    if</span><span style="color:#E1E4E8">(activeRef.current !== -1) {</span></span>
+<span class="line"><span style="color:#6A737D">                        // 移动时，如果在拖动状态，需要更新滚动速度，并记录移动的距离</span></span>
+<span class="line"><span style="color:#6A737D">                        // 修改高亮元素位置</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#B392F0">                onTouchEnd</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">                    if</span><span style="color:#E1E4E8">(activeRef.current !== -1) {</span></span>
+<span class="line"><span style="color:#6A737D">                        // 如果是拖动状态，那就执行最终的回调</span></span>
+<span class="line"><span style="color:#6A737D">                        // 重置样式</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#B392F0">                onTouchCancel</span><span style="color:#E1E4E8">={() </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">                    // 取消时所有的符号位和状态</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#B392F0">                onScroll</span><span style="color:#E1E4E8">={</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">                    // 在这里记录下y轴的偏移</span></span>
+<span class="line"><span style="color:#B392F0">                    if</span><span style="color:#E1E4E8">(activeRef.current !== -1) {</span></span>
+<span class="line"><span style="color:#6A737D">                        // 滚动时，如果在拖动状态</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#B392F0">                renderItem</span><span style="color:#E1E4E8">={({</span><span style="color:#FFAB70">item</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">index</span><span style="color:#E1E4E8">}) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#B392F0">                    return</span><span style="color:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#E1E4E8">                        &#x3C;</span><span style="color:#FFAB70">SortableFlatListItem</span><span style="color:#E1E4E8">/> </span><span style="color:#6A737D">// 渲染一个满足前提条件的特定元素：它固定右侧是一个用来拖拽的小按钮，高度也是固定的。</span></span>
+<span class="line"><span style="color:#E1E4E8">                    );</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#E1E4E8">            /></span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> _SortableFlatListItem</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">props</span><span style="color:#F97583">:</span><span style="color:#B392F0"> ISortableFlatListItemProps</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#79B8FF">        setScrollEnabled</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        renderItem</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        setActiveItem</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        item</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        index</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#79B8FF">        activeRef</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    } </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> props;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#E1E4E8">        &#x3C;</span><span style="color:#B392F0">View</span><span style="color:#E1E4E8">></span></span>
+<span class="line"><span style="color:#E1E4E8">            {</span><span style="color:#FFAB70">renderItem</span><span style="color:#E1E4E8">({</span><span style="color:#FFAB70">item</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">index</span><span style="color:#E1E4E8">})}</span></span>
+<span class="line"><span style="color:#F97583">            &#x3C;</span><span style="color:#FFAB70">Pressable</span></span>
+<span class="line"><span style="color:#E1E4E8">                onTouchStart</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{() => {</span></span>
+<span class="line"><span style="color:#F97583">                    if</span><span style="color:#E1E4E8"> (activeRef.current </span><span style="color:#F97583">!==</span><span style="color:#F97583"> -</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">                        return</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">                    }</span></span>
+<span class="line"><span style="color:#6A737D">                    /** 使用ref避免其它组件重新渲染; 由于事件冒泡，这里会先触发 */</span></span>
+<span class="line"><span style="color:#E1E4E8">                    activeRef.current </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> index;</span></span>
+<span class="line"><span style="color:#6A737D">                    /** 锁定滚动 */</span></span>
+<span class="line"><span style="color:#B392F0">                    setScrollEnabled</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">false</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#B392F0">                    setActiveItem</span><span style="color:#E1E4E8">(item);</span></span>
+<span class="line"><span style="color:#E1E4E8">                }}</span></span>
+<span class="line"><span style="color:#E1E4E8">                style</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{styleRef.current.btn}</span><span style="color:#F97583">></span></span>
+<span class="line"><span style="color:#F97583">                &#x3C;</span><span style="color:#E1E4E8">Icon name</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"menu"</span><span style="color:#F97583">/></span></span>
+<span class="line"><span style="color:#F97583">            &#x3C;/</span><span style="color:#E1E4E8">Pressable</span><span style="color:#F97583">></span></span>
+<span class="line"><span style="color:#F97583">        &#x3C;/</span><span style="color:#E1E4E8">View</span><span style="color:#F97583">></span></span>
+<span class="line"><span style="color:#E1E4E8">    );</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> SortableFlatListItem</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> memo</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">    _SortableFlatListItem,</span></span>
+<span class="line"><span style="color:#E1E4E8">    (</span><span style="color:#FFAB70">prev</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">curr</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> prev.index </span><span style="color:#F97583">===</span><span style="color:#E1E4E8"> curr.index </span><span style="color:#F97583">&#x26;&#x26;</span><span style="color:#E1E4E8"> prev.item </span><span style="color:#F97583">===</span><span style="color:#E1E4E8"> curr.item,</span></span>
+<span class="line"><span style="color:#E1E4E8">);</span></span></code></pre>
+<p>以上代码中SortableFlatList就是暴露给外部模块直接使用的列表，列表内部其实是用SortableFlatListItem，它由两部分构成，左边一半是使用renderItem直接渲染的组件，右边一半是仅可以用来拖拽的一个Icon按钮。</p>
+<p>我们会遇到的第一个问题是<strong>禁用滚动的时机</strong>。当拖拽组件时，整个列表需要禁用滚动（仅可以由列表的ref手动控制滚动），不然的话随着拖拽可能触发了滚动事件，导致拖拽失效。由于禁用/启用滚动一定需要重新渲染列表，因此scrollEnabled是一个state，在_SortableFlatListItem的Icon按钮的触摸事件中设置它为false即可，也就是代码中锁定滚动注释的下面那行。</p>
+<p>第二个问题则是，如何记录<strong>当前正在拖拽的元素</strong>，以及这个元素的<strong>初始位置</strong>。根据之前的描述，正在拖拽的元素具有高亮效果，这个高亮效果必然是通过一个<strong>state</strong>控制的；我们可以在SortableFlatListItem中Icon按钮的onPress事件中触发setActiveItem，来更新当前的选中项。而为了得到这个元素的初始位置，我们必须想办法把用户<strong>触碰Icon按钮时的坐标</strong>传递给SortableFlatList。</p>
+<p>为了得到这一部分，这里用了一些小小的trick：我们知道React Native的事件也有<strong>冒泡机制</strong>，也就意味着事件会从子组件冒泡到父组件。</p>
+<p>具体一些说：子组件SortableFlatListItem中Icon按钮的onTouchStart会先触发，接下来会冒泡到SortableFlat的onTouchStart事件。这就给了我们一些可乘之机：我们可以再使用一个ref记录当前是否处于拖拽态，也就是代码中的activeRef，至于它的值，存放<strong>拖拽中元素的下标</strong>就完全足够了。</p>
+<p>如果触发拖拽，那么在Icon按钮的onTouchStart中同时更新activeItem和这个activeRef。接下来，事件会冒泡到SortableFlatList中，这时父组件的onTouchStart捕获到的activeRef已经被标记为处于拖拽状态，根据它的值便可以轻松判断当前的状态，并决定要不要记录下在列表中的初始位置；而此时activeItem作为一个state还没有被更新为最新的状态。总之，<strong>在父组件（也就是列表中）所有的eventhandler中都使用activeRef判断，activeItem作为状态仅仅用于更新高亮状态。</strong></p>
+<h3 id="autoscroll">autoscroll</h3>
+<p>整体结构说完了，接下来要考虑的就是拖拽到两端的情况了。React Native的scroll还是有点难用的，没办法控制滚动速度。而为了达到最初设想的：拖拽到两端时会自动滚动，且滚动速度和距离两端的位置有关，那就不得不用点trick。</p>
+<p>trick的原理其实也比较好理解：</p>
+<ol>
+<li>如果当前在滚动中，不做处理。</li>
+<li>如果当前拖拽的元素超过了某一阈值，且当前没有在滚动中，那么根据<strong>当前拖拽元素的位置</strong>计算<strong>方向</strong>以及<strong>滚动的目标位置</strong>，并触发滚动。</li>
+<li>在onScroll事件中监听（注意节流），在当前滚动的距离与目标位置比较接近时，判断<strong>触发下一次滚动</strong></li>
+<li>如果当前位置已经无法在滚动，停止滚动。</li>
+</ol>
+<p>除了上述方案，不断地setTimeout或者setInterval也可以完成目的，事实上最初的版本也确实这么做的，只不过看起来会忽快忽慢。</p>
+<p>在实现的过程中，也使用了reanimated提供的useSharedValue来存储方向，并使用useDerivedValue在方向变化时及时地在不触发重新渲染的情况下进行滚动。</p>
+<p>控制滚动的代码如下：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> scrollToTarget</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">forceScroll</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#6A737D">    // 未进行拖拽</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (activeRef.current </span><span style="color:#F97583">===</span><span style="color:#F97583"> -</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        scrollingRef.current </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // 滚动中就不滚了 </span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (scrollingRef.current </span><span style="color:#F97583">&#x26;&#x26;</span><span style="color:#F97583"> !</span><span style="color:#E1E4E8">forceScroll) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        scrollingRef.current </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // 方向是0, 也就是没有在滚动</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (direction.value </span><span style="color:#F97583">===</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        scrollingRef.current </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#6A737D">    // 下一次滚动到的位置</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> nextTarget</span><span style="color:#F97583"> =</span></span>
+<span class="line"><span style="color:#E1E4E8">        Math.</span><span style="color:#B392F0">sign</span><span style="color:#E1E4E8">(direction.value) </span><span style="color:#F97583">*</span></span>
+<span class="line"><span style="color:#E1E4E8">            Math.</span><span style="color:#B392F0">max</span><span style="color:#E1E4E8">(Math.</span><span style="color:#B392F0">abs</span><span style="color:#E1E4E8">(direction.value), </span><span style="color:#79B8FF">0.3</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">*</span></span>
+<span class="line"><span style="color:#79B8FF">            300</span><span style="color:#F97583"> +</span></span>
+<span class="line"><span style="color:#E1E4E8">        contentOffsetYRef.current;</span></span>
+<span class="line"><span style="color:#6A737D">    // 当前到极限了</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#E1E4E8">        (contentOffsetYRef.current </span><span style="color:#F97583">&#x3C;=</span><span style="color:#79B8FF"> 2</span><span style="color:#F97583"> &#x26;&#x26;</span></span>
+<span class="line"><span style="color:#E1E4E8">            nextTarget </span><span style="color:#F97583">&#x3C;</span><span style="color:#E1E4E8"> contentOffsetYRef.current) </span><span style="color:#F97583">||</span></span>
+<span class="line"><span style="color:#E1E4E8">        (contentOffsetYRef.current </span><span style="color:#F97583">>=</span></span>
+<span class="line"><span style="color:#E1E4E8">            listContentHeight </span><span style="color:#F97583">-</span><span style="color:#E1E4E8"> (layoutRef.current?.height </span><span style="color:#F97583">??</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">-</span><span style="color:#79B8FF"> 2</span><span style="color:#F97583"> &#x26;&#x26;</span></span>
+<span class="line"><span style="color:#E1E4E8">            nextTarget </span><span style="color:#F97583">></span><span style="color:#E1E4E8"> contentOffsetYRef.current)</span></span>
+<span class="line"><span style="color:#E1E4E8">    ) {</span></span>
+<span class="line"><span style="color:#E1E4E8">        scrollingRef.current </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">        return</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">    scrollingRef.current </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#6A737D">    // 超出区域</span></span>
+<span class="line"><span style="color:#E1E4E8">    targetOffsetYRef.current </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Math.</span><span style="color:#B392F0">min</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">        Math.</span><span style="color:#B392F0">max</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">, nextTarget),</span></span>
+<span class="line"><span style="color:#E1E4E8">        listContentHeight </span><span style="color:#F97583">-</span><span style="color:#E1E4E8"> (layoutRef.current?.height </span><span style="color:#F97583">??</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#E1E4E8">    );</span></span>
+<span class="line"><span style="color:#6A737D">    // 开始滚动</span></span>
+<span class="line"><span style="color:#E1E4E8">    listRef.current?.</span><span style="color:#B392F0">scrollToOffset</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">        animated: </span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        offset: targetOffsetYRef.current,</span></span>
+<span class="line"><span style="color:#E1E4E8">    });</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span></code></pre>
+<p>列表中onScroll的事件也十分简单粗暴：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#E1E4E8">onScroll</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    contentOffsetYRef.current </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> e.nativeEvent.contentOffset.y;</span></span>
+<span class="line"><span style="color:#6A737D">    // 与目标距离小于2像素就强制再滚一次</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (</span></span>
+<span class="line"><span style="color:#E1E4E8">        activeRef.current </span><span style="color:#F97583">!==</span><span style="color:#F97583"> -</span><span style="color:#79B8FF">1</span><span style="color:#F97583"> &#x26;&#x26;</span></span>
+<span class="line"><span style="color:#E1E4E8">        Math.</span><span style="color:#B392F0">abs</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">            contentOffsetYRef.current </span><span style="color:#F97583">-</span></span>
+<span class="line"><span style="color:#E1E4E8">                targetOffsetYRef.current,</span></span>
+<span class="line"><span style="color:#E1E4E8">        ) </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 2</span></span>
+<span class="line"><span style="color:#E1E4E8">    ) {</span></span>
+<span class="line"><span style="color:#B392F0">        scrollToTarget</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">true</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}}</span></span></code></pre>
+<h2 id="高亮元素">高亮元素</h2>
+<p>根据上边的一大通分析，在这里已经把高亮简化成了“浮在列表上，且拖拽中的兄弟元素不需要移动位置”。在这个前提下，我们考虑到的思路有两种：</p>
+<ul>
+<li>给list传入一个额外的extra字段，其中放上activeItem；当activeItem变化时逐个元素进行比较，并更新对应元素的样式</li>
+<li>list完全不动，在列表上再浮一个长的一模一样的列表元素，直接更新它就好了</li>
+</ul>
+<p>显然是第二种思路更简单一些。并且由于list的元素有memo，在拖拽时甚至list中的元素都不会重新渲染：
+<img src="http://storage.upup.fun/musicfree/QQ%E5%9B%BE%E7%89%8720230110234021.png" alt="代码截图"></p>
+<p>而对这个“假高亮”的控制，只需要通过setNativeProps在开始拖拽时更新它的top、opacity和zIndex，滑动时更新它的top，并在拖拽结束时更新zIndex为-1，opacity为0隐藏掉，看起来似乎就是完全跟手的了：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D">    // ...</span></span>
+<span class="line"><span style="color:#E1E4E8">    onTouchMove</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        fakeItemRef.current</span><span style="color:#F97583">!</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">setNativeProps</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">            top: offsetRef.current,</span></span>
+<span class="line"><span style="color:#E1E4E8">            opacity: </span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            zIndex: </span><span style="color:#79B8FF">100</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        });</span></span>
+<span class="line"><span style="color:#E1E4E8">    }}</span></span>
+<span class="line"><span style="color:#E1E4E8">    onTouchEnd</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        fakeItemRef.current</span><span style="color:#F97583">!</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">setNativeProps</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">            top: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            opacity: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            zIndex: </span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        });</span></span>
+<span class="line"><span style="color:#E1E4E8">    }}</span></span>
+<span class="line"><span style="color:#E1E4E8">    onTouchCancel</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{</span><span style="color:#FFAB70">e</span><span style="color:#F97583"> =></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        fakeItemRef.current</span><span style="color:#F97583">!</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">setNativeProps</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">            top: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            opacity: </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">            zIndex: </span><span style="color:#F97583">-</span><span style="color:#79B8FF">1</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">        });</span></span>
+<span class="line"><span style="color:#E1E4E8">    }}</span></span>
+<span class="line"></span></code></pre>
+<h2 id="执行回调">执行回调</h2>
+<p>接下来就需要拖拽结束后的处理了，这里其实是比较轻松的一步。在一通操作之下，我们记录下了某个元素在屏幕内移动的距离和列表滚动的距离，又强行限制住了列表的高度，那拖拽后的位置就很容易计算出来了：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#E1E4E8">    onTouchEnd</span><span style="color:#F97583">=</span><span style="color:#E1E4E8">{(e) => {</span></span>
+<span class="line"><span style="color:#6A737D">            // ...</span></span>
+<span class="line"><span style="color:#6A737D">            // activeRef.current是初始下标，计算一下偏移即可</span></span>
+<span class="line"><span style="color:#E1E4E8">            index </span><span style="color:#F97583">=</span></span>
+<span class="line"><span style="color:#E1E4E8">                activeRef.current </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                Math.</span><span style="color:#B392F0">round</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">                    (e.nativeEvent.pageY </span><span style="color:#F97583">-</span></span>
+<span class="line"><span style="color:#E1E4E8">                        initDragPageY.current </span><span style="color:#F97583">+</span></span>
+<span class="line"><span style="color:#E1E4E8">                        initDragLocationY.current) </span><span style="color:#F97583">/</span></span>
+<span class="line"><span style="color:#E1E4E8">                        itemHeight,</span></span>
+<span class="line"><span style="color:#E1E4E8">                );</span></span>
+<span class="line"><span style="color:#6A737D">            // 注意范围约束</span></span>
+<span class="line"><span style="color:#E1E4E8">            index </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Math.</span><span style="color:#B392F0">min</span><span style="color:#E1E4E8">(data.</span><span style="color:#79B8FF">length</span><span style="color:#E1E4E8">, Math.</span><span style="color:#B392F0">max</span><span style="color:#E1E4E8">(index, </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#6A737D">            // 起始下标: activeRef.current  结束下标: index</span></span>
+<span class="line"><span style="color:#F97583">            if</span><span style="color:#E1E4E8"> (activeRef.current </span><span style="color:#F97583">!==</span><span style="color:#E1E4E8"> index) {</span></span>
+<span class="line"><span style="color:#6A737D">                // 计算下排序后的数组</span></span>
+<span class="line"><span style="color:#F97583">                let</span><span style="color:#E1E4E8"> nData </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> _data</span></span>
+<span class="line"><span style="color:#E1E4E8">                    .</span><span style="color:#B392F0">slice</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">, activeRef.current)</span></span>
+<span class="line"><span style="color:#E1E4E8">                    .</span><span style="color:#B392F0">concat</span><span style="color:#E1E4E8">(_data.</span><span style="color:#B392F0">slice</span><span style="color:#E1E4E8">(activeRef.current </span><span style="color:#F97583">+</span><span style="color:#79B8FF"> 1</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">                nData.</span><span style="color:#B392F0">splice</span><span style="color:#E1E4E8">(index, </span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">, activeItem </span><span style="color:#F97583">as</span><span style="color:#B392F0"> T</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#6A737D">                // 执行回调</span></span>
+<span class="line"><span style="color:#B392F0">                onSortEnd</span><span style="color:#E1E4E8">?.(nData);</span></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }           </span></span></code></pre>
+<p>到这里就算差不多了，最终的效果也如开头的视频那样，大概看起来还可以。不过细看还是有瑕疵，比如点击时的水波纹效果无法扩散到拖拽按钮的位置，这也可以通过优化布局来解决（设置列表项宽度为屏幕宽度，拖拽按钮的position设置为absolute并放在列表项上层，也就是并排改成折叠）。但总体问题不大。</p>
+<h1 id="其他优化思路">其他优化思路</h1>
+<p>这些是我在做的过程中的一些其他的优化思路和想法，也简单记录一下吧。</p>
+<h2 id="状态合并">状态合并</h2>
+<p>这里指的是把和一个对象相关的一一对应的状态合并到一个对象中，或者说如果某些状态之前有比较强的关联关系，那似乎可以合在一起。比如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#E1E4E8">[list, setList] </span><span style="color:#F97583">=</span><span style="color:#B392F0"> useState</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#79B8FF">any</span><span style="color:#E1E4E8">[]>([]);</span></span>
+<span class="line"><span style="color:#E1E4E8">[listChecked, setListChecked] </span><span style="color:#F97583">=</span><span style="color:#B392F0"> useState</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#79B8FF">boolean</span><span style="color:#E1E4E8">[]>([]);</span></span></code></pre>
+<p>可以合并成：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#E1E4E8">[checkList, setCheckList] </span><span style="color:#F97583">=</span><span style="color:#B392F0"> useState</span><span style="color:#E1E4E8">&#x3C;</span><span style="color:#B392F0">Array</span><span style="color:#E1E4E8">&#x3C;{</span><span style="color:#FFAB70">listItem</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> any</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">checked</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> boolean</span><span style="color:#E1E4E8">}>>([]);</span></span></code></pre>
+<p>因为如果分开，需要修改list和listChecked时某些情况下可能会使元素被渲染两次，并且用memo优化时也需要写两个判断条件。</p>
+<h2 id="把renderitem返回的组件用memo进行缓存">把renderItem返回的组件用memo进行缓存</h2>
+<p>就以本文中的选中为例，所有的选中状态都存在一个数组中，当一个元素被选中时，这个数组也会整个更新（重新生成一个新的数组），从而引发列表重新渲染，每个renderItem都会被调用一遍，而显然其他的所有元素都是不需要重新渲染的。因此用memo做缓存就很有必要。<br>
+个人感觉，给renderItem的组件做memo似乎更重要一些，但官网只写了renderItem不要用匿名函数（尽管我总觉得这个好像没啥用，因为重新渲染的话不管用不用匿名函数都会重新生成一个函数对象，也可能是我理解不到位吧）。同时renderItem要尽可能的轻量（减少副作用，组件尽量的简单一些），这样重新渲染的压力也会小一些。</p>
+<h2 id="useref">useRef</h2>
+<p>某些用来做标志位的值存在ref中就够了，完全不需要使用state。如果用了state，引发重新渲染不说，依赖这个标志位的callback如果使用useCallback优化了，那好像也没啥用，反正标志位一变就会重新生成个函数对象。以及一个作为标志位的state，如果在useEffect里面用到，那它写进useEffect的依赖中可能没什么必要，不写的话又违反hooks的使用规范，就挺尴尬的。</p>
+<h1 id="结尾">结尾</h1>
+<p>大概就是这么多，拖了很久才决定写这么一个小总结（要不然过一阵子就更想不起来了）。顺带再简单介绍下MusicFree，这是个基于React Native开发的开源音乐播放器，可以通过写一个简单的js脚本来扩展音源，简单的介绍可以看github。</p>
+<p>本文中的所有代码也都在github上可以看到：<a href="https://github.com/maotoumao/MusicFree/blob/master/src/components/base/SortableFlatList.tsx">可以戳这里</a>；这个项目尽管说有些地方写的还是不好，但是感觉还是比较适合初学者的，拿来练手也不错。</p>
+<p>如果你喜欢我的内容，也可以关注下公众号【一只猫头猫】，平时工作之余的一些想法以及做的一些其他的有趣的事情也会分享在公众号。应该不太会为了维持关注发水文，尽量发一些有意义的东西。感兴趣就随缘关注下吧~~~ 过一段时间<em>说不准</em>会更新个刷题系列，可以一起鸭~</p> </div> </div> <div class="mt-20 pt-12 border-t border-warm-text/10 flex justify-between items-center"> <div class="text-warm-text/50 text-sm italic font-serif">
+Thanks for reading.
+</div> <div class="flex gap-4"> <button class="text-warm-text/50 hover:text-warm-accent text-sm uppercase tracking-widest">Share</button> </div> </div> </div> <a class="article-backtop" href="#article-top" aria-label="返回顶部"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-up">  <path d="m5 12 7-7 7 7"></path> <path d="M12 19V5"></path>  </svg> </a> </article>  </main> <footer class="w-full py-12 mt-20 border-t border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 flex flex-col items-center"> <div class="flex space-x-6 mb-6"> <div class="relative group"> <button type="button" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="微信公众号"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <path d="M11.176 14.429c-2.665 0-4.826-1.8-4.826-4.018 0-2.22 2.159-4.02 4.824-4.02S16 8.191 16 10.411c0 1.21-.65 2.301-1.666 3.036a.32.32 0 0 0-.12.366l.218.81a.6.6 0 0 1 .029.117.166.166 0 0 1-.162.162.2.2 0 0 1-.092-.03l-1.057-.61a.5.5 0 0 0-.256-.074.5.5 0 0 0-.142.021 5.7 5.7 0 0 1-1.576.22M9.064 9.542a.647.647 0 1 0 .557-1 .645.645 0 0 0-.646.647.6.6 0 0 0 .09.353Zm3.232.001a.646.646 0 1 0 .546-1 .645.645 0 0 0-.644.644.63.63 0 0 0 .098.356"></path> <path d="M0 6.826c0 1.455.781 2.765 2.001 3.656a.385.385 0 0 1 .143.439l-.161.6-.1.373a.5.5 0 0 0-.032.14.19.19 0 0 0 .193.193q.06 0 .111-.029l1.268-.733a.6.6 0 0 1 .308-.088q.088 0 .171.025a6.8 6.8 0 0 0 1.625.26 4.5 4.5 0 0 1-.177-1.251c0-2.936 2.785-5.02 5.824-5.02l.15.002C10.587 3.429 8.392 2 5.796 2 2.596 2 0 4.16 0 6.826m4.632-1.555a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0m3.875 0a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0"></path> </svg> </button> <div class="pointer-events-none absolute left-1/2 bottom-10 z-10 w-40 -translate-x-1/2 opacity-0 scale-95 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100"> <div class="rounded-xl border border-warm-text/10 dark:border-night-text/10 bg-white/95 dark:bg-night-surface/95 p-2 shadow-lg"> <img src="/images/wechat_channel.jpg" alt="微信公众号二维码" class="h-36 w-36 rounded-lg object-cover"> </div> </div> </div> <a href="https://space.bilibili.com/12866223" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="B站" title="B站" target="_blank" rel="noreferrer"> <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <title>Bilibili</title> <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"></path> </svg> </a> <a href="https://www.xiaohongshu.com/user/profile/5ce6085200000000050213a6?xhsshare=CopyLink&appuid=5ce6085200000000050213a6&apptime=1714394544" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="小红书" title="小红书" target="_blank" rel="noreferrer"> <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="h-5 w-5" aria-hidden="true" focusable="false"> <title>小红书</title> <path d="M289.44,256H477.67c17.93,0,33.86,15.57,34.33,33.48V477.72A35.09,35.09,0,0,1,477.66,512H289.5A35.14,35.14,0,0,1,256,477.64V289.56C256.43,271.93,271.81,256.5,289.44,256Zm16.73,91.44c-.13,19.87-.06,39.75-.16,59.63a2.1,2.1,0,0,1-2.13,2.6c-2.39.14-4.79.06-7.19.08,1.61,4,3.35,7.86,5.15,11.73,4.52-.15,9.68.79,13.54-2.17,3.47-2.58,4.58-7.17,4.51-11.3,0-20.19,0-40.39-.09-60.58C315.26,347.41,310.71,347.4,306.17,347.44Zm56.08-.9q-5.08,11.67-10.36,23.24c-1,2.31-2.21,5.37-.11,7.46,2.69,2.44,6.64,1.5,9.94,1.72-2.29,5.78-5.3,11.27-7.23,17.19-1.07,2.92,1.6,5.89,4.52,5.92,5.29.36,10.6,0,15.9.14,1.73-3.87,3.47-7.73,5.17-11.62-3.09,0-6.21.22-9.25-.39,3.29-8.26,7.19-16.25,10.68-24.41-4.27-.5-9.1.89-13-.77,1.9-6.4,5.36-12.27,7.8-18.5C371.61,346.5,366.93,346.47,362.25,346.54Zm72.75.05,0,5.21c-3.06,0-6.12,0-9.18,0q0,7,0,13.93c3.07,0,6.13,0,9.19.06q.12,6,0,12.08c-4.6.09-9.21,0-13.81.07-.06,4.64-.05,9.27,0,13.9,4.61.05,9.23,0,13.84,0,0,9.86,0,19.73,0,29.59,4.62,0,9.23,0,13.85,0q0-14.79,0-29.57c6.74,0,13.47-.1,20.21,0,2.37-.2,5.08,1.46,5,4.07a110.67,110.67,0,0,1,0,11.08,2.26,2.26,0,0,1-2.12,2.39c-3.85.28-7.71,0-11.57.13,1.7,4,3.35,8,5.28,11.95,6.35-.33,14.11,1.27,18.95-4,4.6-4.26,3.22-11,3.41-16.56-.29-5.85,1.14-12.46-2.49-17.58-3.09-4.34-8.66-5.52-13.68-5.61-.3-7,1.37-15.19-3.78-20.88-4.8-5.38-12.53-5.4-19.17-5.14l0-5.2C444.23,346.56,439.61,346.57,435,346.59Zm-49.42,5.22q0,7,0,13.92c2.9,0,5.79,0,8.69,0,0,13.91,0,27.83,0,41.74-4.15.07-8.31,0-12.46.05-2.15,4.62-4.25,9.26-6.34,13.9,15.48.06,31,0,46.44,0q0-6.94,0-13.9c-4.45,0-8.91,0-13.36-.05q0-20.88,0-41.77c2.91,0,5.81,0,8.72,0,0-4.64,0-9.29,0-13.93C406.73,351.79,396.16,351.77,385.58,351.81Zm91.35,1.28c-3.88,2.94-2.61,8.32-2.78,12.51,2.59,0,5.19.14,7.78-.09,4.16-.38,7.29-5.23,5.62-9.15C486.24,352.06,480.43,350.19,476.93,353.09ZM283,365.72c-.7,9.12-1.41,18.23-2.07,27.35a22.12,22.12,0,0,1-1.32,6.06c2.34,5.35,4.68,10.7,7.18,16,5.6-7.49,7.68-16.93,8.26-26.1.49-7.8,1.36-15.59,1.64-23.4C292.1,365.79,287.54,365.68,283,365.72Zm46.13,0q1,12.69,2,25.37c.73,8.48,2.92,17.12,8.1,24,2.47-5.29,4.83-10.63,7.17-16A21.67,21.67,0,0,1,345,393c-.66-9.09-1.38-18.18-2.08-27.27Q336,365.69,329.1,365.72Zm17.16,54.69c7.08,2.09,14.58.66,21.85,1.05,2.14-4.63,4.27-9.27,6.35-13.93-7.27-.28-14.67.76-21.8-1.07Q349.42,413.41,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M448.77,365.77c3,.43,7-1.22,9.29,1.2.38,3.65.1,7.32.14,11-3.11,0-6.23,0-9.34,0Q448.77,371.87,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M306.17,347.44c4.54,0,9.09,0,13.63,0,.13,20.19.08,40.39.09,60.58.07,4.13-1,8.72-4.51,11.3-3.86,3-9,2-13.54,2.17-1.8-3.87-3.54-7.77-5.15-11.73,2.4,0,4.8.06,7.19-.08a2.1,2.1,0,0,0,2.13-2.6C306.11,387.19,306,367.31,306.17,347.44Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M362.25,346.54c4.68-.07,9.36,0,14,0-2.44,6.23-5.9,12.1-7.8,18.5,3.92,1.66,8.75.27,13,.77-3.49,8.16-7.39,16.15-10.68,24.41,3,.61,6.16.39,9.25.39-1.7,3.89-3.44,7.75-5.17,11.62-5.3-.09-10.61.22-15.9-.14-2.92,0-5.59-3-4.52-5.92,1.93-5.92,4.94-11.41,7.23-17.19-3.3-.22-7.25.72-9.94-1.72-2.1-2.09-.88-5.15.11-7.46Q357.14,358.2,362.25,346.54Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M435,346.59c4.61,0,9.23,0,13.84,0l0,5.2c6.64-.26,14.37-.24,19.17,5.14,5.15,5.69,3.48,13.9,3.78,20.88,5,.09,10.59,1.27,13.68,5.61,3.63,5.12,2.2,11.73,2.49,17.58-.19,5.57,1.19,12.3-3.41,16.56-4.84,5.23-12.6,3.63-18.95,4-1.93-3.91-3.58-7.94-5.28-11.95,3.86-.11,7.72.15,11.57-.13a2.26,2.26,0,0,0,2.12-2.39,110.67,110.67,0,0,0,0-11.08c.07-2.61-2.64-4.27-5-4.07-6.74-.1-13.47,0-20.21,0q0,14.79,0,29.57c-4.62,0-9.23,0-13.85,0,0-9.86,0-19.73,0-29.59-4.61,0-9.23,0-13.84,0,0-4.63,0-9.26,0-13.9,4.6,0,9.21,0,13.81-.07q.13-6,0-12.08c-3.06-.05-6.12-.09-9.19-.06q0-7,0-13.93c3.06,0,6.12,0,9.18,0Zm13.77,19.18q0,6.1.09,12.2c3.11,0,6.23,0,9.34,0,0-3.66.24-7.33-.14-11C455.77,364.55,451.77,366.2,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M385.58,351.81c10.58,0,21.15,0,31.72,0,0,4.64,0,9.29,0,13.93-2.91,0-5.81,0-8.72,0q0,20.89,0,41.77c4.45.05,8.91,0,13.36.05q0,6.94,0,13.9c-15.48,0-31,0-46.44,0,2.09-4.64,4.19-9.28,6.34-13.9,4.15,0,8.31,0,12.46-.05,0-13.91,0-27.83,0-41.74-2.9,0-5.79,0-8.69,0Q385.55,358.77,385.58,351.81Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M476.93,353.09c3.5-2.9,9.31-1,10.62,3.27,1.67,3.92-1.46,8.77-5.62,9.15-2.59.23-5.19.1-7.78.09C474.32,361.41,473.05,356,476.93,353.09Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M283,365.72c4.57,0,9.13.07,13.69-.11-.28,7.81-1.15,15.6-1.64,23.4-.58,9.17-2.66,18.61-8.26,26.1-2.5-5.28-4.84-10.63-7.18-16a22.12,22.12,0,0,0,1.32-6.06C281.56,384,282.27,374.84,283,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M329.1,365.72q6.91,0,13.83,0c.7,9.09,1.42,18.18,2.08,27.27a21.67,21.67,0,0,0,1.32,6.15c-2.34,5.35-4.7,10.69-7.17,16-5.18-6.91-7.37-15.55-8.1-24S329.77,374.18,329.1,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M346.26,420.41q3.17-7,6.4-13.95c7.13,1.83,14.53.79,21.8,1.07-2.08,4.66-4.21,9.3-6.35,13.93C360.84,421.07,353.34,422.5,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#fff"></path> </svg> </a> <a href="https://github.com/maotoumao" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="GitHub" title="GitHub" target="_blank" rel="noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-github">  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path> <path d="M9 18c-4.51 2-5-2-7-2"></path>  </svg> </a> </div> <p class="font-serif text-sm text-warm-text/40 dark:text-night-text/40">
+© <span id="footer-year"></span> 猫头猫的博客. All rights reserved.
+</p> </div> <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script> </footer> <script>
+      const root = document.documentElement;
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = stored || (prefersDark ? 'dark' : 'light');
+
+      const applyTheme = (theme) => {
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        localStorage.setItem('theme', theme);
+        const showSun = theme === 'light';
+        document.querySelectorAll('[data-theme-icon="sun"]').forEach((el) => el.classList.toggle('hidden', !showSun));
+        document.querySelectorAll('[data-theme-icon="moon"]').forEach((el) => el.classList.toggle('hidden', showSun));
+      };
+
+      applyTheme(initialTheme);
+
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          applyTheme(next);
+        });
+      });
+
+      document.querySelectorAll('[data-menu-toggle]').forEach((button) => {
+        const targetId = button.getAttribute('data-menu-target');
+        const menu = document.getElementById(targetId);
+        if (!menu) return;
+
+        button.addEventListener('click', () => {
+          const isOpen = menu.dataset.open === 'true';
+          menu.dataset.open = (!isOpen).toString();
+          menu.classList.toggle('max-h-0', isOpen);
+          menu.classList.toggle('max-h-96', !isOpen);
+          menu.classList.toggle('opacity-0', isOpen);
+          menu.classList.toggle('opacity-100', !isOpen);
+          button.querySelector('[data-menu-icon="open"]').classList.toggle('hidden', !isOpen);
+          button.querySelector('[data-menu-icon="close"]').classList.toggle('hidden', isOpen);
+        });
+      });
+    </script> </body> </html>

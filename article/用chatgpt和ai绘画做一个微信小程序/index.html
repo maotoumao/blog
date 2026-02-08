@@ -1,0 +1,230 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="简单的想法记录。"><link rel="canonical" href="https://blog.catcat.work/article/%E7%94%A8chatgpt%E5%92%8Cai%E7%BB%98%E7%94%BB%E5%81%9A%E4%B8%80%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F"><meta property="og:site_name" content="猫头猫的博客"><meta property="og:title" content="用ChatGPT和AI绘画做一个微信小程序 · 猫头猫的博客"><meta property="og:description" content="简单的想法记录。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.catcat.work/article/%E7%94%A8chatgpt%E5%92%8Cai%E7%BB%98%E7%94%BB%E5%81%9A%E4%B8%80%E4%B8%AA%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F"><meta property="og:image" content="https://blog.catcat.work/images/avatar.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="用ChatGPT和AI绘画做一个微信小程序 · 猫头猫的博客"><meta name="twitter:description" content="简单的想法记录。"><meta name="twitter:image" content="https://blog.catcat.work/images/avatar.jpg"><link rel="alternate" type="application/rss+xml" title="猫头猫的博客 RSS" href="/rss.xml"><link rel="icon" href="/images/avatar.jpg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"><title>用ChatGPT和AI绘画做一个微信小程序 · 猫头猫的博客</title> <meta property="article:author" content="猫头猫"> <meta property="article:published_time" content="2023-02-20T22:21:46.000Z"><script type="application/ld+json">
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        description,
+        datePublished: publishedTime,
+        author: {
+          '@type': 'Person',
+          name: SITE_AUTHOR,
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': new URL(`/article/${post.id}`, SITE_URL).toString(),
+        },
+        image: new URL(SITE_IMAGE, SITE_URL).toString(),
+      })}
+    </script> <link rel="stylesheet" href="/_astro/about.DQxYEom-.css">
+<link rel="stylesheet" href="/_astro/_id_.CSYmCdln.css"></head> <body class="min-h-screen flex flex-col"> <div class="noise-overlay"></div> <nav class="fixed top-0 left-0 w-full z-40 bg-warm-bg/80 dark:bg-night-bg/80 backdrop-blur-md transition-colors duration-500 border-b border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between"> <a href="/" class="font-serif text-2xl tracking-wide text-warm-text dark:text-night-text hover:text-warm-accent dark:hover:text-warm-accent transition-colors">
+猫头猫的博客
+</a> <div class="hidden md:flex items-center space-x-8"> <a href="/" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-accent underline underline-offset-4"> 文章 </a><a href="/works" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 关于我 </a> <button type="button" data-theme-toggle class="ml-4 p-2 rounded-full hover:bg-warm-text/5 dark:hover:bg-night-text/10 transition-colors" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-warm-text dark:text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> </div> <div class="md:hidden flex items-center gap-4"> <button type="button" data-theme-toggle class="p-2" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> <button type="button" data-menu-toggle data-menu-target="mobile-menu" aria-label="Menu"> <span data-menu-icon="open" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-menu text-warm-text dark:text-night-text">  <path d="M4 5h16"></path> <path d="M4 12h16"></path> <path d="M4 19h16"></path>  </svg> </span> <span data-menu-icon="close" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-x text-warm-text dark:text-night-text">  <path d="M18 6 6 18"></path> <path d="m6 6 12 12"></path>  </svg> </span> </button> </div> </div> <div id="mobile-menu" data-open="false" class="md:hidden bg-warm-bg dark:bg-night-bg overflow-hidden border-b border-warm-text/5 max-h-0 opacity-0 transition-all duration-500"> <div class="flex flex-col items-center py-6 space-y-4"> <a href="/" class="text-lg font-serif text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-lg font-serif text-warm-accent"> 文章 </a><a href="/works" class="text-lg font-serif text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-lg font-serif text-warm-text dark:text-night-text"> 关于我 </a> </div> </div> </nav> <main class="flex-grow pt-28 px-6 w-full max-w-4xl mx-auto">   <article id="article-top" class="py-12 md:py-20 max-w-5xl mx-auto"> <aside class="article-toc" aria-label="文章导航"><div class="article-toc-card"><div class="article-toc-title">目录</div><nav><ol class="article-toc-list"><li><a href="#过程"><span class="article-toc-index">01</span><span class="article-toc-text">过程</span></a></li><li><a href="#总结"><span class="article-toc-index">02</span><span class="article-toc-text">总结</span></a></li><li><a href="#实时调用与离线数据"><span class="article-toc-index">03</span><span class="article-toc-text">实时调用与离线数据</span></a></li><li><a href="#批量生成离线数据"><span class="article-toc-index">04</span><span class="article-toc-text">批量生成离线数据</span></a></li><li><a href="#总结-1"><span class="article-toc-index">05</span><span class="article-toc-text">总结</span></a></li></ol></nav><a class="article-toc-back" href="#article-top">返回顶部</a></div></aside> <div class="animate-slide-up"> <a href="/" class="inline-flex items-center text-warm-text/50 hover:text-warm-text transition-colors mb-8 text-sm uppercase tracking-widest font-sans group"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-left mr-2 transform group-hover:-translate-x-1 transition-transform">  <path d="m12 19-7-7 7-7"></path> <path d="M19 12H5"></path>  </svg>
+Back to Home
+</a> <header class="mb-12 text-center"> <div class="flex items-center justify-center gap-4 text-xs text-warm-text/50 dark:text-night-text/50 uppercase tracking-widest mb-6 font-sans"> <span class="flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-calendar">  <path d="M8 2v4"></path> <path d="M16 2v4"></path> <rect width="18" height="18" x="3" y="4" rx="2"></rect> <path d="M3 10h18"></path>  </svg> 2023/02/20 </span> <span>•</span> <span class="flex items-center gap-1 text-warm-accent"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-tag">  <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path> <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>  </svg> 前端 </span> </div> <h1 class="text-4xl md:text-5xl font-serif text-warm-text dark:text-night-text leading-tight mb-6"> 用ChatGPT和AI绘画做一个微信小程序 </h1> <div class="flex items-center justify-center gap-2 text-warm-text/40 text-sm font-sans italic"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="14" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-clock">  <path d="M12 6v6l4 2"></path> <circle cx="12" cy="12" r="10"></circle>  </svg> 13 分钟 </div> </header> <div class="article-layout"> <div class="article-content prose prose-lg md:prose-xl prose-stone dark:prose-invert font-serif prose-headings:font-serif"> <h1 id="前言">前言</h1>
+<p>题目或许有些标题党，先大概交代一下上下文吧。一周多前用ChatGPT做了一个AI算命的微信小程序：“赛博运势丨AI测命理”。后来觉得似乎有点单调，差点意思。于是趁周末又加了一个<strong>每日运势</strong>的小功能。这个小功能在<strong>ChatGPT</strong>和<strong>AI绘画程序MidJourney</strong>的帮助下，花费两天时间就做的差不多了。这里还是大概总结一下过程，然后记录一些想法，大概是关于这些工具能给个人开发者带来什么样的加成。（个人总结向）</p>
+<p>正式开始之前，先猜猜看下边成品图中哪些部分和ChatGPT或者AI绘画有关吧：</p>
+<p><img src="https://i.328888.xyz/2023/02/20/XuKKx.jpeg" alt=""></p>
+<p>应该还是比较明显的，除了年份、今日运势这几个字以外，其他部分的<strong>文案和设计</strong>都和ChatGPT/AI绘画有关。我想先从个人工作流开始写起，一步步记录一下这些AI工具在整个小产品上线的过程中到底做了什么。</p>
+<h1 id="个人工作流">个人工作流</h1>
+<p>在公司里要做一个需求时，通常会纠集一批不同角色的人去讨论，搞各种各样的评审、写各种各样的文档。作为个人开发者来说，在这一方面还是非常自由的 —— 因为只有自己一个人。但在整个“产品”迭代上线的过程中，我们仍然会需要在不同的阶段扮演“产品经理、设计师、前端、后端、运营、测试”等不同的角色。以这次做的“每日运势”小需求为例（只是示意，不一定严格按下边的顺序）：</p>
+<ol>
+<li>
+<p>最开始时需要<strong>明确整体的需求</strong>：想做一个每日运势，每天进来点一下可以看到当天的运势、幸运色、幸运数字，并且需要做出一些解释。（产品）</p>
+</li>
+<li>
+<p>然后大概<strong>设计一下要做成什么样子</strong>：界面大概是个比较神秘又有点可爱的画风，因为毕竟是娱乐为主，所以色调不能太严肃。上半部分需要展示一个整体的运势，下半部分展示类似签文或者解释之类的东西（设计）</p>
+</li>
+<li>
+<p>接下来想一想<strong>文案怎么搞</strong>：每日运势有4种，可以调整概率；幸运数字有10个，幸运颜色有几十个，它们对应的签文或者解签的文案都是可能会在后期不断的添加。（产品&#x26;运营）</p>
+</li>
+<li>
+<p>整体设计的差不多了，接下来看看<strong>界面怎么写</strong>：在Pixso/Figma/PhotoShop上简单比划几下，然后想想页面拆分和模块设计，在哪调接口怎么存数据之类的。（前端&#x26;设计）</p>
+</li>
+<li>
+<p>前端好像做的差不多了，想一想<strong>数据要怎么处理</strong>吧：写几个接口，组织一下数据存到数据库/redis。UV没几个，凑合过吧。（后端）</p>
+</li>
+<li>
+<p>试试看<strong>功能有没有坏</strong>：好像没有专门的测试阶段，因为在开发的过程中已经在顺便测试了。（测试）</p>
+</li>
+</ol>
+<p>以上过程每个阶段都还是比较占时间的。对于部分个人开发者的业余项目来说，可能在实际做的时候，流程就变成了：</p>
+<ol>
+<li>冒出个好玩点子！</li>
+<li>想想具体做成啥样，周末去做一下。</li>
+<li>设计成啥样呢，怎么配色都不好看，画的图也又土又丑…</li>
+<li>画图就画了两三个小时，还是没改好。。。算了，功能优先…</li>
+<li>要这么多文案，百度直接抄好像也不太好… 那还是写个爬虫爬一下吧，不过也不是原创的…</li>
+<li>写个自己都嫌弃的前端，再写个自己都嫌弃的后端，甚至还没来得及写完一个周末就过去了</li>
+<li>算了，不做了。。。</li>
+</ol>
+<p>但现在，有了ChatGPT和AI绘画模型的帮助，中间的某些阶段或许可以稍微简化一点，或者少浪费一点时间、少费点脑子。回到最初的目标，需求已经明确了，接下来想一想要界面要长什么样子。</p>
+<h1 id="设计ai绘画">设计：AI绘画</h1>
+<h2 id="过程">过程</h2>
+<p>这里直接说是怎么用的了。我的想法是：界面需要比较神秘又有点可爱的画风，不要太严肃。由于是每日运势，所以界面可以长得像个日历。简单翻译一下给几个关键词：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>Generate a cute anime style daily calendar UI, Mystical</span></span></code></pre>
+<p>把这段Prompt喂给AI绘画程序（这里用的是MidJourney网站），然后我们就可以去做别的事情了（比如其他和设计阶段无关的事情）。过了一会就给出了一些候选项：</p>
+<p><img src="https://i.328888.xyz/2023/02/20/giTHv.md.png" alt=""></p>
+<p>看上去都还是比较符合预期风格的，<strong>做背景图</strong>比较合适，并且<strong>配色</strong>也都比较完美（比我自己瞎写的好多了..）。由于最终的页面上需要展示比较多的元素，因此需要背景图中有<strong>多一些的空白区域</strong>。因此最终选择了<strong>主体形象最小</strong>的右上角图，尽管这个猫有三只耳朵。接下来就可以根据这张缩略图生成一张1024x1536的大图了：</p>
+<p><img src="https://i.328888.xyz/2023/02/20/gViAF.png" alt=""></p>
+<p>从这张图中我们可以得出以下信息：</p>
+<ol>
+<li>图中上半部分含义不明的<strong>文字部分</strong>可以<strong>抹去</strong>，变成我们自己的UI区域，用来放一些文字信息；下半部分颜色太杂，就用一个<strong>模糊遮罩</strong>盖住；这样我们就有了三大块文字区域；</li>
+<li><strong>文字颜色</strong>可以用#F5BB9B或#835B5B（直接取图中的色号）；</li>
+<li>为了让内容区域大一些，需要做一些<strong>裁剪</strong>；</li>
+<li>需要稍微修剪一下猫耳朵。</li>
+</ol>
+<p>接下来就比较省事了：</p>
+<ul>
+<li>1、4用PhotoShop搞定（相对来说，要抹去或者修剪的部分以纯色为主，并且删总是比添快的）</li>
+<li>接下来导出图片，直接拖到Pixso里面，并建一个750x1624的画板，发现放上去内容区域正好差不多够，于是3搞定。</li>
+<li>最后打两行文本，画一个带透明度和模糊的圆角矩形，简单的设计稿就做完了：</li>
+</ul>
+<p><img src="https://i.328888.xyz/2023/02/21/gVHiV.png" alt=""></p>
+<p>除此之外，一些素材也可以用AI绘画+AI抠图搞定，比如生成一些神秘的筒筒：
+<img src="https://i.328888.xyz/2023/02/21/gzfsV.png" alt="gzfsV.png"></p>
+<h2 id="总结">总结</h2>
+<ul>
+<li>速度：从拿到AI画的图，到最终做完一个简单的视觉稿，加起来不过十几分钟。</li>
+<li>效率：对于个人项目来说，可以轻轻松松拿到一个<strong>无版权风险的、低重复的、符合想象的底图</strong>；并且可以<strong>直接根据底图获取到合适的配色</strong>。</li>
+</ul>
+<p>以上这两点足以增加个人项目的精美度、减少个人在这种不擅长的事情上浪费的时间。反正不管怎么说，给我一个星期我也画不出来这样的背景图。</p>
+<h1 id="文案chatgpt">文案：ChatGPT</h1>
+<h2 id="实时调用与离线数据">实时调用与离线数据</h2>
+<p>这个小程序的另一半功能：AI测运势，是直接<strong>实时调用</strong>的ChatGPT的API。具体可以看<a href="https://juejin.cn/post/7200773486795718693">上一篇文章</a>。调这个API其实还是有很多限制的：比如每个key每秒请求数、每秒token数等，如果要用它做一些小服务之类的，要么给OpenAI氪金（充钱限制会少一点），要么给验证码收发平台氪金（多申请几个账号做账号池）。但无论哪种，速度都比较慢。</p>
+<p>但是如果我们需要的数据是<strong>离线</strong>的，使用ChatGPT的成本似乎会更低一些：如果把它当作一个拥有很强的创造力，并且大多数情况下会给出正确答案的“百科全书” —— 我们可以用它<strong>预先生成</strong>大量的数据存储起来，然后接下来对ChatGPT创作出来的“素材仓库”做文字游戏。最重要的是，我们可以调教它生成<strong>特定结构的文本</strong>，这可以大大减少后续处理花费的时间。</p>
+<h2 id="批量生成离线数据">批量生成离线数据</h2>
+<p>还是以这次的小程序为例。我需要大量的签文以及不同幸运数字、不同幸运色的解释文案。恰好以前做过类似的需求，可以对比一下：</p>
+<p>如果用人工配置，会需要花费至少<strong>1天</strong>的时间引经据典搜集文案，并把这些批量添加到配置平台中去。而这些搜索到的文案也往往<strong>受限于我们的“想象力”</strong> —— 因为我们的搜索结果肯定是和我们的输入相关，甚至最后搜不出来用比较尬的文案凑上。</p>
+<p>对于类似这样的事情，ChatGPT可以很好的辅助解决。比如对于生成幸运色的文案，我们可以这样问：（总共有55种幸运颜色，每个颜色都需要>10条文案）</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>假如你是一个算命先生，请帮我测算一下我今天的幸运色，并进行详细的解析。候选颜色有：天蓝、米白、金黄、粉红。你的回答需要以“今天的幸运色是……；它代表着……”为开头。请开始吧。</span></span></code></pre>
+<p>ChatGPT会对此给出一段十分规整的回答：
+<img src="https://i.328888.xyz/2023/02/21/gxGVX.png" alt=""></p>
+<p>接下来就好办了：只需要一段循环、一段正则：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> fetch </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> "node-fetch"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> fs </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'fs/promises'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> path </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'path'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> { ChatGPTAPI } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> "chatgpt"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> { fileURLToPath } </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> "url"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> chatgpt</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> ChatGPTAPI</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">    apiKey: </span><span style="color:#79B8FF">YOUR_API_KEY</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    fetch</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> allColors</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> [</span><span style="color:#9ECBFF">'星灰'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'玫瑰灰'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'枫红'</span><span style="color:#E1E4E8">,</span><span style="color:#9ECBFF">'樱草紫'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'冰山蓝'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'月影白'</span><span style="color:#E1E4E8">, </span><span style="color:#F97583">...</span><span style="color:#E1E4E8">]; </span><span style="color:#6A737D">// 略过了</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">/** 循环生成文案 **/</span></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> query</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#F97583">    for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">let</span><span style="color:#E1E4E8"> color </span><span style="color:#F97583">of</span><span style="color:#E1E4E8"> allColors) {</span></span>
+<span class="line"><span style="color:#6A737D">        // 每个颜色生成15条文案</span></span>
+<span class="line"><span style="color:#F97583">        for</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">let</span><span style="color:#E1E4E8"> i </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 0</span><span style="color:#E1E4E8">; i </span><span style="color:#F97583">&#x3C;</span><span style="color:#79B8FF"> 15</span><span style="color:#E1E4E8">; </span><span style="color:#F97583">++</span><span style="color:#E1E4E8">i) {</span></span>
+<span class="line"><span style="color:#F97583">            try</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">                const</span><span style="color:#79B8FF"> color</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> allColors[i];</span></span>
+<span class="line"><span style="color:#F97583">                const</span><span style="color:#79B8FF"> result</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> chatgpt.</span><span style="color:#B392F0">sendMessage</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`假如你是一个算命先生，请帮我测算一下我今天的幸运色，并进行详细的解析。候选颜色有：${</span><span style="color:#E1E4E8">color</span><span style="color:#9ECBFF">}。你的回答需要以“今天的幸运色是……；它代表着……”为开头。请开始吧。`</span><span style="color:#E1E4E8">, {</span></span>
+<span class="line"><span style="color:#E1E4E8">                    promptPrefix: </span><span style="color:#9ECBFF">' '</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">                    promptSuffix: </span><span style="color:#9ECBFF">' '</span></span>
+<span class="line"><span style="color:#E1E4E8">                });</span></span>
+<span class="line"><span style="color:#E1E4E8">                </span></span>
+<span class="line"><span style="color:#6A737D">                // 写入文件，略过了</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">            } </span><span style="color:#F97583">catch</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">            }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">/** 处理文案 **/</span></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> handle</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#6A737D">    // 读入文件，略过了</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> raw</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#E1E4E8"> fs.</span><span style="color:#B392F0">readFile</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'xxx'</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'utf-8'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#E1E4E8"> [</span><span style="color:#79B8FF">_</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">_colorName</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">_colorDesc</span><span style="color:#E1E4E8">] </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> raw.</span><span style="color:#B392F0">match</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">/</span><span style="color:#DBEDFF">今天你的幸运色是(</span><span style="color:#79B8FF">.</span><span style="color:#F97583">+?</span><span style="color:#DBEDFF">)色</span><span style="color:#F97583">?</span><span style="color:#79B8FF">[；，;。]</span><span style="color:#DBEDFF">(</span><span style="color:#79B8FF">.</span><span style="color:#F97583">*</span><span style="color:#DBEDFF">)</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">??</span><span style="color:#E1E4E8"> [];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    // 还可以做一些简单的正则替换，比如把两个字的XX替换为XX色</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#B392F0"> format</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> (</span><span style="color:#FFAB70">n</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> n.</span><span style="color:#79B8FF">length</span><span style="color:#F97583"> ===</span><span style="color:#79B8FF"> 2</span><span style="color:#F97583"> ?</span><span style="color:#E1E4E8"> n </span><span style="color:#F97583">+</span><span style="color:#9ECBFF"> '色'</span><span style="color:#F97583"> :</span><span style="color:#E1E4E8"> n;</span></span>
+<span class="line"><span style="color:#F97583">    let</span><span style="color:#E1E4E8"> colorDesc </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> _colorDesc.</span><span style="color:#B392F0">replace</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">new</span><span style="color:#B392F0"> RegExp</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`${</span><span style="color:#E1E4E8">_colorName</span><span style="color:#9ECBFF">}(?!色)`</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">'g'</span><span style="color:#E1E4E8">), </span><span style="color:#B392F0">format</span><span style="color:#E1E4E8">(_colorName));</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    // 保存文件 略过了</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>需要注意的是，如果给定一系列的候选颜色，那ChatGPT的回复结果<strong>不是均匀分布</strong>的，而会是更倾向于其中的某一个或某几个颜色，我试了好几组，大概几百组数据（花掉了一个号的额度）都是如此。因此为了保证每个颜色都有足够的文案，直接把候选颜色设置成1个就可以精确控制了（也就是query函数中做的那样）。</p>
+<p>同时，为了省钱，其实还可以一次让ChatGPT多生成几条文案，无非是到时候我们正则匹配时候的规则变一变：</p>
+<p><img src="https://i.328888.xyz/2023/02/21/geH1J.png" alt=""></p>
+<h2 id="总结-1">总结</h2>
+<ul>
+<li>离线文本：ChatGPT可以<strong>快速生成满足特定结构的文本</strong>，这些文本可以被很方便地处理用于后续操作；</li>
+<li>不均匀：如果给定ChatGPT一系列（可能没有正确答案的）选项，它的回答的分布可能是<strong>不均匀</strong>的；</li>
+<li>批量：可以通过特定的用语诱导ChatGPT按照预期的行为回答，也可以一次生成<strong>多条文案</strong>。</li>
+</ul>
+<p>除了ChatGPT以外，顺带还试了一下New Bing，感觉被它拿捏的死死的…
+<img src="https://i.328888.xyz/2023/02/21/gembq.png" alt=""></p>
+<h1 id="开发">开发</h1>
+<p>相对来说，以上两节中提到的内容和开发阶段对比，如果没有ChatGPT和MidJourney的帮助，花费的时间应该是差不多的。ChatGPT暂时在直接写项目代码方面可能还不太行，（比如某次我让问它一个css效果怎么实现，它告诉我用background-image: url图片…)<br>
+但如果把它当作除了google和stackoverflow以外的“第三种搜索引擎”，那效果还是很不错的，比如：</p>
+<p><img src="https://i.328888.xyz/2023/02/21/geuMA.png" alt="geuMA.png"></p>
+<p>前端和后端的开发部分就普普通通了，和上次写的没啥区别，就正常的业务代码。简单写一些关于前端部分的小点：</p>
+<ol>
+<li>我们AI绘画生成的背景图顶部和底部都是比较规律的颜色，因此如果我们需要让这个页面的高度大于底图的高度，我们可以直接把背景图的底部裁下来一点，然后 background-repeat: repeat-y; 就可以把多出来的部分填满了。</li>
+<li>尽管AI生成的图虽然不可以直接变成动图/视频，但是我们仍然可以通过一些简单的特效让它看起来好像有动画。比如上边生成的抽签筒素材，我们只需要简单的加个filter的动画就能营造出近似发光的效果：</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>@keyframes button-shine {</span></span>
+<span class="line"><span>    0% {</span></span>
+<span class="line"><span>      filter: brightness(0.9);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    50% {</span></span>
+<span class="line"><span>      filter: brightness(1.3);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>    100% {</span></span>
+<span class="line"><span>      filter: brightness(0.9);</span></span>
+<span class="line"><span>    }</span></span>
+<span class="line"><span>}</span></span></code></pre>
+<p><img src="https://i.328888.xyz/2023/02/21/gztww.gif" alt="gztww.gif"></p>
+<h1 id="总结-2">总结</h1>
+<p>到这里就结束了。从这个小项目总结下来，体感上AI绘画可以在视觉上提供一些参考，比如背景图、配色；也可以生成一些素材；ChatGPT除了可以提供一些创意、当作搜索引擎之外，还可以辅助我们生成大量我们需要的文本素材。</p>
+<p>或许以后text2img还可以做text2ui；对于想做一些小游戏的个人开发者来说，这些工具还可以辅助直接生成想要的素材和背景；说不定以后还会有由AI制作的vtuber和galgame之类的吧。。。反正能降低自己折腾的成本的东西都是好东西~</p>
+<p>随便写写~ demo直接微信小程序搜“赛博运势丨AI测命理”，不贴二维码了~</p> </div> </div> <div class="mt-20 pt-12 border-t border-warm-text/10 flex justify-between items-center"> <div class="text-warm-text/50 text-sm italic font-serif">
+Thanks for reading.
+</div> <div class="flex gap-4"> <button class="text-warm-text/50 hover:text-warm-accent text-sm uppercase tracking-widest">Share</button> </div> </div> </div> <a class="article-backtop" href="#article-top" aria-label="返回顶部"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-up">  <path d="m5 12 7-7 7 7"></path> <path d="M12 19V5"></path>  </svg> </a> </article>  </main> <footer class="w-full py-12 mt-20 border-t border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 flex flex-col items-center"> <div class="flex space-x-6 mb-6"> <div class="relative group"> <button type="button" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="微信公众号"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <path d="M11.176 14.429c-2.665 0-4.826-1.8-4.826-4.018 0-2.22 2.159-4.02 4.824-4.02S16 8.191 16 10.411c0 1.21-.65 2.301-1.666 3.036a.32.32 0 0 0-.12.366l.218.81a.6.6 0 0 1 .029.117.166.166 0 0 1-.162.162.2.2 0 0 1-.092-.03l-1.057-.61a.5.5 0 0 0-.256-.074.5.5 0 0 0-.142.021 5.7 5.7 0 0 1-1.576.22M9.064 9.542a.647.647 0 1 0 .557-1 .645.645 0 0 0-.646.647.6.6 0 0 0 .09.353Zm3.232.001a.646.646 0 1 0 .546-1 .645.645 0 0 0-.644.644.63.63 0 0 0 .098.356"></path> <path d="M0 6.826c0 1.455.781 2.765 2.001 3.656a.385.385 0 0 1 .143.439l-.161.6-.1.373a.5.5 0 0 0-.032.14.19.19 0 0 0 .193.193q.06 0 .111-.029l1.268-.733a.6.6 0 0 1 .308-.088q.088 0 .171.025a6.8 6.8 0 0 0 1.625.26 4.5 4.5 0 0 1-.177-1.251c0-2.936 2.785-5.02 5.824-5.02l.15.002C10.587 3.429 8.392 2 5.796 2 2.596 2 0 4.16 0 6.826m4.632-1.555a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0m3.875 0a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0"></path> </svg> </button> <div class="pointer-events-none absolute left-1/2 bottom-10 z-10 w-40 -translate-x-1/2 opacity-0 scale-95 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100"> <div class="rounded-xl border border-warm-text/10 dark:border-night-text/10 bg-white/95 dark:bg-night-surface/95 p-2 shadow-lg"> <img src="/images/wechat_channel.jpg" alt="微信公众号二维码" class="h-36 w-36 rounded-lg object-cover"> </div> </div> </div> <a href="https://space.bilibili.com/12866223" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="B站" title="B站" target="_blank" rel="noreferrer"> <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <title>Bilibili</title> <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"></path> </svg> </a> <a href="https://www.xiaohongshu.com/user/profile/5ce6085200000000050213a6?xhsshare=CopyLink&appuid=5ce6085200000000050213a6&apptime=1714394544" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="小红书" title="小红书" target="_blank" rel="noreferrer"> <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="h-5 w-5" aria-hidden="true" focusable="false"> <title>小红书</title> <path d="M289.44,256H477.67c17.93,0,33.86,15.57,34.33,33.48V477.72A35.09,35.09,0,0,1,477.66,512H289.5A35.14,35.14,0,0,1,256,477.64V289.56C256.43,271.93,271.81,256.5,289.44,256Zm16.73,91.44c-.13,19.87-.06,39.75-.16,59.63a2.1,2.1,0,0,1-2.13,2.6c-2.39.14-4.79.06-7.19.08,1.61,4,3.35,7.86,5.15,11.73,4.52-.15,9.68.79,13.54-2.17,3.47-2.58,4.58-7.17,4.51-11.3,0-20.19,0-40.39-.09-60.58C315.26,347.41,310.71,347.4,306.17,347.44Zm56.08-.9q-5.08,11.67-10.36,23.24c-1,2.31-2.21,5.37-.11,7.46,2.69,2.44,6.64,1.5,9.94,1.72-2.29,5.78-5.3,11.27-7.23,17.19-1.07,2.92,1.6,5.89,4.52,5.92,5.29.36,10.6,0,15.9.14,1.73-3.87,3.47-7.73,5.17-11.62-3.09,0-6.21.22-9.25-.39,3.29-8.26,7.19-16.25,10.68-24.41-4.27-.5-9.1.89-13-.77,1.9-6.4,5.36-12.27,7.8-18.5C371.61,346.5,366.93,346.47,362.25,346.54Zm72.75.05,0,5.21c-3.06,0-6.12,0-9.18,0q0,7,0,13.93c3.07,0,6.13,0,9.19.06q.12,6,0,12.08c-4.6.09-9.21,0-13.81.07-.06,4.64-.05,9.27,0,13.9,4.61.05,9.23,0,13.84,0,0,9.86,0,19.73,0,29.59,4.62,0,9.23,0,13.85,0q0-14.79,0-29.57c6.74,0,13.47-.1,20.21,0,2.37-.2,5.08,1.46,5,4.07a110.67,110.67,0,0,1,0,11.08,2.26,2.26,0,0,1-2.12,2.39c-3.85.28-7.71,0-11.57.13,1.7,4,3.35,8,5.28,11.95,6.35-.33,14.11,1.27,18.95-4,4.6-4.26,3.22-11,3.41-16.56-.29-5.85,1.14-12.46-2.49-17.58-3.09-4.34-8.66-5.52-13.68-5.61-.3-7,1.37-15.19-3.78-20.88-4.8-5.38-12.53-5.4-19.17-5.14l0-5.2C444.23,346.56,439.61,346.57,435,346.59Zm-49.42,5.22q0,7,0,13.92c2.9,0,5.79,0,8.69,0,0,13.91,0,27.83,0,41.74-4.15.07-8.31,0-12.46.05-2.15,4.62-4.25,9.26-6.34,13.9,15.48.06,31,0,46.44,0q0-6.94,0-13.9c-4.45,0-8.91,0-13.36-.05q0-20.88,0-41.77c2.91,0,5.81,0,8.72,0,0-4.64,0-9.29,0-13.93C406.73,351.79,396.16,351.77,385.58,351.81Zm91.35,1.28c-3.88,2.94-2.61,8.32-2.78,12.51,2.59,0,5.19.14,7.78-.09,4.16-.38,7.29-5.23,5.62-9.15C486.24,352.06,480.43,350.19,476.93,353.09ZM283,365.72c-.7,9.12-1.41,18.23-2.07,27.35a22.12,22.12,0,0,1-1.32,6.06c2.34,5.35,4.68,10.7,7.18,16,5.6-7.49,7.68-16.93,8.26-26.1.49-7.8,1.36-15.59,1.64-23.4C292.1,365.79,287.54,365.68,283,365.72Zm46.13,0q1,12.69,2,25.37c.73,8.48,2.92,17.12,8.1,24,2.47-5.29,4.83-10.63,7.17-16A21.67,21.67,0,0,1,345,393c-.66-9.09-1.38-18.18-2.08-27.27Q336,365.69,329.1,365.72Zm17.16,54.69c7.08,2.09,14.58.66,21.85,1.05,2.14-4.63,4.27-9.27,6.35-13.93-7.27-.28-14.67.76-21.8-1.07Q349.42,413.41,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M448.77,365.77c3,.43,7-1.22,9.29,1.2.38,3.65.1,7.32.14,11-3.11,0-6.23,0-9.34,0Q448.77,371.87,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M306.17,347.44c4.54,0,9.09,0,13.63,0,.13,20.19.08,40.39.09,60.58.07,4.13-1,8.72-4.51,11.3-3.86,3-9,2-13.54,2.17-1.8-3.87-3.54-7.77-5.15-11.73,2.4,0,4.8.06,7.19-.08a2.1,2.1,0,0,0,2.13-2.6C306.11,387.19,306,367.31,306.17,347.44Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M362.25,346.54c4.68-.07,9.36,0,14,0-2.44,6.23-5.9,12.1-7.8,18.5,3.92,1.66,8.75.27,13,.77-3.49,8.16-7.39,16.15-10.68,24.41,3,.61,6.16.39,9.25.39-1.7,3.89-3.44,7.75-5.17,11.62-5.3-.09-10.61.22-15.9-.14-2.92,0-5.59-3-4.52-5.92,1.93-5.92,4.94-11.41,7.23-17.19-3.3-.22-7.25.72-9.94-1.72-2.1-2.09-.88-5.15.11-7.46Q357.14,358.2,362.25,346.54Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M435,346.59c4.61,0,9.23,0,13.84,0l0,5.2c6.64-.26,14.37-.24,19.17,5.14,5.15,5.69,3.48,13.9,3.78,20.88,5,.09,10.59,1.27,13.68,5.61,3.63,5.12,2.2,11.73,2.49,17.58-.19,5.57,1.19,12.3-3.41,16.56-4.84,5.23-12.6,3.63-18.95,4-1.93-3.91-3.58-7.94-5.28-11.95,3.86-.11,7.72.15,11.57-.13a2.26,2.26,0,0,0,2.12-2.39,110.67,110.67,0,0,0,0-11.08c.07-2.61-2.64-4.27-5-4.07-6.74-.1-13.47,0-20.21,0q0,14.79,0,29.57c-4.62,0-9.23,0-13.85,0,0-9.86,0-19.73,0-29.59-4.61,0-9.23,0-13.84,0,0-4.63,0-9.26,0-13.9,4.6,0,9.21,0,13.81-.07q.13-6,0-12.08c-3.06-.05-6.12-.09-9.19-.06q0-7,0-13.93c3.06,0,6.12,0,9.18,0Zm13.77,19.18q0,6.1.09,12.2c3.11,0,6.23,0,9.34,0,0-3.66.24-7.33-.14-11C455.77,364.55,451.77,366.2,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M385.58,351.81c10.58,0,21.15,0,31.72,0,0,4.64,0,9.29,0,13.93-2.91,0-5.81,0-8.72,0q0,20.89,0,41.77c4.45.05,8.91,0,13.36.05q0,6.94,0,13.9c-15.48,0-31,0-46.44,0,2.09-4.64,4.19-9.28,6.34-13.9,4.15,0,8.31,0,12.46-.05,0-13.91,0-27.83,0-41.74-2.9,0-5.79,0-8.69,0Q385.55,358.77,385.58,351.81Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M476.93,353.09c3.5-2.9,9.31-1,10.62,3.27,1.67,3.92-1.46,8.77-5.62,9.15-2.59.23-5.19.1-7.78.09C474.32,361.41,473.05,356,476.93,353.09Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M283,365.72c4.57,0,9.13.07,13.69-.11-.28,7.81-1.15,15.6-1.64,23.4-.58,9.17-2.66,18.61-8.26,26.1-2.5-5.28-4.84-10.63-7.18-16a22.12,22.12,0,0,0,1.32-6.06C281.56,384,282.27,374.84,283,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M329.1,365.72q6.91,0,13.83,0c.7,9.09,1.42,18.18,2.08,27.27a21.67,21.67,0,0,0,1.32,6.15c-2.34,5.35-4.7,10.69-7.17,16-5.18-6.91-7.37-15.55-8.1-24S329.77,374.18,329.1,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M346.26,420.41q3.17-7,6.4-13.95c7.13,1.83,14.53.79,21.8,1.07-2.08,4.66-4.21,9.3-6.35,13.93C360.84,421.07,353.34,422.5,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#fff"></path> </svg> </a> <a href="https://github.com/maotoumao" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="GitHub" title="GitHub" target="_blank" rel="noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-github">  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path> <path d="M9 18c-4.51 2-5-2-7-2"></path>  </svg> </a> </div> <p class="font-serif text-sm text-warm-text/40 dark:text-night-text/40">
+© <span id="footer-year"></span> 猫头猫的博客. All rights reserved.
+</p> </div> <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script> </footer> <script>
+      const root = document.documentElement;
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = stored || (prefersDark ? 'dark' : 'light');
+
+      const applyTheme = (theme) => {
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        localStorage.setItem('theme', theme);
+        const showSun = theme === 'light';
+        document.querySelectorAll('[data-theme-icon="sun"]').forEach((el) => el.classList.toggle('hidden', !showSun));
+        document.querySelectorAll('[data-theme-icon="moon"]').forEach((el) => el.classList.toggle('hidden', showSun));
+      };
+
+      applyTheme(initialTheme);
+
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          applyTheme(next);
+        });
+      });
+
+      document.querySelectorAll('[data-menu-toggle]').forEach((button) => {
+        const targetId = button.getAttribute('data-menu-target');
+        const menu = document.getElementById(targetId);
+        if (!menu) return;
+
+        button.addEventListener('click', () => {
+          const isOpen = menu.dataset.open === 'true';
+          menu.dataset.open = (!isOpen).toString();
+          menu.classList.toggle('max-h-0', isOpen);
+          menu.classList.toggle('max-h-96', !isOpen);
+          menu.classList.toggle('opacity-0', isOpen);
+          menu.classList.toggle('opacity-100', !isOpen);
+          button.querySelector('[data-menu-icon="open"]').classList.toggle('hidden', !isOpen);
+          button.querySelector('[data-menu-icon="close"]').classList.toggle('hidden', isOpen);
+        });
+      });
+    </script> </body> </html>

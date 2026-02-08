@@ -1,0 +1,381 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="MusicFree插件的实现原理。"><link rel="canonical" href="https://blog.catcat.work/article/musicfree%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><meta property="og:site_name" content="猫头猫的博客"><meta property="og:title" content="MusicFree插件实现原理 · 猫头猫的博客"><meta property="og:description" content="MusicFree插件的实现原理。"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.catcat.work/article/musicfree%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><meta property="og:image" content="https://blog.catcat.work/images/avatar.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="MusicFree插件实现原理 · 猫头猫的博客"><meta name="twitter:description" content="MusicFree插件的实现原理。"><meta name="twitter:image" content="https://blog.catcat.work/images/avatar.jpg"><link rel="alternate" type="application/rss+xml" title="猫头猫的博客 RSS" href="/rss.xml"><link rel="icon" href="/images/avatar.jpg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"><title>MusicFree插件实现原理 · 猫头猫的博客</title> <meta property="article:author" content="猫头猫"> <meta property="article:published_time" content="2023-03-27T21:59:32.000Z"><script type="application/ld+json">
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        description,
+        datePublished: publishedTime,
+        author: {
+          '@type': 'Person',
+          name: SITE_AUTHOR,
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': new URL(`/article/${post.id}`, SITE_URL).toString(),
+        },
+        image: new URL(SITE_IMAGE, SITE_URL).toString(),
+      })}
+    </script> <link rel="stylesheet" href="/_astro/about.DQxYEom-.css">
+<link rel="stylesheet" href="/_astro/_id_.CSYmCdln.css"></head> <body class="min-h-screen flex flex-col"> <div class="noise-overlay"></div> <nav class="fixed top-0 left-0 w-full z-40 bg-warm-bg/80 dark:bg-night-bg/80 backdrop-blur-md transition-colors duration-500 border-b border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between"> <a href="/" class="font-serif text-2xl tracking-wide text-warm-text dark:text-night-text hover:text-warm-accent dark:hover:text-warm-accent transition-colors">
+猫头猫的博客
+</a> <div class="hidden md:flex items-center space-x-8"> <a href="/" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-accent underline underline-offset-4"> 文章 </a><a href="/works" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 关于我 </a> <button type="button" data-theme-toggle class="ml-4 p-2 rounded-full hover:bg-warm-text/5 dark:hover:bg-night-text/10 transition-colors" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-warm-text dark:text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> </div> <div class="md:hidden flex items-center gap-4"> <button type="button" data-theme-toggle class="p-2" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> <button type="button" data-menu-toggle data-menu-target="mobile-menu" aria-label="Menu"> <span data-menu-icon="open" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-menu text-warm-text dark:text-night-text">  <path d="M4 5h16"></path> <path d="M4 12h16"></path> <path d="M4 19h16"></path>  </svg> </span> <span data-menu-icon="close" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-x text-warm-text dark:text-night-text">  <path d="M18 6 6 18"></path> <path d="m6 6 12 12"></path>  </svg> </span> </button> </div> </div> <div id="mobile-menu" data-open="false" class="md:hidden bg-warm-bg dark:bg-night-bg overflow-hidden border-b border-warm-text/5 max-h-0 opacity-0 transition-all duration-500"> <div class="flex flex-col items-center py-6 space-y-4"> <a href="/" class="text-lg font-serif text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-lg font-serif text-warm-accent"> 文章 </a><a href="/works" class="text-lg font-serif text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-lg font-serif text-warm-text dark:text-night-text"> 关于我 </a> </div> </div> </nav> <main class="flex-grow pt-28 px-6 w-full max-w-4xl mx-auto">   <article id="article-top" class="py-12 md:py-20 max-w-5xl mx-auto"> <aside class="article-toc" aria-label="文章导航"><div class="article-toc-card"><div class="article-toc-title">目录</div><nav><ol class="article-toc-list"><li><a href="#从零开始"><span class="article-toc-index">01</span><span class="article-toc-text">从零开始</span></a></li><li><a href="#勾入运行时环境"><span class="article-toc-index">02</span><span class="article-toc-text">勾入运行时环境</span></a></li><li><a href="#弊端"><span class="article-toc-index">03</span><span class="article-toc-text">弊端</span></a><ol class="article-toc-sublist"><li><a href="#难调试">难调试</a></li><li><a href="#难开发">难开发</a></li></ol></li><li><a href="#模块"><span class="article-toc-index">04</span><span class="article-toc-text">模块</span></a></li><li><a href="#commonjs"><span class="article-toc-index">05</span><span class="article-toc-text">CommonJS</span></a><ol class="article-toc-sublist"><li><a href="#module--exports">module &amp; exports</a></li><li><a href="#require">require</a></li></ol></li><li><a href="#模块化的插件"><span class="article-toc-index">06</span><span class="article-toc-text">模块化的插件</span></a></li><li><a href="#定义全局变量"><span class="article-toc-index">07</span><span class="article-toc-text">定义全局变量</span></a></li><li><a href="#总结"><span class="article-toc-index">08</span><span class="article-toc-text">总结</span></a></li></ol></nav><a class="article-toc-back" href="#article-top">返回顶部</a></div></aside> <div class="animate-slide-up"> <a href="/" class="inline-flex items-center text-warm-text/50 hover:text-warm-text transition-colors mb-8 text-sm uppercase tracking-widest font-sans group"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-left mr-2 transform group-hover:-translate-x-1 transition-transform">  <path d="m12 19-7-7 7-7"></path> <path d="M19 12H5"></path>  </svg>
+Back to Home
+</a> <header class="mb-12 text-center"> <div class="flex items-center justify-center gap-4 text-xs text-warm-text/50 dark:text-night-text/50 uppercase tracking-widest mb-6 font-sans"> <span class="flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-calendar">  <path d="M8 2v4"></path> <path d="M16 2v4"></path> <rect width="18" height="18" x="3" y="4" rx="2"></rect> <path d="M3 10h18"></path>  </svg> 2023/03/27 </span> <span>•</span> <span class="flex items-center gap-1 text-warm-accent"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-tag">  <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path> <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>  </svg> 前端 </span> </div> <h1 class="text-4xl md:text-5xl font-serif text-warm-text dark:text-night-text leading-tight mb-6"> MusicFree插件实现原理 </h1> <div class="flex items-center justify-center gap-2 text-warm-text/40 text-sm font-sans italic"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="14" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-clock">  <path d="M12 6v6l4 2"></path> <circle cx="12" cy="12" r="10"></circle>  </svg> 10 分钟 </div> </header> <div class="article-layout"> <div class="article-content prose prose-lg md:prose-xl prose-stone dark:prose-invert font-serif prose-headings:font-serif"> <p>上周整理了MusicFree插件的<a href="http://musicfree.upup.fun/docs/tutorial-plugin/intro/">开发文档</a>，整理完想着还是把插件的原理写的再明白些比较好，所以还是记录下吧。</p>
+<h1 id="背景">背景</h1>
+<p>MusicFree播放器是一个基于<strong>React Native</strong>的<strong>插件化</strong>的音乐播放器。所谓插件化，就是APP内部会调用插件内定义的函数，去完成播放音乐、搜索音乐等行为，简单的架构如下图所示。早期的设计思路<a href="https://juejin.cn/post/7150589489881022478">可以点击这里</a>；前阵子改了一版，虽然插件协议有所改动，但原理大同小异。</p>
+<p><img src="https://i.328888.xyz/2023/03/27/ingN93.png" alt="ingN93.png"></p>
+<h1 id="插件原理">插件原理</h1>
+<h2 id="从零开始">从零开始</h2>
+<p>既然是插件，显然它会以外部文件(.js)的形式独立于APP存在。为了实现插件，第一件要做的事情就是<strong>读入外部文件</strong>（也就是所谓插件）的代码，然后将具备这个特定功能的插件代码在APP运行时hook入程序中。</p>
+<p>为了获取到插件内的信息，我们需要插件整体是一个<strong>函数</strong>，通过执行这个函数得到的返回值获取插件提供的信息。</p>
+<p>由于React Native自带一个js引擎，因此这部分只需要采用javascript原生的Function语法实现即可：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">/// plugin.js</span></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> rawPlugin</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        platform: </span><span style="color:#9ECBFF">"插件名"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#B392F0">        getLyric</span><span style="color:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#9ECBFF"> "我是歌词"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D">/// pluginManager.ts</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> {readFile} </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'react-native-fs'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 从某个路径加载插件</span></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> loadPlugin</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">pluginPath</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> rawCode</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> readFile</span><span style="color:#E1E4E8">(pluginPath, </span><span style="color:#9ECBFF">'utf8'</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// 得到文本格式的代码</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    // 创建一个自执行函数</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> pluginInstance</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> Function</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#9ECBFF">        'use strict';</span></span>
+<span class="line"><span style="color:#9ECBFF">        try {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return ${</span><span style="color:#E1E4E8">rawCode</span><span style="color:#9ECBFF">};</span></span>
+<span class="line"><span style="color:#9ECBFF">        } catch (e) {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return () => {};</span></span>
+<span class="line"><span style="color:#9ECBFF">        }</span></span>
+<span class="line"><span style="color:#9ECBFF">    `</span><span style="color:#E1E4E8">)()();</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> pluginInstance;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">loadPlugin</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'plugin.js'</span><span style="color:#E1E4E8">)</span></span></code></pre>
+<p>以上代码也比较直白：</p>
+<ol>
+<li>第一步：读入外部文件；</li>
+<li>第二步：创建一个Function，函数体为一个字符串（执行完成后得到这个函数）；</li>
+<li>第三步：执行这个Function，得到函数rawCode（别忘了，插件是一个函数），也就是第一个括号；</li>
+<li>第四步：执行插件函数(其实就是rawPlugin())，得到插件提供的信息（也就是rawCode内部的返回值）。</li>
+</ol>
+<h2 id="勾入运行时环境">勾入运行时环境</h2>
+<p>由于插件运行在客户端APP上，也就是运行时环境中；在APP调用插件的时候也可以通过<strong>插件的入参</strong>来为插件提供一些<strong>运行时的上下文</strong>，比如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">/// plugin.js</span></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> rawPlugin</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">runtimeContext</span><span style="color:#E1E4E8">){</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    // app内调用插件的时候，这里会打印出一些运行时的信息</span></span>
+<span class="line"><span style="color:#E1E4E8">    console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(runtimeContext);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        platform: </span><span style="color:#9ECBFF">"插件名"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#B392F0">        getLyric</span><span style="color:#E1E4E8">() {</span></span>
+<span class="line"><span style="color:#F97583">            return</span><span style="color:#9ECBFF"> "我是歌词"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D">/// pluginManager.ts</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> {readFile} </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'react-native-fs'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 从某个路径加载插件</span></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> loadPlugin</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">pluginPath</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> rawCode</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> readFile</span><span style="color:#E1E4E8">(pluginPath, </span><span style="color:#9ECBFF">'utf8'</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// 得到文本格式的代码</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> runtimeContext</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        foo: </span><span style="color:#9ECBFF">'bar'</span></span>
+<span class="line"><span style="color:#E1E4E8">    };</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">    // 创建一个自执行函数</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> pluginInstance</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> Function</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#9ECBFF">        'use strict';</span></span>
+<span class="line"><span style="color:#9ECBFF">        try {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return ${</span><span style="color:#E1E4E8">rawCode</span><span style="color:#9ECBFF">};</span></span>
+<span class="line"><span style="color:#9ECBFF">        } catch (e) {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return () => {};</span></span>
+<span class="line"><span style="color:#9ECBFF">        }</span></span>
+<span class="line"><span style="color:#9ECBFF">    `</span><span style="color:#E1E4E8">)()(runtimeContext);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> pluginInstance;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">loadPlugin</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'plugin.js'</span><span style="color:#E1E4E8">)  </span><span style="color:#6A737D">// 控制台输出：{"foo": "bar"}</span></span></code></pre>
+<p>仔细回顾一下上一小节的流程，实质上就是在运行插件函数的时候传递了runtimeContext的入参，使得插件内部可以获取到运行时的信息。</p>
+<p>在实际的实现中，runtime主要包括一些<strong>内置的npm包</strong>，从而使得插件可以与APP共享某些npm包以简化开发流程，如axios、he、cheerio等。</p>
+<p>这样，基本的插件原理实现了，实际上这也就是最早版本插件的实现方式。但是这样写起来并不怎么舒服。</p>
+<h1 id="插件与模块">插件与模块</h1>
+<h2 id="弊端">弊端</h2>
+<p>上述写法固然实现了目的，但看起来不是最好的解决方案。原因有二：<strong>1. 难调试 2. 难开发</strong>。</p>
+<h3 id="难调试">难调试</h3>
+<p>先说第一点，难调试。由于之前的插件都是形如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#6A737D">/// plugin.js</span></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> pluginName</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">npmPackages</span><span style="color:#F97583">:</span><span style="color:#B392F0"> INpmPackages</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        platform: </span><span style="color:#9ECBFF">"插件名"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#F97583">        async</span><span style="color:#B392F0"> someMethod</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        },</span></span>
+<span class="line"><span style="color:#6A737D">        // ...</span></span>
+<span class="line"><span style="color:#E1E4E8">    } </span><span style="color:#F97583">as</span><span style="color:#B392F0"> PluginInstance</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>的函数，因此调试便成了很大的问题。<br>
+如果要调试，由于插件不支持模块导入（无论是ES6还是CommonJS），为了不影响插件内容，需要复制到一个新的文件：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">/// test.ts</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> axios </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> "axios"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> cheerio </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> "cheerio"</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#6A737D">// ...</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">/** 以下是复制的插件代码 */</span></span>
+<span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> pluginName</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">npmPackages</span><span style="color:#F97583">:</span><span style="color:#B392F0"> INpmPackages</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        platform: </span><span style="color:#9ECBFF">"插件名"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#F97583">        async</span><span style="color:#B392F0"> someMethod</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        },</span></span>
+<span class="line"><span style="color:#6A737D">        // ...</span></span>
+<span class="line"><span style="color:#E1E4E8">    } </span><span style="color:#F97583">as</span><span style="color:#B392F0"> PluginInstance</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> pluginInstance</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> pluginName</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">    axios,</span></span>
+<span class="line"><span style="color:#E1E4E8">    cheerio</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"><span style="color:#6A737D">/** 以上是复制的插件代码 */</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(pluginInstance.platform); </span><span style="color:#6A737D">// 输出: 插件名</span></span>
+<span class="line"></span></code></pre>
+<p>需要写一大堆辅助代码之后，才可以开始调试验证。这也导致之前有反馈说：不知道怎么调试，APP环境也比较难启动；<br>
+并且就算用APP环境下加载插件调试，也需要不停地把插件从电脑上拷贝到手机上，然后再在APP内加载，然后再看错误日志，非常麻烦。</p>
+<h3 id="难开发">难开发</h3>
+<p>再看第二点：难开发。由于插件本质上是一个嵌入Function内的单文件js函数，因此模块导入/导出语法用不了，进而webpack、esbuild等工程化工具用起来也会很麻烦：<br>
+需要把target设置成IIFE，打包出来的bundle导入APP的时候还不一定会出什么问题。</p>
+<p>基于以上弊端，对插件做了一次改版。</p>
+<h2 id="模块">模块</h2>
+<p>其实，如果<strong>把插件看作一个模块</strong>，问题似乎就迎刃而解了：</p>
+<ol>
+<li>插件是一段<strong>职责单一</strong>的js代码，不同的插件之间功能<strong>无任何交集</strong>。</li>
+<li>插件的入参是<strong>运行时环境</strong>，返回值是<strong>插件实例</strong>。</li>
+<li>目前已经有<strong>标准的模块规范</strong>(ES6模块/CommonJS)，其中通过import/require来加载npm包或其他模块；通过export或者module.exports导出当前模块。</li>
+</ol>
+<p>基于以上，似乎也可以把插件看作一个CommonJS模块：</p>
+<ul>
+<li>通过**require或者类似“全局变量”**的方式获取运行时环境；</li>
+<li>通过<strong>module.exports</strong>导出插件实例。</li>
+</ul>
+<p>完美扣上CommonJS模块的概念。同时，由于nodejs的模块化方案就是<strong>CommonJS</strong>，因此采用模块方案定义的插件可以在node.js环境下直接调用，不需要任何的复制粘贴以及辅助脚本。</p>
+<h2 id="commonjs">CommonJS</h2>
+<p>先来看下CommonJS模块规范吧。由于这块太过基础，因此就简单带下。CommonJS认为，每个文件都是一个模块。每个模块内都可以获取一些全局变量，用来导入或者导出模块，分别是：module、require、exports。</p>
+<h3 id="module--exports">module &#x26; exports</h3>
+<p>module代表着当前模块，是一个对象。其中，有一个特殊的字段“exports”，指代着当前模块的导出对象；你可以通过给这个字段赋值来控制当前模块的导出：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">/// module1.js</span></span>
+<span class="line"><span style="color:#79B8FF">module</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">exports</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    foo: </span><span style="color:#9ECBFF">'bar'</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>同时，exports全局变量也指向着module.exports，因此也可以通过如下方式改变导出的对象：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">/// module2.js</span></span>
+<span class="line"><span style="color:#79B8FF">exports</span><span style="color:#E1E4E8">.foo </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> 'bar'</span><span style="color:#E1E4E8">;</span></span></code></pre>
+<h3 id="require">require</h3>
+<p>require是一个函数，用来导入模块，其实也就是获取其他模块的module.exports导出的字段：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">/// module3.js</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> module1</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> require</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'module1.js'</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">/// {foo: 'bar'}</span></span></code></pre>
+<p>接下来需要思考的是：如何让MusicFree支持形如:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">/// pluginNew.js</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> axios</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> require</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'axios'</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">module</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">exports</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    platform: </span><span style="color:#9ECBFF">"插件名"</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#F97583">    async</span><span style="color:#B392F0"> getLyric</span><span style="color:#E1E4E8">(){</span></span>
+<span class="line"><span style="color:#6A737D">        // ...</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<p>的插件。</p>
+<h2 id="模块化的插件">模块化的插件</h2>
+<p>我们可以试下把上述代码贴到浏览器控制台会发生什么：
+<img src="https://i.328888.xyz/2023/03/27/ine1ov.png" alt="ine1ov.png"></p>
+<p>显然，缺少上文提到的三个全局变量：require、module和exports。接下来我们要做的是给加载“插件模块”的过程做一些改造(假定rawCode是上边pluginNew.js内的文本)：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">    // ...</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> pluginInstance</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> Function</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#9ECBFF">        'use strict';</span></span>
+<span class="line"><span style="color:#9ECBFF">        try {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return ${</span><span style="color:#E1E4E8">rawCode</span><span style="color:#9ECBFF">}; // 这里会出问题</span></span>
+<span class="line"><span style="color:#9ECBFF">        } catch (e) {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return () => {};</span></span>
+<span class="line"><span style="color:#9ECBFF">        }</span></span>
+<span class="line"><span style="color:#9ECBFF">    `</span><span style="color:#E1E4E8">)()(_require, _module, _exports);</span></span>
+<span class="line"><span style="color:#6A737D">    // ...</span></span>
+<span class="line"></span></code></pre>
+<p>由于<strong>rawCode现在不是函数</strong>了，为了让插件内部可以获取到三个特定的全局变量，我们需要手动地包一层函数：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">    // ...</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> pluginInstance</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> Function</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#9ECBFF">        'use strict';</span></span>
+<span class="line"><span style="color:#9ECBFF">        try {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return function(require, module, exports) {</span></span>
+<span class="line"><span style="color:#9ECBFF">                ${</span><span style="color:#E1E4E8">rawCode</span><span style="color:#9ECBFF">}</span></span>
+<span class="line"><span style="color:#9ECBFF">            }</span></span>
+<span class="line"><span style="color:#9ECBFF">        } catch (e) {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return () => {};</span></span>
+<span class="line"><span style="color:#9ECBFF">        }</span></span>
+<span class="line"><span style="color:#9ECBFF">    `</span><span style="color:#E1E4E8">)()(_require, _module, _exports);</span></span>
+<span class="line"><span style="color:#6A737D">    // ...</span></span>
+<span class="line"></span></code></pre>
+<p>现在再分析一下过程：</p>
+<ol>
+<li>创建一个Function</li>
+<li>执行Function，得到函数内部的返回值</li>
+<li>执行：</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#E1E4E8">(</span><span style="color:#F97583">function</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">require</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">module</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">exports</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#E1E4E8">    ${rawCode}</span></span>
+<span class="line"><span style="color:#E1E4E8">})(_require, _module, _exports)</span></span></code></pre>
+<p>思考一下，此时rawCode内获取到的require、module和exports是APP内<strong>运行时环境下提供给插件</strong>的，当这个函数执行完毕后，我们可以从module.exports中获取到我们需要的插件返回值；同时也可以用require加载APP内部的npm包。</p>
+<p>最后一步要做的，便是重新定义一下require，module和exports了。</p>
+<h2 id="定义全局变量">定义全局变量</h2>
+<p>根据上文，module和exports其实很好办：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">// 注意：此段代码是在APP内部ReactNative环境下实现</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> _module</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    exports: {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> _exports</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> _module.exports;</span></span></code></pre>
+<p>require相对来说复杂点，我们整理一下我们目前的信息：</p>
+<ol>
+<li>require是个函数</li>
+<li>require入参是npm包名（在加载npm包的情况下）</li>
+<li>require的返回值会直接被模块使用</li>
+</ol>
+<p>因此，我们可以做一个简单的模拟require:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">// 注意：此段代码是在APP内部ReactNative环境下实现</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> axios </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'axios'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> cheerio </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'cheerio'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> CryptoJS </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'crypto-js'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 在app内安装的npm包</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> packages</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    axios,</span></span>
+<span class="line"><span style="color:#E1E4E8">    cheerio</span></span>
+<span class="line"><span style="color:#9ECBFF">    'crypto-js'</span><span style="color:#E1E4E8">: CryptoJS,</span></span>
+<span class="line"><span style="color:#6A737D">    // ... </span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#B392F0"> _require</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> (</span><span style="color:#FFAB70">packageName</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">    let</span><span style="color:#E1E4E8"> pkg </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> packages[packageName];</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> pkg;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre>
+<h2 id="总结">总结</h2>
+<p>现在回过头看，新的“模块化插件”已经诞生了，最终的插件信息会挂载到module.exports上：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> axios </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'axios'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> cheerio </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'cheerio'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> CryptoJS </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'crypto-js'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">import</span><span style="color:#E1E4E8"> {readFile} </span><span style="color:#F97583">from</span><span style="color:#9ECBFF"> 'react-native-fs'</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 在app内安装的npm包</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> packages</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    axios,</span></span>
+<span class="line"><span style="color:#E1E4E8">    cheerio</span></span>
+<span class="line"><span style="color:#9ECBFF">    'crypto-js'</span><span style="color:#E1E4E8">: CryptoJS,</span></span>
+<span class="line"><span style="color:#6A737D">    // 其他内置的包... </span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#B392F0"> _require</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> (</span><span style="color:#FFAB70">packageName</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">) </span><span style="color:#F97583">=></span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#F97583">    let</span><span style="color:#E1E4E8"> pkg </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> packages[packageName];</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> pkg;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 从某个路径加载插件</span></span>
+<span class="line"><span style="color:#F97583">async</span><span style="color:#F97583"> function</span><span style="color:#B392F0"> loadPlugin</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">pluginPath</span><span style="color:#F97583">:</span><span style="color:#79B8FF"> string</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> rawCode</span><span style="color:#F97583"> =</span><span style="color:#F97583"> await</span><span style="color:#B392F0"> readFile</span><span style="color:#E1E4E8">(pluginPath, </span><span style="color:#9ECBFF">'utf8'</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// 得到文本格式的代码</span></span>
+<span class="line"><span style="color:#E1E4E8">    </span></span>
+<span class="line"><span style="color:#6A737D">    // 初始化模块信息</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> _module</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">        exports: {</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">    };</span></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> _exports</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> _module.exports;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    const</span><span style="color:#79B8FF"> pluginInstance</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> Function</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">`</span></span>
+<span class="line"><span style="color:#9ECBFF">        'use strict';</span></span>
+<span class="line"><span style="color:#9ECBFF">        try {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return function(require, module, exports) {</span></span>
+<span class="line"><span style="color:#9ECBFF">                ${</span><span style="color:#E1E4E8">rawCode</span><span style="color:#9ECBFF">}</span></span>
+<span class="line"><span style="color:#9ECBFF">            }</span></span>
+<span class="line"><span style="color:#9ECBFF">        } catch (e) {</span></span>
+<span class="line"><span style="color:#9ECBFF">            return () => {};</span></span>
+<span class="line"><span style="color:#9ECBFF">        }</span></span>
+<span class="line"><span style="color:#9ECBFF">    `</span><span style="color:#E1E4E8">)()(_require, _module, _exports);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#E1E4E8"> _module.exports; </span><span style="color:#6A737D">// 模块的导出</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">loadPlugin</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">'pluginNew.js'</span><span style="color:#E1E4E8">)  </span></span></code></pre>
+<p>仔细看看这段代码，是不是和经常被问到的所谓“commonjs模块原理是什么”差不多呢？</p>
+<h1 id="代码是用来解决问题的">代码是用来解决问题的</h1>
+<p>这章标题是随便取的，其实也是我的一个小观念。在写了一堆代码之后，自然要看一下这样子一通折腾有没有解决最初的两个问题。</p>
+<p>从开发上来说，由于使用了commonjs模块，我可以使用更多的技术去降低开发成本：使用typescript、使用webpack等工程化工具，并且只需要把最终打包时的target设置为CommonJS即可。开发时也不再仅限于“只能写一个单文件”；甚至可以引入一些没有内置的npm包，只需要最终打包时把源码打进插件就可以了。</p>
+<p>从调试上来说，nodejs环境下运行插件与APP环境下运行插件几乎无区别，因此可以直接一边开发一边调试以验证插件是否符合预期，大大降低了成本：</p>
+<p><img src="https://i.328888.xyz/2023/03/27/inFRLk.png" alt="inFRLk.png"></p>
+<p>以及，除了对上述require、module和exports的实现外，也可以用类似的方式屏蔽掉插件内所有的console.log，只需要用类似的方式重新定义一下console对象即可。</p>
+<h1 id="结尾">结尾</h1>
+<p>本文中的主要代码可以在<a href="https://github.com/maotoumao/MusicFree/blob/master/src/core/pluginManager.ts">这里</a>看到。</p>
+<p>MusicFree是一个基于GPL3开源的免费音乐播放器，源代码地址：<a href="https://github.com/maotoumao/MusicFree%EF%BC%8C%E6%AC%A2%E8%BF%8E%E7%82%B9%E4%B8%AAstar">https://github.com/maotoumao/MusicFree，欢迎点个star</a>~</p>
+<p>感兴趣的话也可以<a href="https://wwzb.lanzoue.com/b041xm5fg">戳这里</a>下载。个人业余作品，只是用于满足个人需求和技术探索。仅供学习参考，不要用于商业目的~</p> </div> </div> <div class="mt-20 pt-12 border-t border-warm-text/10 flex justify-between items-center"> <div class="text-warm-text/50 text-sm italic font-serif">
+Thanks for reading.
+</div> <div class="flex gap-4"> <button class="text-warm-text/50 hover:text-warm-accent text-sm uppercase tracking-widest">Share</button> </div> </div> </div> <a class="article-backtop" href="#article-top" aria-label="返回顶部"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-up">  <path d="m5 12 7-7 7 7"></path> <path d="M12 19V5"></path>  </svg> </a> </article>  </main> <footer class="w-full py-12 mt-20 border-t border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 flex flex-col items-center"> <div class="flex space-x-6 mb-6"> <div class="relative group"> <button type="button" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="微信公众号"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <path d="M11.176 14.429c-2.665 0-4.826-1.8-4.826-4.018 0-2.22 2.159-4.02 4.824-4.02S16 8.191 16 10.411c0 1.21-.65 2.301-1.666 3.036a.32.32 0 0 0-.12.366l.218.81a.6.6 0 0 1 .029.117.166.166 0 0 1-.162.162.2.2 0 0 1-.092-.03l-1.057-.61a.5.5 0 0 0-.256-.074.5.5 0 0 0-.142.021 5.7 5.7 0 0 1-1.576.22M9.064 9.542a.647.647 0 1 0 .557-1 .645.645 0 0 0-.646.647.6.6 0 0 0 .09.353Zm3.232.001a.646.646 0 1 0 .546-1 .645.645 0 0 0-.644.644.63.63 0 0 0 .098.356"></path> <path d="M0 6.826c0 1.455.781 2.765 2.001 3.656a.385.385 0 0 1 .143.439l-.161.6-.1.373a.5.5 0 0 0-.032.14.19.19 0 0 0 .193.193q.06 0 .111-.029l1.268-.733a.6.6 0 0 1 .308-.088q.088 0 .171.025a6.8 6.8 0 0 0 1.625.26 4.5 4.5 0 0 1-.177-1.251c0-2.936 2.785-5.02 5.824-5.02l.15.002C10.587 3.429 8.392 2 5.796 2 2.596 2 0 4.16 0 6.826m4.632-1.555a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0m3.875 0a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0"></path> </svg> </button> <div class="pointer-events-none absolute left-1/2 bottom-10 z-10 w-40 -translate-x-1/2 opacity-0 scale-95 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100"> <div class="rounded-xl border border-warm-text/10 dark:border-night-text/10 bg-white/95 dark:bg-night-surface/95 p-2 shadow-lg"> <img src="/images/wechat_channel.jpg" alt="微信公众号二维码" class="h-36 w-36 rounded-lg object-cover"> </div> </div> </div> <a href="https://space.bilibili.com/12866223" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="B站" title="B站" target="_blank" rel="noreferrer"> <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <title>Bilibili</title> <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"></path> </svg> </a> <a href="https://www.xiaohongshu.com/user/profile/5ce6085200000000050213a6?xhsshare=CopyLink&appuid=5ce6085200000000050213a6&apptime=1714394544" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="小红书" title="小红书" target="_blank" rel="noreferrer"> <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="h-5 w-5" aria-hidden="true" focusable="false"> <title>小红书</title> <path d="M289.44,256H477.67c17.93,0,33.86,15.57,34.33,33.48V477.72A35.09,35.09,0,0,1,477.66,512H289.5A35.14,35.14,0,0,1,256,477.64V289.56C256.43,271.93,271.81,256.5,289.44,256Zm16.73,91.44c-.13,19.87-.06,39.75-.16,59.63a2.1,2.1,0,0,1-2.13,2.6c-2.39.14-4.79.06-7.19.08,1.61,4,3.35,7.86,5.15,11.73,4.52-.15,9.68.79,13.54-2.17,3.47-2.58,4.58-7.17,4.51-11.3,0-20.19,0-40.39-.09-60.58C315.26,347.41,310.71,347.4,306.17,347.44Zm56.08-.9q-5.08,11.67-10.36,23.24c-1,2.31-2.21,5.37-.11,7.46,2.69,2.44,6.64,1.5,9.94,1.72-2.29,5.78-5.3,11.27-7.23,17.19-1.07,2.92,1.6,5.89,4.52,5.92,5.29.36,10.6,0,15.9.14,1.73-3.87,3.47-7.73,5.17-11.62-3.09,0-6.21.22-9.25-.39,3.29-8.26,7.19-16.25,10.68-24.41-4.27-.5-9.1.89-13-.77,1.9-6.4,5.36-12.27,7.8-18.5C371.61,346.5,366.93,346.47,362.25,346.54Zm72.75.05,0,5.21c-3.06,0-6.12,0-9.18,0q0,7,0,13.93c3.07,0,6.13,0,9.19.06q.12,6,0,12.08c-4.6.09-9.21,0-13.81.07-.06,4.64-.05,9.27,0,13.9,4.61.05,9.23,0,13.84,0,0,9.86,0,19.73,0,29.59,4.62,0,9.23,0,13.85,0q0-14.79,0-29.57c6.74,0,13.47-.1,20.21,0,2.37-.2,5.08,1.46,5,4.07a110.67,110.67,0,0,1,0,11.08,2.26,2.26,0,0,1-2.12,2.39c-3.85.28-7.71,0-11.57.13,1.7,4,3.35,8,5.28,11.95,6.35-.33,14.11,1.27,18.95-4,4.6-4.26,3.22-11,3.41-16.56-.29-5.85,1.14-12.46-2.49-17.58-3.09-4.34-8.66-5.52-13.68-5.61-.3-7,1.37-15.19-3.78-20.88-4.8-5.38-12.53-5.4-19.17-5.14l0-5.2C444.23,346.56,439.61,346.57,435,346.59Zm-49.42,5.22q0,7,0,13.92c2.9,0,5.79,0,8.69,0,0,13.91,0,27.83,0,41.74-4.15.07-8.31,0-12.46.05-2.15,4.62-4.25,9.26-6.34,13.9,15.48.06,31,0,46.44,0q0-6.94,0-13.9c-4.45,0-8.91,0-13.36-.05q0-20.88,0-41.77c2.91,0,5.81,0,8.72,0,0-4.64,0-9.29,0-13.93C406.73,351.79,396.16,351.77,385.58,351.81Zm91.35,1.28c-3.88,2.94-2.61,8.32-2.78,12.51,2.59,0,5.19.14,7.78-.09,4.16-.38,7.29-5.23,5.62-9.15C486.24,352.06,480.43,350.19,476.93,353.09ZM283,365.72c-.7,9.12-1.41,18.23-2.07,27.35a22.12,22.12,0,0,1-1.32,6.06c2.34,5.35,4.68,10.7,7.18,16,5.6-7.49,7.68-16.93,8.26-26.1.49-7.8,1.36-15.59,1.64-23.4C292.1,365.79,287.54,365.68,283,365.72Zm46.13,0q1,12.69,2,25.37c.73,8.48,2.92,17.12,8.1,24,2.47-5.29,4.83-10.63,7.17-16A21.67,21.67,0,0,1,345,393c-.66-9.09-1.38-18.18-2.08-27.27Q336,365.69,329.1,365.72Zm17.16,54.69c7.08,2.09,14.58.66,21.85,1.05,2.14-4.63,4.27-9.27,6.35-13.93-7.27-.28-14.67.76-21.8-1.07Q349.42,413.41,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M448.77,365.77c3,.43,7-1.22,9.29,1.2.38,3.65.1,7.32.14,11-3.11,0-6.23,0-9.34,0Q448.77,371.87,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M306.17,347.44c4.54,0,9.09,0,13.63,0,.13,20.19.08,40.39.09,60.58.07,4.13-1,8.72-4.51,11.3-3.86,3-9,2-13.54,2.17-1.8-3.87-3.54-7.77-5.15-11.73,2.4,0,4.8.06,7.19-.08a2.1,2.1,0,0,0,2.13-2.6C306.11,387.19,306,367.31,306.17,347.44Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M362.25,346.54c4.68-.07,9.36,0,14,0-2.44,6.23-5.9,12.1-7.8,18.5,3.92,1.66,8.75.27,13,.77-3.49,8.16-7.39,16.15-10.68,24.41,3,.61,6.16.39,9.25.39-1.7,3.89-3.44,7.75-5.17,11.62-5.3-.09-10.61.22-15.9-.14-2.92,0-5.59-3-4.52-5.92,1.93-5.92,4.94-11.41,7.23-17.19-3.3-.22-7.25.72-9.94-1.72-2.1-2.09-.88-5.15.11-7.46Q357.14,358.2,362.25,346.54Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M435,346.59c4.61,0,9.23,0,13.84,0l0,5.2c6.64-.26,14.37-.24,19.17,5.14,5.15,5.69,3.48,13.9,3.78,20.88,5,.09,10.59,1.27,13.68,5.61,3.63,5.12,2.2,11.73,2.49,17.58-.19,5.57,1.19,12.3-3.41,16.56-4.84,5.23-12.6,3.63-18.95,4-1.93-3.91-3.58-7.94-5.28-11.95,3.86-.11,7.72.15,11.57-.13a2.26,2.26,0,0,0,2.12-2.39,110.67,110.67,0,0,0,0-11.08c.07-2.61-2.64-4.27-5-4.07-6.74-.1-13.47,0-20.21,0q0,14.79,0,29.57c-4.62,0-9.23,0-13.85,0,0-9.86,0-19.73,0-29.59-4.61,0-9.23,0-13.84,0,0-4.63,0-9.26,0-13.9,4.6,0,9.21,0,13.81-.07q.13-6,0-12.08c-3.06-.05-6.12-.09-9.19-.06q0-7,0-13.93c3.06,0,6.12,0,9.18,0Zm13.77,19.18q0,6.1.09,12.2c3.11,0,6.23,0,9.34,0,0-3.66.24-7.33-.14-11C455.77,364.55,451.77,366.2,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M385.58,351.81c10.58,0,21.15,0,31.72,0,0,4.64,0,9.29,0,13.93-2.91,0-5.81,0-8.72,0q0,20.89,0,41.77c4.45.05,8.91,0,13.36.05q0,6.94,0,13.9c-15.48,0-31,0-46.44,0,2.09-4.64,4.19-9.28,6.34-13.9,4.15,0,8.31,0,12.46-.05,0-13.91,0-27.83,0-41.74-2.9,0-5.79,0-8.69,0Q385.55,358.77,385.58,351.81Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M476.93,353.09c3.5-2.9,9.31-1,10.62,3.27,1.67,3.92-1.46,8.77-5.62,9.15-2.59.23-5.19.1-7.78.09C474.32,361.41,473.05,356,476.93,353.09Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M283,365.72c4.57,0,9.13.07,13.69-.11-.28,7.81-1.15,15.6-1.64,23.4-.58,9.17-2.66,18.61-8.26,26.1-2.5-5.28-4.84-10.63-7.18-16a22.12,22.12,0,0,0,1.32-6.06C281.56,384,282.27,374.84,283,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M329.1,365.72q6.91,0,13.83,0c.7,9.09,1.42,18.18,2.08,27.27a21.67,21.67,0,0,0,1.32,6.15c-2.34,5.35-4.7,10.69-7.17,16-5.18-6.91-7.37-15.55-8.1-24S329.77,374.18,329.1,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M346.26,420.41q3.17-7,6.4-13.95c7.13,1.83,14.53.79,21.8,1.07-2.08,4.66-4.21,9.3-6.35,13.93C360.84,421.07,353.34,422.5,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#fff"></path> </svg> </a> <a href="https://github.com/maotoumao" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="GitHub" title="GitHub" target="_blank" rel="noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-github">  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path> <path d="M9 18c-4.51 2-5-2-7-2"></path>  </svg> </a> </div> <p class="font-serif text-sm text-warm-text/40 dark:text-night-text/40">
+© <span id="footer-year"></span> 猫头猫的博客. All rights reserved.
+</p> </div> <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script> </footer> <script>
+      const root = document.documentElement;
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = stored || (prefersDark ? 'dark' : 'light');
+
+      const applyTheme = (theme) => {
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        localStorage.setItem('theme', theme);
+        const showSun = theme === 'light';
+        document.querySelectorAll('[data-theme-icon="sun"]').forEach((el) => el.classList.toggle('hidden', !showSun));
+        document.querySelectorAll('[data-theme-icon="moon"]').forEach((el) => el.classList.toggle('hidden', showSun));
+      };
+
+      applyTheme(initialTheme);
+
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          applyTheme(next);
+        });
+      });
+
+      document.querySelectorAll('[data-menu-toggle]').forEach((button) => {
+        const targetId = button.getAttribute('data-menu-target');
+        const menu = document.getElementById(targetId);
+        if (!menu) return;
+
+        button.addEventListener('click', () => {
+          const isOpen = menu.dataset.open === 'true';
+          menu.dataset.open = (!isOpen).toString();
+          menu.classList.toggle('max-h-0', isOpen);
+          menu.classList.toggle('max-h-96', !isOpen);
+          menu.classList.toggle('opacity-0', isOpen);
+          menu.classList.toggle('opacity-100', !isOpen);
+          button.querySelector('[data-menu-icon="open"]').classList.toggle('hidden', !isOpen);
+          button.querySelector('[data-menu-icon="close"]').classList.toggle('hidden', isOpen);
+        });
+      });
+    </script> </body> </html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content="用AI做个小程序吧~"><link rel="canonical" href="https://blog.catcat.work/article/ai%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F"><meta property="og:site_name" content="猫头猫的博客"><meta property="og:title" content="AI开发小程序 · 猫头猫的博客"><meta property="og:description" content="用AI做个小程序吧~"><meta property="og:type" content="article"><meta property="og:url" content="https://blog.catcat.work/article/ai%E5%BC%80%E5%8F%91%E5%B0%8F%E7%A8%8B%E5%BA%8F"><meta property="og:image" content="https://blog.catcat.work/images/avatar.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="AI开发小程序 · 猫头猫的博客"><meta name="twitter:description" content="用AI做个小程序吧~"><meta name="twitter:image" content="https://blog.catcat.work/images/avatar.jpg"><link rel="alternate" type="application/rss+xml" title="猫头猫的博客 RSS" href="/rss.xml"><link rel="icon" href="/images/avatar.jpg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"><title>AI开发小程序 · 猫头猫的博客</title> <meta property="article:author" content="猫头猫"> <meta property="article:published_time" content="2025-04-05T19:21:06.000Z"><script type="application/ld+json">
+      {JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.data.title,
+        description,
+        datePublished: publishedTime,
+        author: {
+          '@type': 'Person',
+          name: SITE_AUTHOR,
+        },
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': new URL(`/article/${post.id}`, SITE_URL).toString(),
+        },
+        image: new URL(SITE_IMAGE, SITE_URL).toString(),
+      })}
+    </script> <link rel="stylesheet" href="/_astro/about.DQxYEom-.css">
+<link rel="stylesheet" href="/_astro/_id_.CSYmCdln.css"></head> <body class="min-h-screen flex flex-col"> <div class="noise-overlay"></div> <nav class="fixed top-0 left-0 w-full z-40 bg-warm-bg/80 dark:bg-night-bg/80 backdrop-blur-md transition-colors duration-500 border-b border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 h-20 flex items-center justify-between"> <a href="/" class="font-serif text-2xl tracking-wide text-warm-text dark:text-night-text hover:text-warm-accent dark:hover:text-warm-accent transition-colors">
+猫头猫的博客
+</a> <div class="hidden md:flex items-center space-x-8"> <a href="/" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-accent underline underline-offset-4"> 文章 </a><a href="/works" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-sm tracking-widest uppercase hover:text-warm-sage transition-colors text-warm-text dark:text-night-text"> 关于我 </a> <button type="button" data-theme-toggle class="ml-4 p-2 rounded-full hover:bg-warm-text/5 dark:hover:bg-night-text/10 transition-colors" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-warm-text dark:text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> </div> <div class="md:hidden flex items-center gap-4"> <button type="button" data-theme-toggle class="p-2" aria-label="Toggle Dark Mode"> <span data-theme-icon="sun" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-sun text-warm-text">  <circle cx="12" cy="12" r="4"></circle> <path d="M12 2v2"></path> <path d="M12 20v2"></path> <path d="m4.93 4.93 1.41 1.41"></path> <path d="m17.66 17.66 1.41 1.41"></path> <path d="M2 12h2"></path> <path d="M20 12h2"></path> <path d="m6.34 17.66-1.41 1.41"></path> <path d="m19.07 4.93-1.41 1.41"></path>  </svg> </span> <span data-theme-icon="moon" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-moon text-night-text">  <path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path>  </svg> </span> </button> <button type="button" data-menu-toggle data-menu-target="mobile-menu" aria-label="Menu"> <span data-menu-icon="open" class="inline-flex"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-menu text-warm-text dark:text-night-text">  <path d="M4 5h16"></path> <path d="M4 12h16"></path> <path d="M4 19h16"></path>  </svg> </span> <span data-menu-icon="close" class="inline-flex hidden"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="24" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-x text-warm-text dark:text-night-text">  <path d="M18 6 6 18"></path> <path d="m6 6 12 12"></path>  </svg> </span> </button> </div> </div> <div id="mobile-menu" data-open="false" class="md:hidden bg-warm-bg dark:bg-night-bg overflow-hidden border-b border-warm-text/5 max-h-0 opacity-0 transition-all duration-500"> <div class="flex flex-col items-center py-6 space-y-4"> <a href="/" class="text-lg font-serif text-warm-text dark:text-night-text"> 首页 </a><a href="/article" class="text-lg font-serif text-warm-accent"> 文章 </a><a href="/works" class="text-lg font-serif text-warm-text dark:text-night-text"> 作品 </a><a href="/about" class="text-lg font-serif text-warm-text dark:text-night-text"> 关于我 </a> </div> </div> </nav> <main class="flex-grow pt-28 px-6 w-full max-w-4xl mx-auto">   <article id="article-top" class="py-12 md:py-20 max-w-5xl mx-auto"> <aside class="article-toc" aria-label="文章导航"><div class="article-toc-card"><div class="article-toc-title">目录</div><nav><ol class="article-toc-list"><li><a href="#前言"><span class="article-toc-index">01</span><span class="article-toc-text">前言</span></a></li><li><a href="#需求描述"><span class="article-toc-index">02</span><span class="article-toc-text">需求描述</span></a></li><li><a href="#视觉稿"><span class="article-toc-index">03</span><span class="article-toc-text">视觉稿</span></a></li><li><a href="#前端"><span class="article-toc-index">04</span><span class="article-toc-text">前端</span></a></li><li><a href="#后端"><span class="article-toc-index">05</span><span class="article-toc-text">后端</span></a></li><li><a href="#部署"><span class="article-toc-index">06</span><span class="article-toc-text">部署</span></a></li></ol></nav><a class="article-toc-back" href="#article-top">返回顶部</a></div></aside> <div class="animate-slide-up"> <a href="/" class="inline-flex items-center text-warm-text/50 hover:text-warm-text transition-colors mb-8 text-sm uppercase tracking-widest font-sans group"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-left mr-2 transform group-hover:-translate-x-1 transition-transform">  <path d="m12 19-7-7 7-7"></path> <path d="M19 12H5"></path>  </svg>
+Back to Home
+</a> <header class="mb-12 text-center"> <div class="flex items-center justify-center gap-4 text-xs text-warm-text/50 dark:text-night-text/50 uppercase tracking-widest mb-6 font-sans"> <span class="flex items-center gap-1"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-calendar">  <path d="M8 2v4"></path> <path d="M16 2v4"></path> <rect width="18" height="18" x="3" y="4" rx="2"></rect> <path d="M3 10h18"></path>  </svg> 2025/04/05 </span> <span>•</span> <span class="flex items-center gap-1 text-warm-accent"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="12" height="12" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-tag">  <path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"></path> <circle cx="7.5" cy="7.5" r=".5" fill="currentColor"></circle>  </svg> 算法&amp;AI </span> </div> <h1 class="text-4xl md:text-5xl font-serif text-warm-text dark:text-night-text leading-tight mb-6"> AI开发小程序 </h1> <div class="flex items-center justify-center gap-2 text-warm-text/40 text-sm font-sans italic"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="14" height="14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-clock">  <path d="M12 6v6l4 2"></path> <circle cx="12" cy="12" r="10"></circle>  </svg> 9 分钟 </div> </header> <div class="article-layout"> <div class="article-content prose prose-lg md:prose-xl prose-stone dark:prose-invert font-serif prose-headings:font-serif"> <h2 id="前言">前言</h2>
+<p>这是一个用AI开发小程序的全过程的记录，小程序的界面样式、95%的前端代码、95%的后端代码（剩下的5%是我手动修改了一些些，但约等于全都是用AI实现了😂）都是由AI生成的，不得不说 AI 发展的实在太快了。</p>
+<p>早些时候关注我的小伙伴可能还记得之前尝试做过一个 AI 测运势的小程序，当时是用 Midjourney 生成了一些小程序上用到的配图，用 ChatGPT 生成了一些文案，界面设计、小程序前端、后端都是自己写的。</p>
+<p>不过这个小程序很快被封掉了，理由是个人小程序不能接入大模型，并且小程序不能和占卜测算相关（吐槽一下tx灵活的审核机制，这么多占卜测算小程序都没被封..）</p>
+<p>前不久看到一些用 AI 生成视觉稿的教程，想实践一下，于是想起了这个尘封已久的小程序，把它改成了一个星座运势的工具，这样就和占卜没关系了。</p>
+<h2 id="需求描述">需求描述</h2>
+<p>既然是一个星座运势小程序，那首页至少需要可以展示十二星座、每个星座的运势文案。另外为了让它的功能显得稍微多点，可以再加一个 tab，做一个【答案之书】页面。</p>
+<p>需求看起来很简单（一句话需求，深得产品经理真传），然后就可以开始准备开发了 —— 首先是要做一个视觉稿，接下来开发小程序的前端和后端，最后是部署上线。</p>
+<h2 id="视觉稿">视觉稿</h2>
+<p>虽然之前切过不少图，但还是不擅长视觉设计，之前做一些小项目基本上都是简单画一个草图，然后直接开始写代码。</p>
+<p>但现在，可以通过大模型直接生成视觉稿了，甚至可以根据视觉稿直接生成前端页面。实测下来，<code>Claude3.7</code>，<code>Gemini 2.5 Pro</code> 生成视觉稿的效果都不错。</p>
+<p>可以使用 <code>Github Copilot</code>、字节的 <code>Trae</code> 来使用 <code>Claude3.7</code> 和 <code>Gemini 2.5 Pro</code>；也可以直接在谷歌AI studio官网上直接使用 <code>Gemini 2.5 Pro</code>。</p>
+<p>为了生成视觉稿，我们只需要套用下面的提示词模板，然后把任务描述清楚就好了，比如：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>#角色</span></span>
+<span class="line"><span>你是一位资深交互设计师，擅长使用HTML/CSS/SVG等技术完成UI/UX设计。你的设计风格优雅舒适，能够吸引用户使用，动线设计合理，具有细腻的微交互。你可以自由使用渐变、毛玻璃等任何你觉得能达到最佳视觉效果的设计。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#技术规格</span></span>
+<span class="line"><span>1、单个页面尺寸为 375x812px，带有描边，模拟手机边框</span></span>
+<span class="line"><span>2. 每个功能点都需要有单独页面的设计稿，并列出详细的交互方案</span></span>
+<span class="line"><span>3. 多个页面的设计稿，横向排列；如果空间不足，则可以横向滚动，除此之外不显示任何非移动端元素；</span></span>
+<span class="line"><span>4、图标使用 Lucide Static CDN 方式引入，示例如下：</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>```html</span></span>
+<span class="line"><span>&#x3C;!DOCTYPE html></span></span>
+<span class="line"><span>&#x3C;body></span></span>
+<span class="line"><span>  &#x3C;i data-lucide="volume-2" class="my-class">&#x3C;/i></span></span>
+<span class="line"><span>  &#x3C;i data-lucide="x">&#x3C;/i></span></span>
+<span class="line"><span>  &#x3C;i data-lucide="menu">&#x3C;/i></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>  &#x3C;script src="https://unpkg.com/lucide@latest">&#x3C;/script></span></span>
+<span class="line"><span>  &#x3C;script></span></span>
+<span class="line"><span>    lucide.createIcons();</span></span>
+<span class="line"><span>  &#x3C;/script></span></span>
+<span class="line"><span>&#x3C;/body></span></span>
+<span class="line"><span>\```</span></span>
+<span class="line"><span>5、图片: 使用开源图片网站unsplash链接的形式引入</span></span>
+<span class="line"><span>6、样式必须引入 tailwindcss CDN 来完成</span></span>
+<span class="line"><span>7、不要显示状态栏以及时间、信号等信息</span></span>
+<span class="line"><span>8、不要显示非移动端元素，如滚动条</span></span>
+<span class="line"><span>9. 不需要考虑实际功能实现，只需要从设计和交互的角度考虑</span></span>
+<span class="line"><span>10. 你需要先把整个设计稿的框架搭出，接下来向其中填充具体设计的页面</span></span>
+<span class="line"><span>11. 每次输出2个页面，等我审阅后再继续输出接下来的2个页面</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#任务</span></span>
+<span class="line"><span>{任务描述}</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>模拟产品经理输出详细功能设计、信息架构设计，结合角色和技术规格输出一套UI设计方案。</span></span>
+<span class="line"><span>生成一个UI.html文件，放入所有页面，横向排列。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#优秀案例</span></span>
+<span class="line"><span>以下是一个优秀的设计案例，你可以参考这个案例的设计风格，但不要照搬，要根据自己的风格、要求和技术规格进行设计。</span></span>
+<span class="line"><span>尤其是类，你的每个页面的类名都使用 phone-frame。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>{视觉稿示例}</span></span></code></pre>
+<p>把里面的 <code>{任务描述}</code> 和 <code>{视觉稿示例}</code> 替换掉。比如我们想生成一个名字叫 “MusicFree” 的音乐播放器的视觉稿，<code>任务描述</code> 可以这样写：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>这是一个插件化的【音乐播放器】软件，将要使用React Native进行开发，主要考虑安卓端。</span></span>
+<span class="line"><span>软件没有登录功能，本身是一个音乐播放器的空壳，通过安装不同的插件实现播放不同源的音乐。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>软件有以下页面：</span></span>
+<span class="line"><span>- 主页，功能如下：</span></span>
+<span class="line"><span>  - 顶部是侧边栏入口和搜索框；</span></span>
+<span class="line"><span>  - 推荐歌单、榜单、最近播放、本地音乐四个页面的入口</span></span>
+<span class="line"><span>  - 展示我创建的所有歌单</span></span>
+<span class="line"><span>  - 展示我收藏的所有歌单</span></span>
+<span class="line"><span>  - 底部是音乐播放栏，展示当前正在播放的音乐和状态</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>- 正在播放的音乐详情页，功能如下：</span></span>
+<span class="line"><span>  - 歌曲名称</span></span>
+<span class="line"><span>  - 歌曲专辑</span></span>
+<span class="line"><span>  - 歌曲来源</span></span>
+<span class="line"><span>  - 歌曲作者</span></span>
+<span class="line"><span>  - 歌曲专辑封面</span></span>
+<span class="line"><span>  - 播放状态</span></span>
+<span class="line"><span>  - 切换上一首/下一首等功能按钮</span></span>
+<span class="line"><span>  - 歌词（以及相关的调整功能）</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>- 搜索页</span></span>
+<span class="line"><span>  - 点击主页的搜索按钮会跳转到一个单独的搜索页，顶部是一个输入框，底部是最近搜索的关键字；</span></span>
+<span class="line"><span>  - 搜索结果页：</span></span>
+<span class="line"><span>    搜索结果类型有：歌曲、专辑、歌单、作者；</span></span>
+<span class="line"><span>    每个类别下，按插件列出搜索结果，应该是一个级联的tabview</span></span></code></pre>
+<p>任务描述的核心思路就是描述清楚想要的功能，给 AI 一个大概的方向。 <code>{视觉稿示例}</code> 部分可以贴一个其他的 html 格式的视觉稿的代码示例给 AI 做参考。</p>
+<p>播放器的视觉稿效果大概如下：</p>
+<p><img src="/images/musicfree-ui.png" alt="视觉稿"></p>
+<p>回到主题，用类似的方式去生成一个星座小程序的视觉稿，视觉效果如下：</p>
+<p><img src="/images/astro-ui.png" alt="视觉稿"></p>
+<p>看上去还是有模有样的，比我自己做的视觉稿好看多了~</p>
+<h2 id="前端">前端</h2>
+<p>因为生成的视觉稿是 HTML 形式的，所以转换成前端代码可以说是非常方便了。</p>
+<p>小程序用的是 Taro + React 开发的，按照官方文档初始化一个空的 Taro 项目，剩下的就可以交给 AI 了。</p>
+<p>用 Copilot Chat 的 <code>Claude 3.7 Thinking</code> 模型的话，只需要把要做的任务详细描述清楚，AI 就会自己开始生成代码了。这里我感觉没有什么固定的模板，把最终效果描述清楚，然后把上一步生成的html视觉稿贴进去就够了：</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>这是一个星座运势小程序，使用Taro+react实现。css使用scss，基本样式单位为rpx。你无法使用tailwindcss，所以请重新规划样式，确保和视觉稿完全一致。</span></span>
+<span class="line"><span>请你帮我还原视觉稿，我将会给你html格式的视觉稿，你需要帮我还原出第一个页面、第二个页面，它们分别是加载中、出错了界面。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>要求：视觉稿需要绝对还原，不需要考虑底部的导航栏。视觉稿是375x812px的，1rem=16px。每个页面单独封装成一个组件。第一个页面中，进度条会逐渐向右走，在两秒内走到尽头。所有svg、图片使用Image标签，src留白。不要额外新创建styles文件夹。</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>视觉稿如下：</span></span>
+<span class="line"><span>...</span></span></code></pre>
+<p><img src="/images/copilot-chat-example.png" alt="Copilot"></p>
+<p>按下回车之后，等待生成代码就好了（有种当老板的感觉）。生成代码之后就可以在微信开发者工具里面预览效果，如果有不合适的地方告诉 AI 哪里不合适，它就会自己更新代码。</p>
+<p>简单切图的话，AI 还原度还是很高的，代码生成完之后基本上只需要做一些简单的修补就可以了，比完全从头开发工作量小多了。</p>
+<h2 id="后端">后端</h2>
+<p>前端页面开发完成后，还需要后端来提供服务，具体来说还需要一个查询星座信息的接口。</p>
+<p>考虑到我的服务器内存比较小，所以这次就不写 nodejs 了，让 AI 帮我用 go 语言写。</p>
+<p>同样，写一系列要求，比如：</p>
+<ul>
+<li>我要用 go 语言写一个服务端，用于星座运势小程序，其中有以下接口，xxx （需求描述）</li>
+<li>请你帮我初始化项目结构，确保符合企业级后端应用的最佳实践 （任务）</li>
+<li>要求使用 gin 框架，使用 wire 进行依赖注入，使用 MVC 架构 （细节限制防止跑偏）</li>
+</ul>
+<p>这次我使用了 trae（cursor太贵了开不起会员），直接在 builder 模式下输入任务要求，然后按回车就好了。</p>
+<p>builder 模式类似 cursor 的 “agent” 模式，会自动生成代码，执行一些指令，自动修复一些执行过程中遇到的报错。</p>
+<p>但其实使用 trae 的过程中会遇到一些奇奇怪怪的问题，比如提示遇到错误，或者提示需要排队，很影响体验，但好在最后生成了个能运行的程序。</p>
+<p>这里就不赘述细节啦，几乎没有手动写代码~</p>
+<h2 id="部署">部署</h2>
+<p>现在要发布一个小程序也挺麻烦，先备案，然后要再给微信交 30 块钱保护费，完事之后才可以上线。</p>
+<p>前后总共花了快一个月，才把这个尘封已久的小程序放出来。成品如下~</p>
+<p><img src="/images/astro-miniprogram.png" alt="小程序"></p>
+<hr>
+<p>用 AI 做软件的成本越来越低了，找时间可以尝试用 AI 写个简单的小游戏试试~</p> </div> </div> <div class="mt-20 pt-12 border-t border-warm-text/10 flex justify-between items-center"> <div class="text-warm-text/50 text-sm italic font-serif">
+Thanks for reading.
+</div> <div class="flex gap-4"> <button class="text-warm-text/50 hover:text-warm-accent text-sm uppercase tracking-widest">Share</button> </div> </div> </div> <a class="article-backtop" href="#article-top" aria-label="返回顶部"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="16" height="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.6" class="lucide lucide-arrow-up">  <path d="m5 12 7-7 7 7"></path> <path d="M12 19V5"></path>  </svg> </a> </article>  </main> <footer class="w-full py-12 mt-20 border-t border-warm-text/5 dark:border-night-text/5"> <div class="max-w-4xl mx-auto px-6 flex flex-col items-center"> <div class="flex space-x-6 mb-6"> <div class="relative group"> <button type="button" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="微信公众号"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <path d="M11.176 14.429c-2.665 0-4.826-1.8-4.826-4.018 0-2.22 2.159-4.02 4.824-4.02S16 8.191 16 10.411c0 1.21-.65 2.301-1.666 3.036a.32.32 0 0 0-.12.366l.218.81a.6.6 0 0 1 .029.117.166.166 0 0 1-.162.162.2.2 0 0 1-.092-.03l-1.057-.61a.5.5 0 0 0-.256-.074.5.5 0 0 0-.142.021 5.7 5.7 0 0 1-1.576.22M9.064 9.542a.647.647 0 1 0 .557-1 .645.645 0 0 0-.646.647.6.6 0 0 0 .09.353Zm3.232.001a.646.646 0 1 0 .546-1 .645.645 0 0 0-.644.644.63.63 0 0 0 .098.356"></path> <path d="M0 6.826c0 1.455.781 2.765 2.001 3.656a.385.385 0 0 1 .143.439l-.161.6-.1.373a.5.5 0 0 0-.032.14.19.19 0 0 0 .193.193q.06 0 .111-.029l1.268-.733a.6.6 0 0 1 .308-.088q.088 0 .171.025a6.8 6.8 0 0 0 1.625.26 4.5 4.5 0 0 1-.177-1.251c0-2.936 2.785-5.02 5.824-5.02l.15.002C10.587 3.429 8.392 2 5.796 2 2.596 2 0 4.16 0 6.826m4.632-1.555a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0m3.875 0a.77.77 0 1 1-1.54 0 .77.77 0 0 1 1.54 0"></path> </svg> </button> <div class="pointer-events-none absolute left-1/2 bottom-10 z-10 w-40 -translate-x-1/2 opacity-0 scale-95 transition-all duration-200 group-hover:opacity-100 group-hover:scale-100 group-focus-within:opacity-100 group-focus-within:scale-100"> <div class="rounded-xl border border-warm-text/10 dark:border-night-text/10 bg-white/95 dark:bg-night-surface/95 p-2 shadow-lg"> <img src="/images/wechat_channel.jpg" alt="微信公众号二维码" class="h-36 w-36 rounded-lg object-cover"> </div> </div> </div> <a href="https://space.bilibili.com/12866223" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="B站" title="B站" target="_blank" rel="noreferrer"> <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current" aria-hidden="true" focusable="false"> <title>Bilibili</title> <path d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z"></path> </svg> </a> <a href="https://www.xiaohongshu.com/user/profile/5ce6085200000000050213a6?xhsshare=CopyLink&appuid=5ce6085200000000050213a6&apptime=1714394544" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="小红书" title="小红书" target="_blank" rel="noreferrer"> <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" class="h-5 w-5" aria-hidden="true" focusable="false"> <title>小红书</title> <path d="M289.44,256H477.67c17.93,0,33.86,15.57,34.33,33.48V477.72A35.09,35.09,0,0,1,477.66,512H289.5A35.14,35.14,0,0,1,256,477.64V289.56C256.43,271.93,271.81,256.5,289.44,256Zm16.73,91.44c-.13,19.87-.06,39.75-.16,59.63a2.1,2.1,0,0,1-2.13,2.6c-2.39.14-4.79.06-7.19.08,1.61,4,3.35,7.86,5.15,11.73,4.52-.15,9.68.79,13.54-2.17,3.47-2.58,4.58-7.17,4.51-11.3,0-20.19,0-40.39-.09-60.58C315.26,347.41,310.71,347.4,306.17,347.44Zm56.08-.9q-5.08,11.67-10.36,23.24c-1,2.31-2.21,5.37-.11,7.46,2.69,2.44,6.64,1.5,9.94,1.72-2.29,5.78-5.3,11.27-7.23,17.19-1.07,2.92,1.6,5.89,4.52,5.92,5.29.36,10.6,0,15.9.14,1.73-3.87,3.47-7.73,5.17-11.62-3.09,0-6.21.22-9.25-.39,3.29-8.26,7.19-16.25,10.68-24.41-4.27-.5-9.1.89-13-.77,1.9-6.4,5.36-12.27,7.8-18.5C371.61,346.5,366.93,346.47,362.25,346.54Zm72.75.05,0,5.21c-3.06,0-6.12,0-9.18,0q0,7,0,13.93c3.07,0,6.13,0,9.19.06q.12,6,0,12.08c-4.6.09-9.21,0-13.81.07-.06,4.64-.05,9.27,0,13.9,4.61.05,9.23,0,13.84,0,0,9.86,0,19.73,0,29.59,4.62,0,9.23,0,13.85,0q0-14.79,0-29.57c6.74,0,13.47-.1,20.21,0,2.37-.2,5.08,1.46,5,4.07a110.67,110.67,0,0,1,0,11.08,2.26,2.26,0,0,1-2.12,2.39c-3.85.28-7.71,0-11.57.13,1.7,4,3.35,8,5.28,11.95,6.35-.33,14.11,1.27,18.95-4,4.6-4.26,3.22-11,3.41-16.56-.29-5.85,1.14-12.46-2.49-17.58-3.09-4.34-8.66-5.52-13.68-5.61-.3-7,1.37-15.19-3.78-20.88-4.8-5.38-12.53-5.4-19.17-5.14l0-5.2C444.23,346.56,439.61,346.57,435,346.59Zm-49.42,5.22q0,7,0,13.92c2.9,0,5.79,0,8.69,0,0,13.91,0,27.83,0,41.74-4.15.07-8.31,0-12.46.05-2.15,4.62-4.25,9.26-6.34,13.9,15.48.06,31,0,46.44,0q0-6.94,0-13.9c-4.45,0-8.91,0-13.36-.05q0-20.88,0-41.77c2.91,0,5.81,0,8.72,0,0-4.64,0-9.29,0-13.93C406.73,351.79,396.16,351.77,385.58,351.81Zm91.35,1.28c-3.88,2.94-2.61,8.32-2.78,12.51,2.59,0,5.19.14,7.78-.09,4.16-.38,7.29-5.23,5.62-9.15C486.24,352.06,480.43,350.19,476.93,353.09ZM283,365.72c-.7,9.12-1.41,18.23-2.07,27.35a22.12,22.12,0,0,1-1.32,6.06c2.34,5.35,4.68,10.7,7.18,16,5.6-7.49,7.68-16.93,8.26-26.1.49-7.8,1.36-15.59,1.64-23.4C292.1,365.79,287.54,365.68,283,365.72Zm46.13,0q1,12.69,2,25.37c.73,8.48,2.92,17.12,8.1,24,2.47-5.29,4.83-10.63,7.17-16A21.67,21.67,0,0,1,345,393c-.66-9.09-1.38-18.18-2.08-27.27Q336,365.69,329.1,365.72Zm17.16,54.69c7.08,2.09,14.58.66,21.85,1.05,2.14-4.63,4.27-9.27,6.35-13.93-7.27-.28-14.67.76-21.8-1.07Q349.42,413.41,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M448.77,365.77c3,.43,7-1.22,9.29,1.2.38,3.65.1,7.32.14,11-3.11,0-6.23,0-9.34,0Q448.77,371.87,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#ff2741"></path> <path d="M306.17,347.44c4.54,0,9.09,0,13.63,0,.13,20.19.08,40.39.09,60.58.07,4.13-1,8.72-4.51,11.3-3.86,3-9,2-13.54,2.17-1.8-3.87-3.54-7.77-5.15-11.73,2.4,0,4.8.06,7.19-.08a2.1,2.1,0,0,0,2.13-2.6C306.11,387.19,306,367.31,306.17,347.44Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M362.25,346.54c4.68-.07,9.36,0,14,0-2.44,6.23-5.9,12.1-7.8,18.5,3.92,1.66,8.75.27,13,.77-3.49,8.16-7.39,16.15-10.68,24.41,3,.61,6.16.39,9.25.39-1.7,3.89-3.44,7.75-5.17,11.62-5.3-.09-10.61.22-15.9-.14-2.92,0-5.59-3-4.52-5.92,1.93-5.92,4.94-11.41,7.23-17.19-3.3-.22-7.25.72-9.94-1.72-2.1-2.09-.88-5.15.11-7.46Q357.14,358.2,362.25,346.54Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M435,346.59c4.61,0,9.23,0,13.84,0l0,5.2c6.64-.26,14.37-.24,19.17,5.14,5.15,5.69,3.48,13.9,3.78,20.88,5,.09,10.59,1.27,13.68,5.61,3.63,5.12,2.2,11.73,2.49,17.58-.19,5.57,1.19,12.3-3.41,16.56-4.84,5.23-12.6,3.63-18.95,4-1.93-3.91-3.58-7.94-5.28-11.95,3.86-.11,7.72.15,11.57-.13a2.26,2.26,0,0,0,2.12-2.39,110.67,110.67,0,0,0,0-11.08c.07-2.61-2.64-4.27-5-4.07-6.74-.1-13.47,0-20.21,0q0,14.79,0,29.57c-4.62,0-9.23,0-13.85,0,0-9.86,0-19.73,0-29.59-4.61,0-9.23,0-13.84,0,0-4.63,0-9.26,0-13.9,4.6,0,9.21,0,13.81-.07q.13-6,0-12.08c-3.06-.05-6.12-.09-9.19-.06q0-7,0-13.93c3.06,0,6.12,0,9.18,0Zm13.77,19.18q0,6.1.09,12.2c3.11,0,6.23,0,9.34,0,0-3.66.24-7.33-.14-11C455.77,364.55,451.77,366.2,448.77,365.77Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M385.58,351.81c10.58,0,21.15,0,31.72,0,0,4.64,0,9.29,0,13.93-2.91,0-5.81,0-8.72,0q0,20.89,0,41.77c4.45.05,8.91,0,13.36.05q0,6.94,0,13.9c-15.48,0-31,0-46.44,0,2.09-4.64,4.19-9.28,6.34-13.9,4.15,0,8.31,0,12.46-.05,0-13.91,0-27.83,0-41.74-2.9,0-5.79,0-8.69,0Q385.55,358.77,385.58,351.81Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M476.93,353.09c3.5-2.9,9.31-1,10.62,3.27,1.67,3.92-1.46,8.77-5.62,9.15-2.59.23-5.19.1-7.78.09C474.32,361.41,473.05,356,476.93,353.09Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M283,365.72c4.57,0,9.13.07,13.69-.11-.28,7.81-1.15,15.6-1.64,23.4-.58,9.17-2.66,18.61-8.26,26.1-2.5-5.28-4.84-10.63-7.18-16a22.12,22.12,0,0,0,1.32-6.06C281.56,384,282.27,374.84,283,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M329.1,365.72q6.91,0,13.83,0c.7,9.09,1.42,18.18,2.08,27.27a21.67,21.67,0,0,0,1.32,6.15c-2.34,5.35-4.7,10.69-7.17,16-5.18-6.91-7.37-15.55-8.1-24S329.77,374.18,329.1,365.72Z" transform="translate(-256 -256)" style="fill:#fff"></path> <path d="M346.26,420.41q3.17-7,6.4-13.95c7.13,1.83,14.53.79,21.8,1.07-2.08,4.66-4.21,9.3-6.35,13.93C360.84,421.07,353.34,422.5,346.26,420.41Z" transform="translate(-256 -256)" style="fill:#fff"></path> </svg> </a> <a href="https://github.com/maotoumao" class="text-warm-text/60 dark:text-night-text/60 hover:text-warm-sage transition-colors" aria-label="GitHub" title="GitHub" target="_blank" rel="noreferrer"> <svg xmlns="http://www.w3.org/2000/svg" stroke-width="2" width="20" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" class="lucide lucide-github">  <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path> <path d="M9 18c-4.51 2-5-2-7-2"></path>  </svg> </a> </div> <p class="font-serif text-sm text-warm-text/40 dark:text-night-text/40">
+© <span id="footer-year"></span> 猫头猫的博客. All rights reserved.
+</p> </div> <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script> </footer> <script>
+      const root = document.documentElement;
+      const stored = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = stored || (prefersDark ? 'dark' : 'light');
+
+      const applyTheme = (theme) => {
+        root.classList.remove('light', 'dark');
+        root.classList.add(theme);
+        localStorage.setItem('theme', theme);
+        const showSun = theme === 'light';
+        document.querySelectorAll('[data-theme-icon="sun"]').forEach((el) => el.classList.toggle('hidden', !showSun));
+        document.querySelectorAll('[data-theme-icon="moon"]').forEach((el) => el.classList.toggle('hidden', showSun));
+      };
+
+      applyTheme(initialTheme);
+
+      document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const next = root.classList.contains('dark') ? 'light' : 'dark';
+          applyTheme(next);
+        });
+      });
+
+      document.querySelectorAll('[data-menu-toggle]').forEach((button) => {
+        const targetId = button.getAttribute('data-menu-target');
+        const menu = document.getElementById(targetId);
+        if (!menu) return;
+
+        button.addEventListener('click', () => {
+          const isOpen = menu.dataset.open === 'true';
+          menu.dataset.open = (!isOpen).toString();
+          menu.classList.toggle('max-h-0', isOpen);
+          menu.classList.toggle('max-h-96', !isOpen);
+          menu.classList.toggle('opacity-0', isOpen);
+          menu.classList.toggle('opacity-100', !isOpen);
+          button.querySelector('[data-menu-icon="open"]').classList.toggle('hidden', !isOpen);
+          button.querySelector('[data-menu-icon="close"]').classList.toggle('hidden', isOpen);
+        });
+      });
+    </script> </body> </html>
